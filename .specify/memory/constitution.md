@@ -1,14 +1,15 @@
 # Constitution.md
 
-### Principios generales
-
-#### 1. a
-#### 2. b
-#### 3. c
-#### 4. d
-#### 5. e
+## Principios generales (Core Principles)
+1. **Especificación y trazabilidad:** Toda funcionalidad del sistema de gestión de aforos y compra de entradas debe estar especificada y justificada antes de escribirse el código. 
+2. **Disciplina del MVP:** El equipo se centrará en desarrollar el flujo esencial de compra y validación de entradas. Cualquier funcionalidad extra será documentada y evaluada antes de añadirse.
+3. **Calidad y comportamiento verificable:** Ninguna tarea se considerará terminada solo porque el código compile. Debe cumplir con la Definición de Terminado (DoD), incluir manejo de errores y pruebas.
+4. **Seguridad y uso de datos sintéticos:** El sistema tratará exclusivamente con datos ficticios de clientes y eventos. Queda terminantemente prohibido el uso de tarjetas bancarias o datos personales reales.
+5. **Usabilidad y Accesibilidad:** La experiencia de compra de entradas debe ser sencilla, intuitiva y rápida, garantizando que los mensajes de error sean claros para el comprador.
 
 ## Reglas de documentación
+* Cada artefacto tiene una responsabilidad: `spec.md` (explica qué se necesita), `plan.md` (explica cómo se abordará técnicamente) y `tasks.md` (descompone el trabajo ejecutable).
+* Toda decisión técnica relevante debe registrarse explícitamente.
 
 ## Control de calidad
 
