@@ -27,7 +27,7 @@
   * *Caso Límite:* Inyección de espacios o scripts en el campo email: se sanitiza y valida según la sintaxis RFC 5322 antes de procesar.
 * **Supuestos:** Se asume que el usuario tiene acceso a la cuenta de correo electrónico proporcionada.
 
-----------------------------------------------------------------------------------------------
+---
 
 ## US-003 — Consulta y modificación de perfil de Cliente
 
