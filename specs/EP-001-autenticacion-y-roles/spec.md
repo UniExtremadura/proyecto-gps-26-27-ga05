@@ -4,20 +4,21 @@
 
 * **Necesidad:** Identificar de forma única a los usuarios de la plataforma para permitirles realizar compras, publicar eventos o gestionar recintos con seguridad.
 * **Objetivo:** Disponer de un subsistema de autenticación local mediante credenciales (correo electrónico y contraseña).
-* **User Story:** Como usuario (visitante), quiero registrarme e iniciar sesión con mi correo electrónico y contraseña, para acceder a las funcionalidades personalizadas de mi cuenta.
-* **Priority:** Must
-* **Estimate:** 10 h-p
-* **Uncertainty:** Low
-* **Predecessors:** —
-* **Initial plan:** IT-001 (Sprint 1)
+* **Historia de Usuario:** Como usuario (visitante), quiero registrarme e iniciar sesión con mi correo electrónico y contraseña, para acceder a las funcionalidades personalizadas de mi cuenta.
+* **Prioridad:** Must
+* **Estimación:** 10 h-p
+* **Incertidumbre:** Baja
+* **Predecesores:** —
+* **Plan inicial:** IT-001 (Sprint 1)
 
-### Acceptance criteria
+### Criterios de aceptación
 * **US-001-AC-01:** Registro exitoso con email único, contraseña segura (mínimo 8 caracteres, 1 mayúscula, 1 número) y confirmación de contraseña.
 * **US-001-AC-02:** Inicio de sesión que emite un token JWT con tiempo de expiración de 24 horas tras validar credenciales.
 * **US-001-AC-03:** Mensaje de error genérico "Credenciales incorrectas" al fallar la autenticación, evitando revelar si el fallo es del correo o de la clave.
-* **US-001-AC-04:** Cierre de sesión (*logout*) que invalida la sesión/token en el cliente.
+* **US-001-AC-04:** Cierre de sesión (*logout*) que destruye el token en el cliente y envía una petición a la API (`POST /api/auth/logout`) que añade el token a la lista de revocación (*blacklist*) en el servidor.
+* **US-001-AC-05:** Cualquier petición posterior utilizando un token revocado o expirado debe ser rechazada con un código HTTP `401 Unauthorized`.
 
-### Verification and constraints
+### Verificación y restricciones
 * **Reglas de Negocio:** El correo electrónico se normalizará a minúsculas. No pueden coexistir dos cuentas activas con el mismo correo electrónico.
 * **Restricciones:** Las contraseñas deben cifrarse obligatoriamente mediante un algoritmo de *hashing* seguro (Bcrypt con factor de coste ≥ 10) antes de ser almacenadas en la base de datos.
 * **Requisitos No Funcionales (RNF):** Tiempo de procesamiento del inicio de sesión < 500 ms.
@@ -33,19 +34,20 @@
 
 * **Necesidad:** Permitir al cliente gestionar sus datos personales y mantener actualizada la información de contacto para la facturación y el envío de entradas.
 * **Objetivo:** Disponer de un panel de perfil donde el usuario pueda consultar y actualizar sus datos.
-* **User Story:** Como Cliente, quiero consultar y modificar los datos de mi perfil personal (nombre, dirección, teléfono, correo), para mantener mi información actualizada.
-* **Priority:** Should
-* **Estimate:** 6 h-p
-* **Uncertainty:** Low
-* **Predecessors:** US-001
-* **Initial plan:** IT-002 (Sprint 2)
+* **Historia de Usuario:** Como Cliente, quiero consultar y modificar los datos de mi perfil personal (nombre, dirección, teléfono, correo), para mantener mi información actualizada.
+* **Prioridad:** Should
+* **Estimación:** 6 h-p
+* **Incertidumbre:** Baja
+* **Predecesores:** US-001
+* **Plan inicial:** IT-002 (Sprint 2)
 
-### Acceptance criteria
+### Criterios de aceptación
 * **US-003-AC-01:** Visualización organizada de los datos actuales del usuario al acceder a la vista `/perfil`.
-* **US-003-AC-02:** Formulario de edición que permite modificar nombre, teléfono y dirección con guardado inmediato.
-* **US-003-AC-03:** Si se solicita cambiar la dirección de correo electrónico, el sistema requiere introducir la contraseña actual por motivos de seguridad.
+* **US-003-AC-02:** Formulario de edición que permite modificar nombre, teléfono y dirección con guardado inmediato y respuesta HTTP `200 OK`.
+* **US-003-AC-03:** Si se solicita cambiar la dirección de correo electrónico, el sistema requiere introducir la contraseña actual por motivos de seguridad y envía un email de verificación a la nueva dirección antes de hacer efectivo el cambio.
+* **US-003-AC-04:** Si la contraseña actual es incorrecta o los datos no cumplen el formato (email inválido o teléfono con letras), el sistema muestra un mensaje de error específico y devuelve un código HTTP `400 Bad Request`.
 
-### Verification and constraints
+### Verificación y restricciones
 * **Reglas de Negocio:** Solo los usuarios con rol "Cliente" pueden editar su perfil de cliente. Todas las modificaciones se registran con marca temporal de actualización.
 * **Restricciones:** Los campos obligatorios (Nombre y Apellidos) no pueden quedarse vacíos ni contener solo espacios en blanco.
 * **Requisitos No Funcionales (RNF):** Formulario accesible (cumplimiento WCAG 2.1 AA) y adaptable (*responsive*) a dispositivos móviles.
