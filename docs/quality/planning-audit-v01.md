@@ -4,240 +4,248 @@
 
 - **Proyecto:** SubsonicFestival / Web Solutions SL.
 - **Modo:** INITIAL.
-- **Fecha y hora de revisión:** 2026-10-16 16:40:30 +02:00 (proporcionada en la invocación).
-- **Baseline/snapshot:** snapshot accesible del workspace durante esta revisión. No se proporcionó commit, versión ni fecha de baseline; no se atribuye una versión a los archivos actuales.
-- **Horizonte:** global, según el encargo; no se pudo determinar el horizonte temporal efectivo de los `.pod`.
-- **Alcance solicitado:** épicas y requisitos, sprints, recursos, riesgos, dependencias y viabilidad temporal y económica.
-- **Alcance efectivamente inspeccionado:** constitución, misión, objetivos, DoR, DoD, informes de calidad v01/v02, cinco especificaciones EP-001–EP-005, informe previo de revisión inicial y archivos `.pod` de planificación en la medida en que fue posible leerlos. No se pudo inspeccionar el contenido estructurado de las planificaciones de ProjectLibre.
+- **Baseline revisado:** snapshot del repositorio disponible en esta revisión; no se suministró commit ni versión aprobada de planificación.
+- **Versiones/fechas identificables:** los dos XML contienen `SaveVersion=14` (formato del archivo, no versión de baseline) y `CurrentDate=2026-10-16T18:00:00`. El XML de épicas programa del 15 al 22 de octubre de 2026; el de sprints, del 14 de octubre al 3 de noviembre de 2026. No se indica que uno sustituya al otro.
+- **Fecha de revisión:** 2026-10-16 18:19 +02:00, suministrada en la invocación.
+- **Agente/versión:** las instrucciones de auditoría se suministraron con la invocación; versión no indicada. No se encontró `.github/agents/planning-auditor.agent.md`. Se consultó `.github/agents/initial-planning-reviewer.agent.md`, que tiene un mandato y destino de informe distintos; no se trató como sustituto del agente de auditoría solicitado.
+- **Herramientas/modelo:** no indicados.
+- **Alcance solicitado:** planificación global, épicas, sprints, requisitos, tareas, riesgos, dependencias, recursos, costes y viabilidad temporal/económica.
+- **Alcance efectivamente evaluable:** constitución, misión, objetivos, las cinco especificaciones actuales de épica, DoR/DoD, informe de revisión de requisitos v01, inventario de `docs/organization/` y secciones de metadatos, calendario, tareas, recursos y asignaciones de ambos XML exportados. Las tareas y filas timephased de los XML no se leyeron íntegramente elemento por elemento; por ello no se afirma haber agregado todas las cargas ni verificado cada enlace.
 - **Idioma:** español.
-- **Agente:** instrucciones de Planning Auditor suministradas en la invocación; versión no indicada. La ruta `.github/agents/planning-auditor.agent.md` no está presente. No se sustituyó por otro agente del repositorio.
-- **Modelo/herramientas:** no indicado. Revisión documental mediante lectura de archivos; no se ejecutaron comandos, pruebas ni instalaciones.
-- **Limitación principal:** por falta de una representación legible del plan actual, la conclusión global es **NOT_ASSESSABLE**. Este resultado no constituye aprobación ni rechazo de la planificación.
+- **Horizonte:** el XML de épicas declara 2026-10-15–2026-10-22; el XML de sprints declara 2026-10-14–2026-11-03. No se eligió uno como baseline.
+- **Versionado del informe:** `v01`; al inspeccionar `docs/quality/` no se encontraron archivos con el patrón `planning-audit-vNN.md`.
 
-## 2. Inventario de fuentes y evidencia
+## 2. Inventario de fuentes y limitaciones
 
-| Fuente realmente revisada | Función y evidencia consultada | Versión/fecha y limitaciones |
+| Fuente leída | Función y evidencia revisada | Versión/limitaciones |
 |---|---|---|
-| `.specify/memory/constitution.md` | Principios, alcance MVP, datos sintéticos, precedencia y gobierno. La constitución declara prioridad sobre el resto de documentos. | No indica versión ni fecha en el contenido leído. |
-| `specs/product/mission.md` | Misión, problema, usuarios y propuesta de valor. | Sin versión indicada. |
-| `specs/product/goals.md` | G-01–G-03, M-01–M-03, S-01–S-03, exclusiones y restricciones. | Sin versión indicada. |
-| `specs/EP-001-autenticacion-y-roles/spec.md` | US-001, US-003, estimaciones, iteraciones declaradas, precedencias, desgloses y criterios. | Sin versión indicada. |
-| `specs/EP-002-catalogo-y-busqueda/spec.md` | US-006–US-007 y sus estimaciones, iteraciones, precedencias y criterios. | Sin versión indicada. |
-| `specs/EP-003-gestion-eventos-entradas/spec.md` | US-008, estimación, iteración, predecesor y criterios. | Sin versión indicada. |
-| `specs/EP-004-servicios-proveedores/spec.md` | US-011, estimación, iteración, predecesor y criterios. | Sin versión indicada. |
-| `specs/EP-005-administracion-y-seguridad/spec.md` | US-017, estimación, iteración, predecesor y criterios. | Sin versión indicada. |
-| `docs/quality/definition-of-ready.md` | Checklist DoR, incluidos prioridad justificada, predecesores, WIP y aprobación del PO. | Sin versión indicada. La ruta solicitada con `denitionof_ready.md` no existe. |
-| `docs/quality/definition-of-done.md` | Checklist DoD de implementación, pruebas, integración, revisiones y documentación. | Sin versión indicada. La ruta solicitada con `denitionof_done.md` no existe. |
-| `docs/quality/requirements-report-v01.md` | Informe de revisión de requisitos v01; alcance, hallazgos y limitaciones declarados en ese informe. | Fecha consignada: 2026-10-07 10:14:27 +02:00. Documento secundario, no baseline del plan. |
-| `docs/quality/requirements-report-v02.md` | Recheck de requisitos, hallazgos vigentes y matriz DoR. | Fecha consignada: 2026-10-14 10:43:12 +02:00. Sin registro de decisión humana según el propio informe. |
-| `docs/project/reviews/initial-planning/initial-planning-review-v01.md` | Revisión previa de planificación y cálculos sobre un extracto de US-001–US-017. | Fecha consignada: 2026-10-10. El propio informe indica que el extracto no tenía ID/versión de baseline y que sus cálculos de capacidad eran condicionales. No es evidencia de la asignación actual de los `.pod`. |
-| `docs/Subsonic_Festival-Planificacion_Epicas.pod` | Se intentó lectura directa. La vista muestra serialización binaria Java de ProjectLibre (`ProjectData`); no expone de forma interpretable el inventario, enlaces y asignaciones completos. | No se pudo establecer versión o fecha. |
-| `docs/Subsonic_Festival-Planificacion_Sprints.pod` | Se intentó lectura directa. La vista muestra serialización binaria Java de ProjectLibre (`ProjectData`); no expone de forma interpretable el inventario, enlaces y asignaciones completos. | No se pudo establecer versión o fecha. |
-| `docs/organization/` | Listado del directorio. Solo se encontró `.gitkeep`. | No aporta calendarios, capacidad, competencias, disponibilidad ni tarifas. |
-| `docs/project/` | Listado para localizar los informes existentes `planning-audit-vNN.md`. Contiene `reviews/`; no se observó un informe previo con ese patrón en este directorio. | Se revisó también el informe previo de revisión inicial indicado arriba; no se encontró registro de decisiones humanas. |
+| `.specify/memory/constitution.md` | Principios de MVP, seguridad/datos sintéticos, trazabilidad, reglas de documentación y precedencia. | Sin versión o fecha identificable en el texto leído. Establece que la constitución prevalece. |
+| `specs/product/mission.md` | Misión, problema y usuarios principales: comprador y promotor/organizador. | Sin versión identificable. |
+| `specs/product/goals.md` | G-01–G-03, M-01–M-03, S-01–S-03, exclusiones EX-01–EX-03 y restricciones. | Sin versión identificable. |
+| `specs/EP-001-autenticacion-y-roles/spec.md` | US-001 y US-003; criterios, estimaciones, incertidumbre, planes iniciales y predecesores. | Sin versión identificable. |
+| `specs/EP-002-catalogo-y-busqueda/spec.md` | US-006 y US-007. | Sin versión identificable. |
+| `specs/EP-003-gestion-eventos-entradas/spec.md` | US-008. | Sin versión identificable. |
+| `specs/EP-004-servicios-proveedores/spec.md` | US-011. | Sin versión identificable. |
+| `specs/EP-005-administracion-y-seguridad/spec.md` | US-017. | Sin versión identificable. |
+| `docs/quality/definition-of-ready.md` | Criterios de identificación, aceptación, estimación, incertidumbre, predecesores, iteración, restricciones, supuestos, WIP y aprobación del PO. | Nombre real distinto del indicado en la invocación; sin versión identificable. |
+| `docs/quality/definition-of-done.md` | Checklist técnico, pruebas, seguridad, rendimiento, revisión, aprobación, integración y documentación. | Nombre real distinto del indicado en la invocación; sin versión identificable. La planificación no demuestra que historias estén terminadas. |
+| `docs/quality/requirements-report-v01.md` | Informe previo de requisitos, fechado allí 2026-10-07 10:14 +02:00; matriz DoR, hallazgos, dependencias y preguntas. | Informe de requisitos, no informe previo de planificación. Describe IDs y contenido diferentes de las especificaciones actuales; no hay regla que resuelva si es obsoleto o si corresponde a otro baseline. |
+| `docs/Subsonic_Festival-Planificacion_Epicas.pod.xml` | Encabezado del proyecto, calendario, muestras de tareas, enlaces, recursos y asignaciones. | Exportación XML compatible Project; `SaveVersion=14`, `CurrentDate=2026-10-16T18:00:00`. No se abrió el archivo nativo `.pod`; inspección de XML por secciones, no de cada registro. |
+| `docs/Subsonic_Festival-Planificacion_Sprints.pod.xml` | Encabezado, calendario, muestras de tareas y enlaces, recursos y asignaciones. | Exportación XML compatible Project; `SaveVersion=14`, `CurrentDate=2026-10-16T18:00:00`. No se abrió el archivo nativo `.pod`; inspección de XML por secciones, no de cada registro. |
+| `docs/organization/` | Inventario del directorio. | Solo se encontró `.gitkeep`; no es evidencia de roles, disponibilidad, habilidades o tarifas del equipo. |
+| `.github/agents/initial-planning-reviewer.agent.md` | Instrucciones locales consultadas para identificar la función del agente existente. | No equivale a un agente de auditoría de planificación; sus reglas de READINESS/CONSISTENCY y su ruta de informe difieren. |
 
-### Precedencia, conflictos y límites del inventario
-
-- Se aplicó la regla explícita de la constitución: prevalece sobre otros documentos. No se encontró una regla adicional de precedencia que resuelva qué versión de las planificaciones debe gobernar cuando difieren las referencias históricas.
-- Las rutas inexistentes solicitadas y las rutas reales usadas se indican en el manifiesto; no se asumió que nombres parecidos sean la misma versión salvo por su contenido y ubicación en el repositorio.
-- El informe previo de revisión inicial contiene un extracto y cálculos de carga anteriores. No se pudo comparar ese extracto con los datos actuales de los `.pod`; no se toma como baseline vigente ni como decisión del equipo.
-- No se encontró un registro de riesgos independiente en las fuentes revisadas. Por ello no es posible hacer evaluación riesgo por riesgo de un registro que no fue proporcionado.
-- No se aportaron exportaciones XML/CSV de ProjectLibre, calendario/capacidad por recurso, tarifas, registro de actuals, acta de decisiones, baseline aprobada ni horizonte fechado.
-- Los resultados de ausencia se limitan a las rutas y documentos enumerados. No significan que esos artefactos no existan en otra ubicación.
+**Precedencia y conflictos:** la constitución declara precedencia sobre los demás documentos. No se encontró una regla que establezca cuál XML de planificación es el baseline vigente ni cómo resolver las divergencias entre `requirements-report-v01.md` y las especificaciones actuales. Se informan ambos lados sin elegir silenciosamente. Los XML están en formato Project XML exportado, no se validaron mediante recálculo en ProjectLibre.
 
 ## 3. Evaluación general
 
-**Resultado recomendado: NOT_ASSESSABLE.**
+**Recomendación: NEEDS_REPLANNING.**
 
-El alcance global solicitado no puede evaluarse de forma fiable porque los dos archivos nativos de ProjectLibre no se pudieron interpretar como listas de tareas y recursos. Por tanto, no se pueden confirmar el contenido del cronograma, calendario efectivo, dependencias, asignaciones, carga temporal, costes, hitos, camino crítico ni holguras. La falta de esta evidencia es un bloqueo para emitir una conclusión de viabilidad global, no prueba de que el plan sea inviable.
+La evaluación se refiere a la planificación global contenida en los dos XML citados y a su coherencia con las fuentes de producto leídas; no constituye una evaluación de la implementación ni una aprobación de baseline. Se identifican bloqueos que impiden tratar los dos archivos como una planificación única y demostrar su viabilidad:
 
-Sí se pudieron revisar documentos de requisitos y planificación declarativa. Se detectan brechas que requieren resolución o evidencia adicional:
+1. Las cabeceras de los planes declaran horizontes y duraciones de proyecto diferentes, sin una decisión de precedencia.
+2. Los recursos referencian calendarios UID 4–8, mientras que la sección `Calendars` revisada define UID 1–3; no se puede verificar la disponibilidad efectiva por persona.
+3. En ambos planes, una asignación revisada registra 100% de unidades para un recurso con `MaxUnits=0.25`; el XML marca `OverAllocated=0`. La carga total por persona/periodo no se ha agregado y requiere reconciliación.
+4. Los IDs y alcance de las tareas no trazan limpiamente a las especificaciones actuales y al informe previo; por ejemplo, el plan incluye US-002/US-004/US-009/US-014/US-015/US-016, no halladas en las cinco especificaciones actuales leídas, y el informe previo describe US-009/US-012/US-018 donde las especificaciones actuales leídas describen otros IDs.
 
-1. Las especificaciones citan US-002 como predecesor de US-008 y US-010 como predecesor de US-011; esos IDs no aparecen en los cinco `spec.md` revisados. La dependencia y su presencia en los planes quedan sin validar.
-2. El DoR requiere justificación de negocio para la prioridad MoSCoW; las siete historias revisadas muestran prioridad pero no esa justificación. Tampoco hay evidencia del estado WIP ni de aprobación explícita del PO.
-3. La revisión de planificación v01 consignó sobrecarga condicional y una discordancia de horizonte/capacidad a partir de un extracto no versionado. No se pudo confirmar ni descartar que esas cifras correspondan a los `.pod` actuales.
-4. La DoD refiere seguridad a US-018, mientras que la especificación de seguridad actualmente revisada es US-017. Debe confirmarse la referencia de control aplicable.
-
-**Bloqueo de evaluación:** la ausencia de datos legibles del plan actual impide contrastar épicas y sprints, y calcular viabilidad temporal o económica. La recomendación no aprueba, certifica ni compromete recursos.
+La matriz de cobertura y los registros de hallazgos detallan qué es contradicción confirmada y qué requiere confirmación humana. El riesgo y coste global no pueden considerarse evaluados satisfactoriamente: no se proporcionó un registro de riesgos identificable ni hay base suficiente para reconciliar costes totales.
 
 ## 4. Matriz de cobertura
 
 | Dimensión/comprobación | Alcance inspeccionado | Estado | Evidencia y hallazgos |
 |---|---|---|---|
-| Alineación con misión, objetivos, alcance y exclusiones | Misión; G-01–G-03, S-01–S-03, EX-01–EX-03; EP-001–EP-005 | MET para identificar las reglas; NOT_ASSESSABLE para validar cobertura del plan | Constitución, misión y goals leídos; no se pudo relacionar cada tarea/milestone de ProjectLibre con objetivos. |
-| Riesgos documentados y tratamientos | Fuentes configuradas y documentos enumerados | NOT_ASSESSABLE | No se encontró registro de riesgos en las fuentes revisadas; hallazgos R-01–R-03 son candidatos, no riesgos confirmados. |
-| Calendario del proyecto y calendarios de recursos | Ambos `.pod`; `docs/organization/` | NOT_ASSESSABLE | `.pod` opacos y directorio de organización solo con `.gitkeep`; F-01. |
-| IDs/nombres de tareas y estimaciones | Ambos `.pod`; requisitos de EP-001–EP-005 | NOT_ASSESSABLE | No se pudieron recuperar tareas de ProjectLibre. Las estimaciones de requisitos no prueban que se hayan copiado al plan. |
-| Dependencias y restricciones | Predecesores declarados en siete historias y ambos `.pod` | NOT_ASSESSABLE en el plan; NOT_MET en trazabilidad de US-008/US-011 | F-02: US-002 y US-010 no están en los cinco specs revisados; vínculos del plan no legibles. |
-| Asignaciones de recursos y capacidad por período | `.pod`; `docs/organization/` | NOT_ASSESSABLE | No hay asignaciones/capacidad legibles o evidencia organizativa; F-01. |
-| Viabilidad de costes | `.pod`; información de tarifas/presupuesto | NOT_ASSESSABLE | Sin tasas, unidades, reglas de coste ni trabajo asignado legibles; F-01. |
-| Hitos, fechas, secuencia, camino crítico y holguras | `.pod` | NOT_ASSESSABLE | No hay red de precedencias ni calendario legibles con los que calcularlos; F-01. |
-| DoR aplicado a historias planificadas | US-001, US-003, US-006, US-007, US-008, US-011, US-017 | NOT_MET parcialmente; NOT_ASSESSABLE parcialmente | Prioridad sin justificación documentada (F-03). Predecesores, WIP, aprobación PO y estado de Ready no acreditados. |
-| Verificación DoD | Reglas DoD y sus referencias | NOT_ASSESSABLE | La planificación no demuestra implementación ni pruebas; además, discrepancia US-018/US-017 (F-04). |
-| Coherencia entre planning de épicas y sprints | `.pod` de épicas y `.pod` de sprints | NOT_ASSESSABLE | Ambos archivos se inspeccionaron directamente, pero su estructura serializada impide comparar registros de forma fiable; F-01. |
+| Alineación con misión, objetivos, alcance y exclusiones | Misión; G-01–G-03, S-01–S-03, EX-01–EX-03; tareas muestreadas | NOT_MET | El plan contiene varios resultados fuera de la descripción explícita del MVP; la decisión de alcance no está documentada. PA-004. |
+| Requisitos, épicas y trazabilidad de IDs | Cinco `spec.md`; informe requirements v01; tareas planificadas revisadas | NOT_MET | Diferencias de IDs entre especificaciones, plan e informe; predecesores y tareas no trazan en todos los casos. PA-004. |
+| Definition of Ready | Criterios DoR; historias y asignaciones revisadas | NOT_ASSESSABLE | El DoR exige aprobación PO y WIP ≤2; no hay registro de esas decisiones. La discrepancia de baseline impide validar las historias planificadas que no tienen especificación actual. PA-004, PA-007. |
+| Definition of Done | Checklist DoD | NOT_ASSESSABLE | La planificación no prueba implementación, pruebas, revisión, aprobación ni fusión; no se declara ninguna historia terminada. Referencia US-018 en DoD frente a US-017 actual: PA-004. |
+| Riesgos documentados y tratamientos | Fuentes de planificación/producto y directorio `docs/organization/` | NOT_ASSESSABLE | No se encontró un registro de riesgos entre las fuentes revisadas. Los candidatos se separan en §6. PA-006. |
+| Integridad de calendarios y fechas | Cabeceras y secciones `Calendars`/`Resources` de ambos XML | NOT_MET | Diferencia de horizonte y referencias de calendarios sin correspondencia comprobada. PA-001, PA-002. |
+| Tareas, IDs, esfuerzo y duración | Árboles/muestras de tareas; IDs funcionales visibles en XML | NOT_ASSESSABLE | No se leyó cada tarea ni se reconcilió el catálogo completo contra todas las historias; las muestras reflejan duración y trabajo distintos de una fuente a otra. PA-001, PA-004. |
+| Dependencias | Muestras de `PredecessorLink`, predecesores de historias y tareas | NOT_ASSESSABLE | Algunos enlaces de tareas son explícitos (p. ej. secuencia TK-001-1 → TK-001-2 → TK-001-3), pero no se pudo validar la red completa ni toda dependencia de requisitos. PA-004, PA-008. |
+| Asignaciones y capacidad | Muestras de asignaciones y recursos en ambos XML | NOT_MET | Se observa `Units=1` frente a `MaxUnits=0.25` y `OverAllocated=0`; la falta de calendarios referenciados impide calcular la carga completa. PA-002, PA-003. |
+| Costes | Moneda/rates del encabezado y tarifas de recursos revisados | NOT_ASSESSABLE | Los proyectos declaran `$` y tarifas por recurso, pero no se estableció moneda/unidad de tarifa ni se conciliaron todos los costes de asignación y presupuesto. PA-005. |
+| Secuencia, hitos, camino crítico y holgura | Fechas, tareas y dependencias revisadas; banderas `Critical` observadas | NOT_ASSESSABLE | Horizontes en conflicto, calendarios incompletos y ausencia de cálculo verificable de float/camino crítico. No se confirma ningún camino crítico. PA-001, PA-002, PA-008. |
+| Recursos, habilidades y disponibilidad externa | `docs/organization/` y recursos XML | NOT_ASSESSABLE | `.gitkeep` no acredita capacidades; los calendarios vinculados no están disponibles en `Calendars`. PA-002. |
 
-### Comprobaciones diferidas o fuera de alcance de evidencia
-
-- Carga por persona y por sprint, holguras, camino crítico, nivelación de recursos, coste planeado y coste real.
-- Disponibilidad y competencias por persona, tarifas, calendario laboral y excepciones.
-- Confirmación de que las historias de los cinco specs representan la totalidad del alcance del proyecto.
-- Verificación de cumplimiento DoD: no se inspeccionaron implementación, pruebas, PRs ni evidencias de integración.
+**Comprobaciones diferidas/no cubiertas:** no se leyeron todos los elementos `<Task>`, `<PredecessorLink>` y `<Assignment>` de los dos XML, ni se recalculó ningún archivo nativo ProjectLibre. No se agregaron cargas horarias por todos los recursos y periodos, no se compararon costes de todas las asignaciones y no se certificó ausencia global de tareas o riesgos no encontrados en las fuentes acotadas.
 
 ## 5. Hallazgos
 
-### 5.1 Índice
+### Índice
 
-| ID | Categoría | Severidad | Confianza | Bloqueador en el alcance |
+| ID | Categoría | Severidad | Confianza | ¿Bloqueador? |
 |---|---|---|---|---|
-| F-01 | Evidencia/ProjectLibre y evaluabilidad global | MAJOR | Alta | Sí, bloquea evaluar viabilidad global |
-| F-02 | Dependencias y trazabilidad de requisitos | MAJOR | Alta dentro de las fuentes revisadas | Sí, para verificar secuencia de US-008 y US-011 |
-| F-03 | DoR/prioridad y estado de preparación | MAJOR | Alta para la ausencia de justificación; no evaluable para aprobaciones/WIP | Sí, para afirmar Ready de las historias afectadas |
-| F-04 | Consistencia de la referencia DoD/seguridad | MINOR | Alta | No; requiere aclaración de trazabilidad |
-| F-05 | Evidencia histórica de carga no reconciliada | QUESTION | Media | No es defecto confirmado del plan actual; pregunta pendiente antes de reutilizar esos cálculos |
+| PA-001 | Baseline/horizonte de planificación | MAJOR | ALTA | Sí |
+| PA-002 | Calendarios de recursos | MAJOR | ALTA | Sí |
+| PA-003 | Unidades de asignación frente a disponibilidad | MAJOR | ALTA para la inconsistencia declarada; MEDIA para el impacto exacto por periodo | Sí |
+| PA-004 | Trazabilidad de requisitos, versiones y alcance | MAJOR | ALTA dentro de las fuentes leídas | Sí |
+| PA-005 | Base económica y moneda | QUESTION | ALTA para la falta de base verificable | No confirmado |
+| PA-006 | Riesgos y tratamiento | QUESTION | ALTA para la limitación de evidencia | No por sí solo |
+| PA-007 | DoR, decisiones y estado de preparación | QUESTION | ALTA para la falta de evidencia | No confirmado |
+| PA-008 | Lógica de secuencia, hitos y margen | MAJOR | MEDIA | Sí para validar fechas/camino crítico; no prueba que el plazo sea imposible |
 
-### 5.2 Registros detallados
+### Registros de evidencia
 
-#### F-01 — Los archivos ProjectLibre no permiten verificar la planificación global
+#### PA-001 — Los XML no establecen un único horizonte de planificación
 
-- **Fuentes y referencia:** `docs/Subsonic_Festival-Planificacion_Epicas.pod` y `docs/Subsonic_Festival-Planificacion_Sprints.pod`; lectura directa del encabezado y contenido disponible, que muestra un flujo binario de serialización Java de clases ProjectLibre como `ProjectData`.
-- **Observación/evidencia:** no fue posible leer de forma fiable filas de tareas, duraciones, asignaciones, recursos, predecesores ni costos. Aunque aparecen datos serializados (incluidos nombre de proyecto y un calendario rotulado `Estandar`), no se pueden interpretar con seguridad como un calendario o cronograma completos.
-- **Impacto:** no se puede reconciliar el plan de épicas con el de sprints ni evaluar capacidad, secuencia, costos, hitos, camino crítico o margen. No se puede establecer qué baseline representan los archivos.
-- **Severidad/confianza:** MAJOR, porque faltan datos esenciales para la evaluación solicitada; confianza ALTA respecto a la limitación de lectura.
-- **Bloqueador:** sí para la conclusión de viabilidad global; no afirma que el plan sea defectuoso.
-- **Acción/pregunta:** facilitar exportación legible compatible con ProjectLibre, preferiblemente XML o tablas de tareas, recursos, asignaciones, calendarios, vínculos, unidades, costos y fechas, e identificar baseline/versión. ¿Qué exportación es la referencia aprobada para comparar ambos planes?
-- **Cálculo:** no realizado; faltan datos interpretables.
+- **Fuentes/datos:** `docs/Subsonic_Festival-Planificacion_Epicas.pod.xml`, encabezado: `StartDate=2026-10-15T08:00:00`, `FinishDate=2026-10-22T17:00:00`, duración sumaria `PT48H0M0S`. `docs/Subsonic_Festival-Planificacion_Sprints.pod.xml`, encabezado: `StartDate=2026-10-14T08:00:00`, `FinishDate=2026-11-03T13:00:00`, duración sumaria `PT116H0M0S`.
+- **Observación:** ambos archivos describen SubsonicFestival y tienen fecha de snapshot `2026-10-16T18:00:00`, pero el primero termina antes de que termine el segundo y ambos asignan distinta duración global. No hay una regla que diga que uno es una vista de alcance parcial o que prevalece sobre el otro.
+- **Impacto:** no existe una fecha final y duración de baseline inequívocas para verificar entregas, dependencias, margen, compromisos o coherencia temporal entre la vista de épicas y la de sprints.
+- **Acción/pregunta:** ¿cuál archivo representa la planificación vigente? Si son vistas distintas, ¿qué scope y regla de agregación explican la diferencia entre 22 de octubre y 3 de noviembre?
+- **Severidad/confianza:** MAJOR, porque impide evaluar el horizonte global; ALTA, porque las fechas aparecen expresamente en ambos encabezados.
+- **Bloqueador:** Sí, hasta identificar baseline y relación entre vistas.
 
-#### F-02 — Dos predecesores declarados no están trazados en las especificaciones revisadas
+#### PA-002 — Recursos vinculados a calendarios que no aparecen definidos
 
-- **Fuentes y referencias:** `specs/EP-003-gestion-eventos-entradas/spec.md`, US-008, campo **Predecesores: US-002**; `specs/EP-004-servicios-proveedores/spec.md`, US-011, campo **Predecesores: US-010**. Se revisaron los cinco `specs/EP-*/spec.md` listados en el manifiesto.
-- **Observación/evidencia:** US-002 y US-010 no aparecen en esos cinco documentos. El informe de requisitos v02 también señala que no localizó esos IDs en los cinco specs. Esto no demuestra que no existan fuera del alcance revisado.
-- **Impacto:** no se conoce el entregable ni el estado de los predecesores y no se puede verificar la secuencia ni el criterio DoR de US-008 y US-011. Los enlaces del plan ProjectLibre tampoco pudieron leerse.
-- **Severidad/confianza:** MAJOR; confianza ALTA dentro de las fuentes nombradas y consultadas.
-- **Bloqueador:** sí para validar la secuencia/readiness de US-008 y US-011, no prueba un ciclo ni una secuencia incorrecta.
-- **Acción/pregunta:** aportar la especificación autorizada de US-002 y US-010 o aclarar los IDs; confirmar si cada relación es un prerrequisito obligatorio, una interfaz compartida o solo preferencia de secuenciación.
+- **Fuentes/datos:** ambos XML, sección `Calendars`, leída hasta `</Calendars>` antes de `<Tasks>`: se identifican calendarios UID 1, 2 y 3. En `Resources`, las personas Javier García, Álvaro Martín, Jaime Arias, Manuel Carvajal y Justo Cilleros declaran `CalendarUID` 4, 5, 6, 7 y 8 respectivamente. El calendario estándar define días laborables con tramos 08:00–12:00 y 13:00–17:00; el encabezado, en cambio, fija `DefaultStartTime=10:00` y `DefaultFinishTime=19:00`.
+- **Observación:** no se encontró definición UID 4–8 dentro de las secciones `Calendars` inspeccionadas, y los horarios predeterminados no coinciden con los tramos del calendario estándar. No se puede establecer qué jornada, festivos ni excepciones rigen las personas asignadas.
+- **Impacto:** capacidad efectiva por persona/periodo, disponibilidad, duración laborable, carga máxima y cálculos de coste basados en tiempo no son reproducibles desde la evidencia revisada.
+- **Acción/pregunta:** confirmar si faltan calendarios de recursos en los XML o si los vínculos deben apuntar a los calendarios definidos; confirmar qué horario gobierna y si existen excepciones/festivos.
+- **Severidad/confianza:** MAJOR/ALTA para las referencias UID y divergencia observadas; el efecto operativo exacto requiere validar el XML nativo.
+- **Bloqueador:** Sí para declarar viabilidad de recursos, duración y costes por periodo.
 
-#### F-03 — No se acredita el cumplimiento del DoR para priorización y preparación
+#### PA-003 — Asignación de trabajo no conciliada con la disponibilidad declarada
 
-- **Fuentes y referencias:** `docs/quality/definition-of-ready.md`, §2.C y §2.E; siete historias de `specs/EP-001` a `specs/EP-005`; `docs/quality/requirements-report-v02.md`, §3, §6.2–6.3.
-- **Observación/evidencia:** las siete historias revisadas contienen una prioridad Must/Should, pero no una justificación de negocio explícita, que es un criterio expreso del DoR. El DoR también exige que los predecesores obligatorios estén completados o planificados en la misma iteración, que no se exceda el WIP de dos tareas simultáneas por miembro y que exista aprobación explícita del PO. No se aportó evidencia de estado de predecesores, WIP ni aprobación.
-- **Impacto:** las historias no pueden declararse Ready basándose solo en su presencia en el plan o en que tengan una prioridad y estimación. La planificación por iteraciones declarada en requisitos no acredita aprobación ni capacidad.
-- **Severidad/confianza:** MAJOR, confianza ALTA sobre la falta de justificación de prioridad en los textos revisados; WIP y aprobación se clasifican como no evaluables, no como incumplimientos demostrados.
-- **Bloqueador:** sí para afirmar que las siete historias cumplen íntegramente el DoR; la limitación de evidencias WIP/PO no se convierte por sí sola en prueba de incumplimiento.
-- **Acción/pregunta:** documentar la justificación de negocio acordada y aportar evidencia de revisión/aprobación del PO, estado de predecesores y carga WIP para el período planificado.
+- **Fuentes/datos:** en ambos XML, `Task UID=3`, `MGT IT-001. Sprint planning & grooming`, tiene duración `PT4H0M0S`; la asignación de esa tarea identifica `ResourceUID=3`, `Units=1` y `Work=PT4H0M0S`. El recurso UID 3, Jaime Arias, declara `MaxUnits=0.25` y `PeakUnits=1`, mientras el registro indica `OverAllocated=0`.
+- **Observación:** la unidad asignada es 100%, cuatro veces el máximo declarado de 25%; el indicador de pico alcanza 100% aunque no se marca sobreasignación. No se puede reconciliar el dato con calendarios, pues el recurso apunta a `CalendarUID=6`, no definido en la sección de calendarios leída.
+- **Cálculo condicional:** si aplicara el calendario estándar de 8 h/día, capacidad declarada al 25% = `8 h/día × 0.25 = 2 h/día`; la asignación de 4 h en la jornada de planificación sería el doble. Este cálculo es condicional, no una medición efectiva, debido al calendario UID 6 no verificado.
+- **Impacto:** riesgo material de que el plan sobreestime la capacidad disponible o refleje unidades/capacidad inconsistentes; el estado `OverAllocated=0` no basta para certificar factibilidad.
+- **Acción/pregunta:** confirmar si `MaxUnits=0.25` y `Units=1` son correctos para ambos planes y revisar las cargas por periodo frente al calendario real; explicar la bandera `OverAllocated=0`.
+- **Severidad/confianza:** MAJOR; ALTA para la diferencia numérica declarada y MEDIA para el impacto de calendario/periodo.
+- **Bloqueador:** Sí para el juicio de factibilidad de recursos; no se extrapola a todas las tareas sin agregación completa.
 
-#### F-04 — La DoD y la especificación actual usan IDs distintos para el control de seguridad
+#### PA-004 — IDs y versiones de requisitos no se corresponden entre plan, especificaciones e informe previo
 
-- **Fuentes y referencias:** `docs/quality/definition-of-done.md`, §2.C: seguridad e higiene remite a `US-018`; `specs/EP-005-administracion-y-seguridad/spec.md`: la historia de seguridad leída es US-017. `docs/quality/requirements-report-v01.md` contiene un alcance anterior que también citaba US-018; el informe v02 identifica US-017.
-- **Observación/evidencia:** no está explicado si US-018 es un ID obsoleto, una historia adicional no incluida en los cinco specs o una referencia incorrecta de DoD.
-- **Impacto:** trazabilidad de la condición de seguridad de la DoD y de sus pruebas incierta. No se afirma que la seguridad no esté planificada o implementada.
-- **Severidad/confianza:** MINOR; confianza ALTA para la diferencia textual.
-- **Bloqueador:** no para evaluar recursos, pero debe aclararse para verificar el gate de calidad aplicable.
-- **Acción/pregunta:** ¿qué historia de seguridad debe gobernar la DoD y dónde está su especificación vigente?
+- **Fuentes/datos:** las cinco especificaciones actuales leídas contienen US-001, US-003, US-006, US-007, US-008, US-011 y US-017. Los XML planifican, entre otros, US-002, US-004, US-009, US-014, US-015, US-016 y US-017. En cambio, `requirements-report-v01.md` dice haber revisado US-001, US-003, US-006, US-008, US-009, US-012 y US-018; asocia US-009 a EP-003, US-012 a EP-004 y US-018 a EP-005. La especificación actual de EP-003 leída contiene US-008; EP-004, US-011; EP-005, US-017. La DoD actual referencia seguridad como `US-018`.
+- **Observación:** no hay una explicación de versión/renumeración, reemplazo o autoridad que permita reconciliar esas diferencias. Las especificaciones actuales tampoco contienen, en las rutas leídas, definición para varias historias del plan, aunque este sí muestra tareas con esos IDs.
+- **Impacto:** no se puede verificar que las tareas planificadas cubran requisitos vigentes, sus criterios de aceptación, predecesores ni DoR. También es incierto si las capacidades adicionales son parte del alcance aprobado.
+- **Acción/pregunta:** ¿qué baseline de requisitos rige? Localizar o confirmar las especificaciones autorizadas de los IDs planificados no encontrados y aclarar la discrepancia US-017/US-018 antes de usar la matriz de DoR/DoD.
+- **Severidad/confianza:** MAJOR/ALTA dentro de las cinco especificaciones y el informe v01 leídos; las ausencias se limitan a esas rutas.
+- **Bloqueador:** Sí para trazabilidad y evaluación completa de alcance/prerrequisitos.
 
-#### F-05 — Los cálculos de capacidad del informe previo no se pueden confirmar para el plan actual
+#### PA-005 — Moneda, tarifas y coste total no son comparables
 
-- **Fuentes y referencias:** `docs/project/reviews/initial-planning/initial-planning-review-v01.md`, §§1–2, 4–6; afirma que el extracto revisado no tenía versión de baseline y califica sus cálculos de capacidad como condicionales a que horas y h-p fueran comparables. Los `.pod` actuales no pudieron interpretarse (F-01).
-- **Observación/evidencia:** la revisión anterior calcula para el extracto IT-001 = 122 h-p frente a 47,5 h declaradas (diferencia condicional +74,5 h-p), IT-002 = 66 h-p (+18,5 h-p), y registra discordancia entre seis semanas, tres iteraciones nombradas y la cadencia semanal citada en aquella revisión. No hay evidencia legible de que esos valores sean los de los `.pod` actuales ni de que el equipo los haya adoptado.
-- **Impacto:** reutilizar esos números como actuales podría dar una falsa conclusión de sobrecarga o de capacidad suficiente; no se puede calcular carga actual ni afirmar que el hallazgo histórico siga abierto o resuelto.
-- **Severidad/confianza:** QUESTION, confianza MEDIA: alta respecto a lo que documenta el informe previo, baja respecto a su aplicabilidad al snapshot actual.
-- **Bloqueador:** no es un defecto confirmado de la baseline actual. La discrepancia histórica debe reconciliarse antes de usar esos cálculos para decisiones.
-- **Acción/pregunta:** ¿el extracto citado en la revisión v01 corresponde a una revisión del plan anterior o a una decisión aceptada? Facilitar la decisión humana y los datos actuales de capacidad, unidad y duración por iteración.
-- **Método/unidades:** cálculo citado del informe previo, no recalculado; 122 − 47,5 = 74,5 y 66 − 47,5 = 18,5, solo si h-p y horas disponibles son unidades comparables.
+- **Fuentes/datos:** ambos XML declaran `CurrencySymbol=$`, `DefaultStandardRate=10` y `DefaultOvertimeRate=15`. Los recursos revisados incluyen tarifas estándar 25–35 y los objetivos de producto describen precios de entradas en euros. No se encontró en los documentos leídos un presupuesto ni convención que identifique moneda/unidad de las tarifas y el método de coste.
+- **Observación:** el símbolo `$` no identifica por sí solo moneda, y los costes de asignación no se conciliaron con el trabajo total de cada recurso, tiempo, reglas de acumulación y baseline.
+- **Impacto:** no se puede confirmar coste planificado global ni coherencia económica entre XML. Tampoco se dispone de costes reales con los que comparar forecast.
+- **Acción/pregunta:** ¿qué moneda y unidad representan las tarifas, qué regla de coste aplica y cuál es el presupuesto aprobado? Separar coste previsto de coste real.
+- **Severidad/confianza:** QUESTION/ALTA para la insuficiencia de evidencia; no se afirma que las tarifas estén equivocadas.
+- **Bloqueador:** No confirmado como defecto; sí impide concluir viabilidad económica.
+
+#### PA-006 — No hay evidencia de un registro de riesgos en las fuentes revisadas
+
+- **Fuentes/datos:** fuentes de producto, requisitos, calidad, XML y directorio `docs/organization/`; este último contiene solo `.gitkeep`.
+- **Observación:** no se encontró un registro de riesgos, propietario, estado ni tratamiento entre las fuentes indicadas y leídas. Esto no significa que no exista fuera de ese alcance.
+- **Impacto:** no es posible revisar riesgo por riesgo, residual, propietario, seguimiento ni correspondencia de mitigaciones con tareas/reservas.
+- **Acción/pregunta:** ¿dónde está el registro vigente de riesgos y qué versión debe usarse para esta auditoría?
+- **Severidad/confianza:** QUESTION/ALTA respecto de las fuentes revisadas.
+- **Bloqueador:** No por sí mismo; la dimensión de riesgos queda NOT_ASSESSABLE.
+
+#### PA-007 — No está demostrada la satisfacción del DoR para los elementos del plan
+
+- **Fuentes/datos:** `definition-of-ready.md`, sección 2.E, exige límite WIP de dos tareas simultáneas y aprobación explícita del PO. No se leyó registro de WIP, aprobación PO ni confirmación de predecesores. El informe `requirements-report-v01.md` también marca WIP y aprobación del PO como NOT_ASSESSABLE para las historias que revisó.
+- **Observación:** que las historias tengan campos de estimación o plan inicial no demuestra aprobación ni preparación; además, el plan contiene historias sin especificación actual en las rutas leídas.
+- **Impacto:** no puede afirmarse que los elementos planificados fueran Ready al entrar en sus iteraciones.
+- **Acción/pregunta:** ¿dónde se documentan la aceptación del PO, el WIP previsto y la verificación de predecesores por historia?
+- **Severidad/confianza:** QUESTION/ALTA por ausencia de evidencia, no por confirmar que se incumplió el proceso.
+- **Bloqueador:** No confirmado por sí solo; las historias sin trazabilidad quedan bloqueadas por PA-004.
+
+#### PA-008 — Lógica de hitos, secuencia y márgenes no se puede certificar
+
+- **Fuentes/datos:** tareas y enlaces revisados en ambos XML; por ejemplo, TK-001-1 → TK-001-2 → TK-001-3 aparece como cadena Finish-to-Start en las muestras, mientras las dos cabeceras y varias tareas muestran fechas distintas entre planes. Los registros de tareas revisados tienen `Milestone=0`; se observaron banderas `Critical`, pero no se validó el cálculo.
+- **Observación:** no se pudo verificar el grafo completo, los hitos de aceptación/entrega, float, margen ni relación de cada iteración con el horizonte global, especialmente con los calendarios de recursos sin correspondencia y la diferencia PA-001.
+- **Impacto:** no es posible confirmar paralelización factible, camino crítico, margen para incertidumbre ni fechas de entrega. Una bandera `Critical=1` del XML no demuestra que el camino crítico esté correctamente calculado.
+- **Acción/pregunta:** confirmar hitos y predecesores obligatorios contra el baseline elegido; suministrar la red de dependencias, calendarios aplicables y criterio de cálculo para revisar camino crítico y holguras.
+- **Severidad/confianza:** MAJOR/MEDIA; está confirmada la falta de base suficiente para verificar, pero no que el plazo sea imposible.
+- **Bloqueador:** Sí para declarar viabilidad temporal; no se afirma imposibilidad de entrega.
 
 ## 6. Auditoría de riesgos
 
-### Registro documentado
+### Riesgos documentados
 
-**Not found in the reviewed sources:** no se encontró un registro de riesgos ni registros de tratamientos en el manifiesto revisado. En consecuencia, no hay riesgos registrados que puedan evaluarse por contexto, evento, consecuencia, respuesta, responsable, indicador, exposición residual o vínculo a tarea. No se infiere que el registro no exista en otra ubicación.
+**Not found in the reviewed sources:** no se encontró un registro de riesgos en los documentos listados en §2 ni en `docs/organization/` (solo `.gitkeep`). Por tanto, no se dispone de registros a evaluar por situación, evento, consecuencia, tratamiento, propietario, estado o seguimiento. La dimensión no es evaluable por riesgo individual.
 
-### Riesgos potenciales detectados (CANDIDATE_RISK)
+### Riesgos candidatos — requieren confirmación humana
 
-| ID | Evidencia y posible causa-evento-consecuencia | Tratamiento/trazabilidad observados | Pregunta |
+| ID | Etiqueta | Evidencia y posible consecuencia | Pregunta/tratamiento a confirmar |
 |---|---|---|---|
-| CANDIDATE_RISK-01 — Capacidad o secuencia distinta del extracto histórico | El informe anterior anota sobrecarga condicional en IT-001/IT-002 y ambigüedad de horizonte; el plan actual no fue legible. Si esas limitaciones siguieran en el baseline, podrían afectar entregas por sprint. | No se puede comprobar mitigación, reserva, asignación ni responsable en los `.pod`; F-01/F-05. | ¿Qué capacidad por sprint y qué versión del plan están vigentes? |
-| CANDIDATE_RISK-02 — Dependencias no identificadas | US-008/US-011 dependen de US-002/US-010, no localizadas en los specs revisados. Si el trabajo requerido no está especificado o planificado, puede bloquear la secuencia de ambas historias. | No se pudo confirmar en los `.pod`; F-02. No se supone que los IDs estén ausentes fuera de los documentos revisados. | ¿Dónde están los artefactos de esos predecesores y qué condición de salida requieren? |
-| CANDIDATE_RISK-03 — Servicios externos/infraestructura supuestos | US-006 supone almacenamiento de objetos/CDN simulado; US-007 menciona Redis, HTTP/2 y compresión; US-011 supone SMTP simulado o pasarela; US-017 supone certificado TLS. Si estos servicios no estuvieran disponibles o su trabajo no estuviera planificado, podrían afectar pruebas o secuencia. | Son supuestos escritos en las especificaciones; no se verificó disponibilidad, responsable, tarea de configuración ni plan de contingencia por la opacidad del plan. | ¿Qué servicios son decisiones confirmadas y cuáles alternativas, y dónde se planifican y prueban? |
+| CR-01 | CANDIDATE_RISK — Calendarios de recursos sin resolver | UID 4–8 referenciados, no identificados en la sección `Calendars` leída; puede alterar disponibilidad, esfuerzo temporal y coste (PA-002). | ¿Faltan definiciones de calendarios o hay referencias incorrectas? Confirmar calendarios y excepciones. |
+| CR-02 | CANDIDATE_RISK — Sobreasignación individual | Un recurso con disponibilidad máxima declarada de 25% tiene una asignación revisada con Units=1 y pico=1 (PA-003). | ¿La asignación es deliberada y compatible con el calendario y la disponibilidad humana? |
+| CR-03 | CANDIDATE_RISK — Baseline y requisitos divergentes | Dos horizontes distintos y IDs no conciliados entre planificación, especificaciones e informe de requisitos (PA-001, PA-004). | ¿Cuál versión gobierna y cómo se documentaron las diferencias? |
+| CR-04 | CANDIDATE_RISK — Alcance y flujo esencial incompletos/no trazados | G-01/S-01 requieren reserva simulada; los documentos consultados describen catálogo y selección, pero no se verificó un recorrido de reserva completo y el plan añade proveedores, OAuth, administración/analítica y seguridad avanzada. | ¿Qué capacidades y roles forman el incremento aprobado? ¿Qué historia cubre el recorrido medido por M-01? |
+| CR-05 | CANDIDATE_RISK — Costes no comparables | Tarifas en el XML sin unidad/moneda aclarada y sin presupuesto o cálculo total contrastable (PA-005). | Confirmar moneda, base de tarifas, forecast y presupuesto. |
 
-Estos son candidatos para confirmación humana, no probabilidades, impactos cuantitativos ni riesgos aceptados. No se evaluó exposición con escalas no suministradas.
+No se asignan probabilidades, impactos cuantitativos, dueños ni reservas a estos candidatos porque no están documentados. Las acciones sugeridas no son tratamientos aprobados.
 
-## 7. Auditoría de integridad de ProjectLibre
+## 7. Auditoría de ProjectLibre
 
-| Elemento | Resultado | Evidencia y límite |
+| Control | Evidencia | Resultado |
 |---|---|---|
-| Archivo de épicas | NOT_ASSESSABLE | Se intentó leer `docs/Subsonic_Festival-Planificacion_Epicas.pod`; serialización binaria Java de ProjectLibre. No se pudieron recuperar registros de tareas con fiabilidad. |
-| Archivo de sprints | NOT_ASSESSABLE | Se intentó leer `docs/Subsonic_Festival-Planificacion_Sprints.pod`; el mismo límite de interpretación. |
-| Calendario base/horario/excepciones | NOT_ASSESSABLE | El flujo muestra referencias a calendario y un rótulo `Estandar`, pero no evidencia legible suficiente de jornadas, horas, festivos, excepciones ni calendarios por recurso. |
-| Recursos, unidades, disponibilidad y tarifas | NOT_ASSESSABLE | No se pudieron extraer registros completos; `docs/organization/` solo contiene `.gitkeep`. |
-| IDs, nombres, estimación, trabajo y duración de tareas | NOT_ASSESSABLE | No se recuperó la tabla de tareas. No se equipara esfuerzo (h-p) con duración transcurrida. |
-| Fechas, hitos y restricciones | NOT_ASSESSABLE | No se pudieron verificar fechas ni relaciones con calendario o restricciones. |
-| Dependencias, tipo de vínculo y adelantos/retrasos | NOT_ASSESSABLE | No se recuperaron vínculos. Las precedencias de los requisitos no prueban que existan en ProjectLibre. |
-| Asignaciones y trabajo asignado | NOT_ASSESSABLE | Sin asignaciones legibles no se pueden reconciliar horas de tarea, unidades y calendario de recurso. |
-| Integridad entre épicas y sprints | NOT_ASSESSABLE | No se pudieron contrastar los dos archivos. |
+| Formato y baseline | Los dos `.pod.xml` son XML compatible Project, con `SaveVersion=14`, `CurrentDate=2026-10-16T18:00:00` y distinto alcance temporal. Los `.pod` nativos no se inspeccionaron. | NOT_MET como baseline único; PA-001. |
+| Calendario base | El calendario estándar revisado contiene tramos 08:00–12:00 y 13:00–17:00. Encabezado indica horario predeterminado 10:00–19:00. | NOT_MET por discrepancia horaria sin regla aclaratoria; PA-002. |
+| Calendarios de recursos | Recursos referencian UID 4–8; la sección `Calendars` revisada define UID 1–3. | NOT_MET; PA-002. |
+| Recursos, capacidad y tarifas | Ambos planes listan Javier García, Álvaro Martín, Jaime Arias, Manuel Carvajal y Justo Cilleros, con MaxUnits 0.25–0.65 y tarifas estándar 25–35; calendarios UID 4–8. | NOT_ASSESSABLE para capacidad efectiva por falta de calendario resuelto; coste no reconciliado, PA-002/PA-005. |
+| Tareas e IDs | Muestras incluyen gestión IT-001–IT-006 y tareas US/TK como US-001, US-006, US-008, US-009, US-014, US-015 y US-016. Se mantienen los IDs originales en este informe. | NOT_ASSESSABLE para completitud/duplicados globales; PA-004. |
+| Estimación, esfuerzo y duración | Ejemplo: TK-001-1 aparece con 5 h de trabajo/duración; tareas sumarias tienen duración y fechas distintas entre XML. | NOT_ASSESSABLE para reconciliación completa; se distingue trabajo de duración; PA-001/PA-004. |
+| Dependencias | Hay enlaces Finish-to-Start en la cadena de autenticación revisada y algunos vínculos de historias a tareas de gestión. | NOT_ASSESSABLE para consistencia de red completa; PA-008. |
+| Asignaciones | Ejemplo de UID 3: 4 h de trabajo a Units=1 para recurso UID 3; el recurso declara MaxUnits=.25 y PeakUnits=1. | NOT_MET en la coherencia de esa asignación declarada; PA-003. |
+| Hitos y restricciones | Muestras de tareas revisadas tienen `Milestone=0`; no se verificaron todas las tareas, restricciones ni fechas. | NOT_ASSESSABLE para hitos del proyecto y restricciones globales; PA-008. |
 
-Las especificaciones sí declaran las siguientes asignaciones iniciales de iteración, que son evidencia de requisitos y no exportación del plan: US-001→IT-001, US-003→IT-004, US-006→IT-002, US-007→IT-006, US-008→IT-002, US-011→IT-004 y US-017→IT-005. No se verificó que los `.pod` reflejen esas declaraciones ni que las iteraciones estén fechadas o tengan capacidad asignada.
+Los controles NOT_ASSESSABLE no se han rellenado con estimaciones inferidas. No se recalculó ni guardó ninguno de los archivos ProjectLibre.
 
 ## 8. Viabilidad de recursos y costes
 
-- **Capacidad por persona/período:** NOT_ASSESSABLE. No hay calendarios, disponibilidad, unidades de asignación o períodos legibles ni datos de recursos en `docs/organization/`.
-- **Carga y sobreasignaciones:** NOT_ASSESSABLE. No se dispone de trabajo asignado por recurso y período; no se afirma que exista o no exista sobreasignación.
-- **Esfuerzo/duración/disponibilidad:** NOT_ASSESSABLE. Las historias documentan estimaciones h-p, pero estas no indican por sí solas duración transcurrida, concurrencia, asignación efectiva ni capacidad.
-- **Competencias:** NOT_ASSESSABLE. No se proporcionaron competencias requeridas ni perfil de recursos.
-- **Tarifas/costos previstos:** NOT_ASSESSABLE. No hay tarifas, reglas monetarias, datos de asignaciones legibles ni presupuesto; no se calcula costo.
-- **Costos reales:** NOT_ASSESSABLE / no suministrados. No se confunden costos planeados con costos reales.
-- **Comparación histórica condicional:** los valores de la revisión de planificación v01 se presentan en F-05 únicamente como antecedente. No se consideran cálculo de capacidad actual ni evidencia de carga de recursos individuales.
+### Capacidad y carga
 
-No se concluye viabilidad numérica ni de competencias a partir de la mera asignación de una historia a un sprint.
+- Los recursos declaran MaxUnits entre 25% y 65%; las tarifas estándar visibles son Javier 35, Álvaro 35, Jaime 30, Manuel 30 y Justo 25. El XML no proporciona en la sección revisada disponibilidad por calendario válida para UID 4–8, ni documentación externa de capacidad/ausencias.
+- **Ejemplo medible, no agregado:** Jaime Arias, UID 3, `MaxUnits=0.25`; tarea `MGT IT-001. Sprint planning & grooming`, UID 3, se asigna al mismo recurso con `Units=1` y `Work=4 h`. Bajo el calendario estándar condicional de 8 h/día, 25% equivaldría a 2 h/día; 4 h excedería esa capacidad diaria en 2 h (factor 2). Como el recurso apunta a calendario UID 6 no definido en la sección leída, esta comparación es condicional y no constituye carga efectiva por calendario.
+- Aunque el XML muestra `OverAllocated=0`, `PeakUnits=1` para el recurso, esos campos no resuelven la discrepancia entre unidades asignadas y máximo disponible. No se declara el resto de recursos globalmente sobreasignado ni libre de sobreasignación.
+- Competencias: los nombres/initials de recurso no bastan para validar competencia; `docs/organization/` solo tiene `.gitkeep`. Adecuación de habilidades NOT_ASSESSABLE.
 
-## 9. Secuencialidad y viabilidad temporal
+### Costes
 
-- **Orden/parallelización:** NOT_ASSESSABLE en los planes. Las especificaciones declaran US-003←US-001, US-007←US-006, US-008←US-002, US-011←US-010 y US-017←US-001; faltan los detalles de US-002/US-010 en el conjunto de specs inspeccionado y los vínculos reales del plan.
-- **Dependencias técnicas/externas:** las especificaciones enumeran supuestos de servicios (CANDIDATE_RISK-03), pero no se verificaron tareas de aprovisionamiento, contratos, responsables ni disponibilidad.
-- **Hitos/fechas:** NOT_ASSESSABLE. No se pudo recuperar calendario o fecha de hitos del `.pod`.
-- **Camino crítico:** no calculado ni confirmado. Faltan dependencias, duraciones interpretables, calendarios, restricciones y método de cálculo.
-- **Holgura/margen/reservas:** NOT_ASSESSABLE. No hay datos legibles de float ni reserva documentada.
-- **Coherencia de iteraciones:** los specs dan las asignaciones iniciales enumeradas en §7, incluyendo IT-004, IT-005 e IT-006. El DoR menciona IT-001, IT-002 e IT-003 como ejemplos del campo iteración, lo cual merece confirmar como nomenclatura/plantilla frente a los IDs posteriores; no se declara una contradicción obligatoria porque el texto puede ser ejemplificativo.
-- **Riesgo de acumulación de trabajo:** candidato, no defecto confirmado. Sin capacidad y carga por sprint no se puede establecer acumulación, margen o fecha inviable.
+- Los planes tienen `CurrencySymbol=$`, tarifas estándar/extra del proyecto 10/15 y tasas estándar individuales indicadas arriba. La unidad monetaria de las tasas, coste calculado por asignación, presupuesto y regla para horas extra no quedaron conciliados.
+- No se aportaron costes reales; no se evalúa coste actual. Tampoco se afirma una cifra de coste planificado global porque requeriría validar todas las asignaciones, trabajo, unidad monetaria y reglas temporales.
+- **Resultado:** viabilidad de recursos y costes NOT_ASSESSABLE en conjunto. El ejemplo de PA-003 es una inconsistencia de unidades que debe aclararse; no es un cálculo de la carga pico de todo el equipo.
 
-## 10. Trazabilidad, supuestos y cuestiones sin resolver
+## 9. Secuencialidad
 
-### Trazabilidad disponible
+- **Orden y paralelización:** las muestras contienen una cadena secuencial para TK-001-1 → TK-001-2 → TK-001-3. No se verificó que los productos/contratos compartidos permitan toda la actividad paralela entre épicas/sprints.
+- **Dependencias explícitas de requisitos:** US-003 depende de US-001; US-007 de US-006; US-008 cita US-002; US-011 cita US-010. En el conjunto de especificaciones actuales leído no aparece US-002 ni US-010; sí hay historias con esos IDs en el plan u otras partes del informe anterior. La relación funcional completa requiere baseline de requisitos coherente (PA-004).
+- **Dependencias no confirmadas:** dependencias de recintos aprobados, reservas, proveedores, pago/reserva simulada e infraestructura externa no pueden tratarse como enlaces aprobados por aparecer como supuestos en historias o por estar agrupadas en una secuencia.
+- **Fechas e hitos:** las fechas de proyecto discrepan entre los dos XML (PA-001); no se obtuvo una definición compartida del final de cada sprint, del hito del MVP o de aceptación de G-01–G-03. Las muestras revisadas no acreditan hitos de entrega.
+- **Camino crítico y holguras:** NOT_ASSESSABLE. Aunque hay campos `Critical` y `CriticalSlackLimit=0`, no se recalculó el plan ni se verificó la red completa, calendarios de recursos, restricciones, duraciones y baseline. No se declara camino crítico, float ni reserva.
+- **Estimación e incertidumbre:** las historias actuales revisadas contienen estimaciones e incertidumbre, pero no se confirmó que correspondan a todas las tareas planificadas; el informe de requisitos v01 pertenece a un conjunto de IDs distinto. No se añade ni modifica ninguna estimación.
 
-- **Objetivos y límites:** goals define G-01–G-03, alcance S-01–S-03 y exclusiones EX-01–EX-03. Misión centra a compradores y promotores/organizadores; la constitución prioriza el flujo MVP, los datos ficticios y trazabilidad.
-- **Requisitos e iteraciones declaradas:** EP-001–EP-005 incluyen las siete historias listadas en §7 con estimaciones, prioridad, incertidumbre y algunas dependencias. Esos campos no verifican la asignación en el ProjectLibre ni el estado de Ready.
-- **Riesgos y tareas:** no se pudo establecer trazabilidad desde un registro de riesgos a tareas, reservas, hitos, recursos o responsables.
-- **Tareas/subtareas:** US-001 contiene un desglose TK-001-1, TK-001-2 y TK-001-3 dentro de IT-001 con 5, 3 y 2 h-p respectivamente. Se inspeccionó en su especificación, pero no se pudo verificar su presencia, vínculos o asignación en el plan.
+## 10. Trazabilidad, supuestos y preguntas no resueltas
+
+### Trazabilidad
+
+- G-01/M-01 y S-01 tratan de la compra/reserva simulada, pero la existencia de una historia completa y planificada para seleccionar, confirmar y representar el resultado no quedó establecida en las fuentes actuales leídas. **UNCONFIRMED:** que la selección de US-006 ya implique el recorrido de reserva medido en M-01.
+- G-02/M-02 y S-02 exigen gestión de evento/aforo; US-008 se refiere a publicación y entradas, pero parte del plan también contiene recintos y administración con IDs no conciliados.
+- G-03/M-03 requiere despliegue/documentación; no se verificó una tarea/hito rastreable en los extractos revisados que demuestre su cobertura.
+- EP-004 y el rol Proveedor no tienen vínculo explícito a G-01–G-03 en los documentos leídos. No se concluye que estén excluidos; su inclusión precisa decisión de alcance.
+- El plan muestra varias tareas sin especificación actual localizable dentro de las cinco rutas leídas. Esto es una brecha de trazabilidad en ese alcance, no prueba de que no haya documentos en otra ubicación.
+- Las exclusiones EX-01–EX-03 prohíben pagos bancarios reales y facturas fiscales; no se encontró tarea explícita de integración real en las muestras. La cuestión es si las funciones adicionales se mantienen con datos simulados.
 
 ### Preguntas prioritarias para el equipo
 
-1. **¿Puede facilitarse una exportación legible y versionada de ambos planes, con IDs, tareas, fechas, duraciones, trabajo, vínculos, calendario, recursos, unidades, asignaciones y costos?** Sin ella no se puede cerrar la evaluación global.
-2. **¿Cuál es el baseline vigente y qué horizonte/cadencia/capacidad por sprint representa?** Aclarar específicamente si el extracto usado por la revisión v01 sigue aplicando y qué decisión humana se tomó sobre las cifras allí citadas.
-3. **¿Dónde están las especificaciones autorizadas de US-002 y US-010 y qué condición define que sus dependencias estén satisfechas?**
-4. **¿Se puede acreditar justificación de negocio para las prioridades, aprobación del PO y control WIP del DoR en las historias planificadas?**
-5. **¿Qué recursos están disponibles por sprint, con qué calendario, competencias y porcentaje de asignación? ¿Qué tarifas y reglas se usan para costos?**
-6. **¿Existe un registro de riesgos vigente y dónde se documentan responsables, respuestas y vínculos a tareas o reservas?**
-7. **¿Debe la DoD referirse a US-017 o existe una US-018 vigente fuera de los specs revisados?**
-8. **¿Qué servicios supuestos (CDN/almacenamiento, Redis, SMTP y TLS) están confirmados y qué tareas/hitos cubren su disponibilidad y verificación?**
-
-### Supuestos e hipótesis
-
-- No se ha supuesto que los archivos `.pod` sean equivalentes al extracto del informe previo.
-- No se han inferido disponibilidad, dedicación, competencias, tasas, fechas, duración de sprint ni reservas.
-- Las relaciones que no están respaldadas por una especificación o vínculo legible se consideran no verificadas, no dependencias confirmadas.
+1. **P0:** ¿Cuál XML y fecha de finalización constituyen el baseline vigente, y por qué los horizontes son 22 de octubre y 3 de noviembre?
+2. **P0:** ¿Cuál versión de requisitos gobierna? ¿Qué documentación autoriza US-002, US-004, US-009, US-014, US-015 y US-016, y cómo se explica US-017 frente a US-018?
+3. **P0:** ¿Dónde están definidos los calendarios UID 4–8? ¿Qué calendario/horario rige los recursos y las fechas de cada plan?
+4. **P0:** ¿La asignación `Units=1` de Jaime para 4 h y su `MaxUnits=0.25` son intencionales? ¿Qué explica `PeakUnits=1` y `OverAllocated=0`?
+5. **P1:** ¿Qué capacidades del plan son parte del MVP y cuáles son extras aprobados bajo el principio constitucional de disciplina del MVP?
+6. **P1:** ¿Dónde está el registro de riesgos vigente y qué tareas, reservas, hitos o responsables implementan cada tratamiento?
+7. **P1:** ¿Qué moneda/unidad representan tarifas y costos, qué presupuesto gobierna y cómo se calcula el coste previsto? ¿Hay actuals disponibles?
+8. **P1:** ¿Qué historia cubre el recorrido de reserva simulada que mide M-01 y cómo se comprobará M-03?
+9. **P2:** ¿Qué registro demuestra aprobación del PO, límite WIP y preparación DoR por historia? ¿Qué definición de hito/float y qué método de cálculo de camino crítico se usan?
 
 ## 11. RECHECK crosswalk
 
-Modo **INITIAL**. No se requiere crosswalk de recheck. Se consultó un informe previo de revisión inicial como antecedente documental, pero no se recibió registro de decisiones humanas ni se comparó una baseline anterior versionada con una baseline actual verificable. F-05 documenta esa limitación y no asigna estado de resolución a hallazgos previos.
+No aplica: modo **INITIAL**. No se recibió un informe previo de auditoría de planificación ni un decision log. `requirements-report-v01.md` es un informe de revisión de requisitos, se utilizó como evidencia de apoyo y sus divergencias se registran en PA-004; no se trató como una auditoría previa que haya que cerrar mediante crosswalk.
 
-## 12. Limitaciones y comprobaciones no evaluables
+## 12. Cierre explícito
 
-- No fue posible recuperar o validar de los `.pod` la estructura de tareas, predecesores, calendarios, recursos, asignaciones, fechas, costos, actuals o resultados de cálculo de ProjectLibre.
-- No se suministró una exportación XML/tabla legible, baseline/commit, horizonte explícito, capacidad de recursos por período, competencias, tasas, presupuesto, registro de riesgos ni registro de decisiones.
-- Los informes de requisitos son documentos secundarios y no sustituyen evidencia de planificación; el informe previo de planificación se basó en un extracto no versionado.
-- La inspección de cinco especificaciones no demuestra ausencia de otros requisitos fuera de esos archivos.
-- No se inspeccionó código, entregables, pruebas, PRs, integración ni datos reales; por tanto, no se afirma cumplimiento del DoD ni finalización de historias.
-- Sin calendario, duraciones, dependencias y cálculo reproducible no se confirma camino crítico, float, factibilidad de fechas ni margen.
-- Sin asignaciones, disponibilidad y tasas no se verifica capacidad, sobreasignación ni costo previsto; sin actuals no se evalúa costo real.
+Esta es una auditoría consultiva. No se modificó ningún requisito fuente, registro de riesgos, estimación, asignación de recursos, calendario, tarifa, dependencia, planificación, coste, prioridad ni decisión humana. No se aprobó ningún baseline, compromiso ni puerta de calidad.
 
-## 13. Cierre explícito
-
-Esta es una auditoría consultiva. No se modificó ningún requisito fuente, registro de riesgos, estimación, asignación de recursos, calendario, tarifa, dependencia, planificación, costo, prioridad ni decisión humana. No se aprobó baseline, compromiso ni puerta de calidad.
+“This is an advisory planning audit. No source requirement, risk register, estimate, resource assignment, calendar, rate, dependency, schedule, cost, priority or human decision was changed. No baseline, commitment or gate was approved.”
