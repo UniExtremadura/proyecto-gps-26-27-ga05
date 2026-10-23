@@ -28,8 +28,8 @@ Una Historia de Usuario solo se considerará **Ready** si satisface todos los si
 - [ ] **Prioridad MoSCoW:** Tiene asignada una prioridad (*Must, Should, Could*) acompañada de su correspondiente justificación de negocio.
 - [ ] **Estimación en Horas-Persona:** Dispone de una estimación de esfuerzo en horas-persona ($h-p$) acordada en la sesión de refinamiento.
 - [ ] **Nivel de Incertidumbre:** Se ha categorizado el nivel de incertidumbre técnica (*Baja, Media, Alta*).
-- [ ] **Gestión de Predecesores:** Se han identificado los requisitos predecesores obligatorios y estos se encuentran completados o planificados en la misma iteración.
-- [ ] **Iteración Asignada:** Se ha definido la iteración objetivo (`IT-001`, `IT-002`, `IT-003`).
+- [ ] **Gestión de Predecesores:** Se han identificado los requisitos predecesores obligatorios y estos se encuentran completados o planificados en la misma iteración o en una iteración previa.
+- [ ] **Iteración Asignada:** Se ha definido la iteración objetivo dentro del horizonte de 6 Sprints (`IT-001` a `IT-006`).
 
 ### D. Requisitos No Funcionales y Restricciones
 - [ ] **Restricciones Técnicas y RNF:** Se especifican las restricciones de seguridad, rendimiento, diseño *responsive* o volumen de datos aplicables a la tarea.
@@ -48,4 +48,3 @@ graph TD
     B --> C[Evaluación contra Checklist DoR]
     C -->|Incumple algún criterio| D[Estado: Draft / Requiere aclaración con PO]
     C -->|Cumple 100% del DoR| E[Estado: Ready / Seleccionable en Sprint Planning]
-```
