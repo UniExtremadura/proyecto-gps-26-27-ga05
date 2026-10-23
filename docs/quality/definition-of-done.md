@@ -20,12 +20,12 @@ Una Historia de Usuario solo se marcará como **Done / Finalizada** cuando cumpl
 - [ ] **Pruebas de Casos Límite:** Se han ejecutado pruebas manuales o unitarias verificando los casos de error, validaciones de formularios y límites de datos.
 
 ### C. Requisitos No Funcionales y Seguridad
-- [ ] **Seguridad e Higiene:** Los datos sensibles (contraseñas, tokens) se manejan cifrados y no se muestran en logs ni respuestas insecure (cumplimiento de `US-018`).
-- [ ] **Rendimiento:** El tiempo de respuesta de las vistas o endpoints desarrollados se mantiene dentro de los límites aceptables especificados (ej. < 2 segundos para la carga del catálogo).
+- [ ] **Seguridad e Higiene:** Los datos sensibles (contraseñas, tokens) se manejan cifrados y no se muestran en logs ni en respuestas inseguras (cumplimiento de `US-017`).
+- [ ] **Rendimiento:** El tiempo de respuesta de las vistas o endpoints desarrollados se mantiene dentro de los límites aceptables especificados (ej. < 2 segundos para la carga del catálogo en `US-007`).
 
 ### D. Control de Versiones e Integración (Git & GitHub)
 - [ ] **Commits Limpios:** Los mensajes de commit son descriptivos y hacen referencia a la tarea correspondiente.
-- [ ] **Sin Conflictos:** La rama de trabajo (`docs/hito2-requisitos` o equivalente) está sincronizada con `main` y no presenta conflictos de integración.
+- [ ] **Sin Conflictos:** La rama de trabajo está sincronizada con `main` y no presenta conflictos de integración.
 - [ ] **Pull Request (PR) Creada:** Se ha abierto una Pull Request formal hacia `main` en GitHub detallando los cambios introducidos.
 
 ### E. Revisión de Código y Calidad (Team Charter)
@@ -34,7 +34,7 @@ Una Historia de Usuario solo se marcará como **Done / Finalizada** cuando cumpl
 - [ ] **Fusión a Main:** La PR se ha fusionado (*Merged*) correctamente en la rama `main` y la rama secundaria se ha eliminado/cerrado.
 
 ### F. Documentación
-- [ ] **Actualización de Especificaciones:** Se ha actualizado el archivo `spec.md` correspondiente dentro de `specs/product/EP-XXX/` si durante el desarrollo surgieron ajustes o aclaraciones técnicas.
+- [ ] **Actualización de Especificaciones:** Se ha actualizado el archivo `spec.md` correspondiente dentro de `specs/EP-XXX-*/spec.md` si durante el desarrollo surgieron ajustes o aclaraciones técnicas.
 
 ---
 
