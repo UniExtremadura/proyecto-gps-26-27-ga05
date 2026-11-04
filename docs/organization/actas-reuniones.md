@@ -31,7 +31,7 @@ Siguiendo el protocolo del *Team Charter*, el equipo mantiene una cadencia fija 
 
 ### ACTA-01: Constitución de Web Solutions SL, Roles, Capacidad y Team Charter
 - **Fecha:** Miércoles, 30 de septiembre de 2026 | **Horario:** 09:30 – 11:30 (2 h) | **Modalidad:** Presencial (Lab EPCC)
-- **Asistentes:** 100% del equipo.
+- **Asistentes:** 100% del equipo (Javier García, Jaime Arias, Álvaro Martín, Manuel Carvajal, Justo Cilleros).
 - **Desarrollo:** Constitución formal del grupo `GA05` como **Web Solutions SL**. Asignación de tarifas ($35\text{ €/h}$ PO/TL, $30\text{ €/h}$ SM/QA, $25\text{ €/h}$ Dev). Se calcula una capacidad efectiva del equipo de **$47,5\text{ h-p/semana}$** (techo global de $285\text{ h-p}$ en 6 semanas). Se aprueba el *Team Charter* con comunicación vía Discord/WhatsApp y el establecimiento de dos reuniones semanales fijas.
 - **Tareas Asignadas:** Redactar perfil de empresa y roles en la Wiki (Responsable: Jaime Arias).
 
