@@ -11,8 +11,10 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** —
 - **Plan inicial:** IT-002 (Sprint 2)
-- **Responsable:** Equipo (Justo Cilleros 7 h / Álvaro Martín 7 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 420,00 €
+- **Coste Total Estimado:** 420,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-002):**
+  - `TK-006-1`: Backend Catalog Search API — Desarrollo del endpoint de búsqueda y filtros (7 h-p | Predecesor: — | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 175,00 €).
+  - `TK-006-2`: Frontend Catalog UI — Maquetación de la parrilla de festivales y buscador (7 h-p | Predecesor: `TK-006-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 245,00 €).
 
 ### Criterios de aceptación
 - **US-006-AC-01:** El catálogo muestra una parrilla interactiva con los festivales activos, indicando cartelera, fechas y recinto.
@@ -42,8 +44,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-006
 - **Plan inicial:** IT-006 (Sprint 6)
-- **Responsable:** Equipo (Manuel Carvajal 8 h / Álvaro Martín 8 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 480,00 €
+- **Coste Total Estimado:** 520,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-006):**
+  - `TK-007-1`: Redis Cache layer — Caché de consultas de catálogo de festivales (8 h-p | Predecesor: `US-006` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 240,00 €).
+  - `TK-007-2`: Lazy Loading & Asset Opt — Minificación web y carga de imágenes (8 h-p | Predecesor: `US-006` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 280,00 €).
 
 ### Criterios de aceptación
 - **US-007-AC-01:** La métrica *Largest Contentful Paint* (LCP) de la página de inicio es inferior a 2,0 segundos en perfil simulado Fast 4G, verificado mediante Chrome DevTools / Lighthouse CLI.
