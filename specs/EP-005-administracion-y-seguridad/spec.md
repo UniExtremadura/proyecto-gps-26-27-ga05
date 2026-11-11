@@ -11,8 +11,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-002
 - **Plan inicial:** IT-003 (Sprint 3)
-- **Responsable:** Equipo (Justo Cilleros 9 h / Manuel Carvajal 9 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 540,00 €
+- **Coste Total Estimado:** 495,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-003):**
+  - `TK-014-1`: Admin Moderation API — Endpoints para suspensión de cuentas y eventos (9 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 225,00 €).
+  - `TK-014-2`: Admin Global Dashboard UI — Vistas de tabla y moderación (9 h-p | Predecesor: `TK-014-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 270,00 €).
 
 ### Criterios de aceptación
 - **US-014-AC-01:** Panel `/admin` con vistas de listado y búsqueda para gestionar usuarios (activar/suspender cuentas y cambiar roles), festivales (publicar, pausar o cancelar cualquier evento), recintos y catálogo de merchandising.
@@ -41,8 +43,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-014
 - **Plan inicial:** IT-006 (Sprint 6)
-- **Responsable:** Equipo (Javier García 8 h / Justo Cilleros 8 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 480,00 €
+- **Coste Total Estimado:** 480,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-006):**
+  - `TK-015-1`: Global Metrics Aggregation — Consultas analíticas sobre ingresos globales (8 h-p | Predecesor: `US-014` | Responsable: Javier García | Tarifa: 35 €/h | Coste: 280,00 €).
+  - `TK-015-2`: Stats UI & Export — Vista de administrador y exportación a CSV (8 h-p | Predecesor: `TK-015-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 200,00 €).
 
 ### Criterios de aceptación
 - **US-015-AC-01:** El dashboard `/admin/analytics` muestra tarjetas resumen con los KPIs globales: total de festivales activos, total de entradas reservadas, porcentaje de ocupación media de aforo, volumen total de ingresos simulados (€) de entradas y de merchandising, y número de usuarios registrados por rol.
@@ -71,8 +75,10 @@
 - **Incertidumbre:** Alta
 - **Predecesores:** US-001
 - **Plan inicial:** IT-005 (Sprint 5)
-- **Responsable:** Equipo (Manuel Carvajal 10 h / Álvaro Martín 10 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 600,00 €
+- **Coste Total Estimado:** 650,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-005):**
+  - `TK-016-1`: Rate-limiting & WAF rules — Middleware de bloqueo de IP por tráfico (10 h-p | Predecesor: `US-001` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 300,00 €).
+  - `TK-016-2`: Input Sanitization logic — Filtro contra XSS y parametrización SQLi (10 h-p | Predecesor: `TK-016-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 350,00 €).
 
 ### Criterios de aceptación
 - **US-016-AC-01 (Rate-limiting):** El middleware limita las peticiones por IP a un máximo de 10 intentos por minuto en los endpoints de autenticación (`/api/auth/*`) y 100 peticiones por minuto en el resto de la API, devolviendo HTTP `429 Too Many Requests` con cabecera `Retry-After` al superarse el umbral.
@@ -101,8 +107,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-001
 - **Plan inicial:** IT-005 (Sprint 5)
-- **Responsable:** Equipo (Justo Cilleros 6 h / Álvaro Martín 6 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 360,00 €
+- **Coste Total Estimado:** 360,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-005):**
+  - `TK-017-1`: DB encryption keys management — Cifrado AES de campos en BBDD (6 h-p | Predecesor: `US-001` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 150,00 €).
+  - `TK-017-2`: TLS/HTTPS & Headers — Políticas CORS y cabeceras seguras (6 h-p | Predecesor: `US-001` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 210,00 €).
 
 ### Criterios de aceptación
 - **US-017-AC-01:** Uso obligatorio del protocolo HTTPS / TLS 1.3 en todas las comunicaciones (redirección automática de HTTP a HTTPS mediante respuesta HTTP `301`).

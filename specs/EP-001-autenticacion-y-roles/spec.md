@@ -79,8 +79,9 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** US-001
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Responsable:** Equipo (Justo Cilleros — 6 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 180,00 €
+- **Coste Total Estimado:** 150,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-003-1`: Profile Update System — Desarrollo de API e Interfaz de actualización de datos (6 h-p | Predecesor: `US-001` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 150,00 €).
 
 ### Criterios de aceptación
 - **US-003-AC-01:** Visualización organizada de los datos actuales del usuario al acceder a la vista `/perfil`.
@@ -144,8 +145,10 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** US-001
 - **Plan inicial:** IT-005 (Sprint 5)
-- **Responsable:** Equipo (Justo Cilleros 4 h / Manuel Carvajal 4 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 240,00 €
+- **Coste Total Estimado:** 220,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-005):**
+  - `TK-005-1`: Reset Password Token API — Generación de JWT único de recuperación (4 h-p | Predecesor: `US-001` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
+  - `TK-005-2`: Reset Password Form — Flujo web y plantilla de correo electrónico (4 h-p | Predecesor: `TK-005-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
 
 ### Criterios de aceptación
 - **US-005-AC-01:** Al introducir un correo en `/recuperar-password`, el sistema devuelve siempre el mismo mensaje de confirmación ("Si el correo está registrado, recibirás un enlace de recuperación") para evitar la enumeración de usuarios.

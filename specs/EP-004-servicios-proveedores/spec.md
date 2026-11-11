@@ -11,8 +11,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-002
 - **Plan inicial:** IT-003 (Sprint 3)
-- **Responsable:** Equipo (Justo Cilleros 8 h / Álvaro Martín 8 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 480,00 €
+- **Coste Total Estimado:** 480,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-003):**
+  - `TK-009-1`: Booking System API — Lógica de validación de reservas de recintos (8 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 200,00 €).
+  - `TK-009-2`: Supplier Booking UI — Interfaz de selección de espacios para proveedores (8 h-p | Predecesor: `TK-009-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 280,00 €).
 
 ### Criterios de aceptación
 - **US-009-AC-01:** El proveedor autenticado visualiza el listado de festivales activos con sus espacios/zonas para proveedores indicando estado (`Disponible`, `Reservado`), dimensiones y tarifa simulada.
@@ -41,8 +43,10 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** US-002
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Responsable:** Equipo (Justo Cilleros 7 h / Manuel Carvajal 7 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 420,00 €
+- **Coste Total Estimado:** 385,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-010-1`: Merchandising CRUD API — Gestión de base de datos de artículos y stock (7 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 175,00 €).
+  - `TK-010-2`: Merchandising Catalog UI — Vista pública de tienda e integración (7 h-p | Predecesor: `TK-010-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 210,00 €).
 
 ### Criterios de aceptación
 - **US-010-AC-01:** El proveedor dispone de un panel para dar de alta, editar y dar de baja artículos de merchandising indicando nombre, descripción, precio simulado (€), festival asociado y stock disponible.
@@ -71,8 +75,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-010
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Responsable:** Equipo (Justo Cilleros 6 h / Álvaro Martín 6 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 360,00 €
+- **Coste Total Estimado:** 360,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-011-1`: Stock Tracking Logic — Disparador y umbral mínimo de unidades (6 h-p | Predecesor: `US-010` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 150,00 €).
+  - `TK-011-2`: Email Notifications Setup — Plantillas de correo y worker SMTP (6 h-p | Predecesor: `TK-011-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 210,00 €).
 
 ### Criterios de aceptación
 - **US-011-AC-01 (Configuración de umbral):** Campo editable "Umbral de Stock Mínimo" en la ficha de gestión de cada producto del proveedor, permitiendo asignar únicamente valores enteros mayores o iguales a cero (ej. umbral = 10 unidades).
@@ -102,8 +108,10 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** US-010
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Responsable:** Equipo (Justo Cilleros 5 h / Manuel Carvajal 5 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 300,00 €
+- **Coste Total Estimado:** 275,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-013-1`: Sales Metrics API — Agregación de pedidos e ingresos (5 h-p | Predecesor: `US-010` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
+  - `TK-013-2`: Sales Reporting UI — Gráficos y tablas de ventas en el panel (5 h-p | Predecesor: `TK-013-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 150,00 €).
 
 ### Criterios de aceptación
 - **US-013-AC-01:** El panel del proveedor muestra el listado cronológico de operaciones de venta simuladas de sus artículos con fecha, producto, unidades, importe total (€) y festival asociado.
@@ -132,8 +140,10 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** US-009
 - **Plan inicial:** IT-006 (Sprint 6)
-- **Responsable:** Equipo (Justo Cilleros 4 h / Álvaro Martín 4 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 240,00 €
+- **Coste Total Estimado:** 240,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-006):**
+  - `TK-012-1`: Booking History API — Endpoint de registro histórico por proveedor (4 h-p | Predecesor: `US-009` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
+  - `TK-012-2`: History Panel UI — Tabla de reservas pasadas en el panel (4 h-p | Predecesor: `TK-012-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 140,00 €).
 
 ### Criterios de aceptación
 - **US-012-AC-01:** El proveedor dispone de una sección "Mis Participaciones" que lista todos los festivales (pasados y activos) donde tiene o ha tenido espacios reservados, indicando fechas, recinto, ubicación del espacio y estado (`Finalizado`, `Activo`, `Cancelado`).
