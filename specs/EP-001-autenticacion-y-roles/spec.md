@@ -140,14 +140,14 @@
 - **Objetivo:** Implementar un flujo de generación y validación de enlaces temporales de recuperación por correo electrónico.
 - **Historia de Usuario:** Como usuario registrado, quiero solicitar un enlace de restablecimiento de contraseña por email, para recuperar el acceso a mi cuenta si me olvido de las credenciales.
 - **Tipo:** Seguridad
-- **Prioridad:** Should (Funcionalidad esencial de usabilidad y autoservicio para reducir llamadas a soporte).
+- **Prioridad:** Should
 - **Estimación:** 8 h-p
 - **Incertidumbre:** Baja
 - **Predecesores:** US-001
 - **Plan inicial:** IT-005 (Sprint 5)
-- **Coste Total Estimado:** 220,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 240,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-005):**
-  - `TK-005-1`: Reset Password Token API — Generación de JWT único de recuperación (4 h-p | Predecesor: `US-001` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
+  - `TK-005-1`: Reset Password Token API — Generación de JWT único de recuperación (4 h-p | Predecesor: `US-001` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
   - `TK-005-2`: Reset Password Form — Flujo web y plantilla de correo electrónico (4 h-p | Predecesor: `TK-005-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
 
 ### Criterios de aceptación
@@ -159,7 +159,3 @@
 - **Reglas de Negocio:** Cada token de recuperación solo puede utilizarse una única vez. Solicitar un nuevo enlace invalida cualquier token previo pendiente para ese usuario.
 - **Restricciones:** La nueva contraseña debe cumplir las mismas reglas de complejidad definidas en `US-001`.
 - **Requisitos No Funcionales (RNF):** Los tokens de restablecimiento deben almacenarse hasheados en la base de datos.
-- **Ejemplos y Casos Límite:**
-  * *Ejemplo:* Usuario solicita recuperación, abre el enlace antes de 15 minutos, introduce su nueva clave y accede con éxito en `/login`.
-  * *Caso Límite:* Intento de usar un enlace transcurridos más de 15 minutos o ya utilizado: devuelve HTTP `400 Bad Request` con el mensaje "El enlace de recuperación ha expirado o no es válido".
-- **Supuestos:** En el entorno de desarrollo se utiliza un buzón SMTP local simulado (ej. Mailpit/Mailtrap) para inspeccionar los correos enviados.
