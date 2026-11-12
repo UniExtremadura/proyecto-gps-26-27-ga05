@@ -97,38 +97,6 @@
 
 ---
 
-## US-013 — Historial y reporte de ventas de mercancía
-
-- **Necesidad:** Facilitar a los proveedores el seguimiento de las reservas y ventas simuladas de sus productos para evaluar su rendimiento comercial.
-- **Objetivo:** Proporcionar un listado filtrable y métricas agregadas de las ventas de merchandising de cada proveedor.
-- **Historia de Usuario:** Como Proveedor, quiero ver el listado y métricas de mis ventas de artículos recientes, para analizar el rendimiento de mis productos.
-- **Tipo:** Funcional
-- **Prioridad:** Must (Indispensable para el cuadre contable y liquidación financiera simulada de los comerciantes).
-- **Estimación:** 10 h-p
-- **Incertidumbre:** Baja
-- **Predecesores:** US-010
-- **Plan inicial:** IT-004 (Sprint 4)
-- **Coste Total Estimado:** 275,00 € (desglosado en tareas TK)
-- **Desglose de tareas (IT-004):**
-  - `TK-013-1`: Sales Metrics API — Agregación de pedidos e ingresos (5 h-p | Predecesor: `US-010` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
-  - `TK-013-2`: Sales Reporting UI — Gráficos y tablas de ventas en el panel (5 h-p | Predecesor: `TK-013-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 150,00 €).
-
-### Criterios de aceptación
-- **US-013-AC-01:** El panel del proveedor muestra el listado cronológico de operaciones de venta simuladas de sus artículos con fecha, producto, unidades, importe total (€) y festival asociado.
-- **US-013-AC-02:** Incluye un resumen superior con el total de unidades vendidas, ingresos brutos simulados (€) y el artículo más vendido del proveedor.
-- **US-013-AC-03:** Permite filtrar el reporte por festival y por rango de fechas, mostrando un estado vacío informativo si no existen registros en ese periodo.
-
-### Verificación y restricciones
-- **Reglas de Negocio:** Un proveedor únicamente puede visualizar las métricas y operaciones correspondientes a sus propios artículos.
-- **Restricciones:** Los importes mostrados tienen carácter informativo y simulado, sin validez tributaria (exclusión `EX-02`).
-- **Requisitos No Funcionales (RNF):** Tiempo de generación de la consulta del reporte < 500 ms para historiales de hasta 5.000 registros.
-- **Ejemplos y Casos Límite:**
-  * *Ejemplo:* El proveedor filtra por "Subsonic RockFest": visualiza 45 camisetas vendidas y un total acumulado de 900,00 € simulados.
-  * *Caso Límite:* Proveedor recién registrado sin ventas realizadas: los contadores muestran `0` y el mensaje "Aún no se registran ventas para tus artículos".
-- **Supuestos:** Los datos de ventas provienen de las reservas simuladas generadas sobre el catálogo de `US-010`.
-
----
-
 ## US-012 — Panel e historial de participación en festivales
 
 - **Necesidad:** Permitir a los proveedores consultar el registro histórico de los festivales y recintos en los que han participado o reservado espacios.
@@ -158,3 +126,31 @@
   * *Ejemplo:* Consulta de participaciones del año 2026: lista los 3 festivales donde el proveedor reservó stand mediante `US-009`.
   * *Caso Límite:* Proveedor sin reservas históricas ni activas: muestra el mensaje "Todavía no tienes participaciones registradas en festivales" y un enlace al buscador de recintos (`US-009`).
 - **Supuestos:** Se apoya en el modelo de datos de reservas de espacios creado en `US-009`.
+
+---
+
+## US-013 — Historial y reporte de ventas de mercancía
+
+- **Necesidad:** Facilitar a los proveedores el seguimiento de las reservas y ventas simuladas de sus productos para evaluar su rendimiento comercial.
+- **Objetivo:** Proporcionar un listado filtrable y métricas agregadas de las ventas de merchandising de cada proveedor.
+- **Historia de Usuario:** Como Proveedor, quiero ver el listado y métricas de mis ventas de artículos recientes, para analizar el rendimiento de mis productos.
+- **Tipo:** Funcional
+- **Prioridad:** Must
+- **Estimación:** 10 h-p
+- **Incertidumbre:** Baja
+- **Predecesores:** US-010
+- **Plan inicial:** IT-004 (Sprint 4)
+- **Coste Total Estimado:** 325,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-013-1`: Sales Metrics API — Agregación de pedidos e ingresos (5 h-p | Predecesor: `US-010` | Responsable: Javier García | Tarifa: 35 €/h | Coste: 175,00 €).
+  - `TK-013-2`: Sales Reporting UI — Gráficos y tablas de ventas en el panel (5 h-p | Predecesor: `TK-013-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 150,00 €).
+
+### Criterios de aceptación
+- **US-013-AC-01:** El panel del proveedor muestra el listado cronológico de operaciones de venta simuladas de sus artículos con fecha, producto, unidades, importe total (€) y festival asociado.
+- **US-013-AC-02:** Incluye un resumen superior con el total de unidades vendidas, ingresos brutos simulados (€) y el artículo más vendido del proveedor.
+- **US-013-AC-03:** Permite filtrar el reporte por festival y por rango de fechas, mostrando un estado vacío informativo si no existen registros en ese periodo.
+
+### Verificación y restricciones
+- **Reglas de Negocio:** Un proveedor únicamente puede visualizar las métricas y operaciones correspondientes a sus propios artículos.
+- **Restricciones:** Los importes mostrados tienen carácter informativo y simulado, sin validez tributaria.
+- **Requisitos No Funcionales (RNF):** Tiempo de generación de la consulta del reporte < 500 ms para historiales de hasta 5.000 registros.
