@@ -3,7 +3,7 @@ import html
 import re
 from typing import Any
 
-SCRIPT_PATTERN = re.compile(r"<\s*script[^>]*>.*?<\s*/\s*script\s*>", re.IGNORECASE | re.DOTALL)
+SCRIPT_PATTERN = re.compile(r"<\s*script\b[^>]*>.*?<\s*/\s*script\b[^>]*>", re.IGNORECASE | re.DOTALL)
 TAG_PATTERN = re.compile(r"<[^>]+>")
 SQLI_PATTERN = re.compile(
     r"(\b(union\s+select|drop\s+table|insert\s+into|delete\s+from)\b)|('\s*or\s*'?\d+'?\s*=\s*'?\d+)|(--\s)|(/\*.*?\*/)",
