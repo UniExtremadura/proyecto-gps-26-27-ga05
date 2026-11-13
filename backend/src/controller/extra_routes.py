@@ -1,6 +1,8 @@
 """Registro centralizado de routers añadidos de forma incremental."""
 from fastapi import FastAPI
 
+from security.waf import RateLimitMiddleware
+
 from controller.routers.auth_routes import router as auth_router
 from controller.routers.rbac_routes import router as rbac_router
 from controller.routers.oauth_routes import router as oauth_router
@@ -15,6 +17,7 @@ from controller.routers.password_reset_routes import router as password_reset_ro
 
 
 def include_extra_routes(app: FastAPI) -> None:
+    app.add_middleware(RateLimitMiddleware)
     app.include_router(auth_router)
     app.include_router(rbac_router)
     app.include_router(oauth_router)
