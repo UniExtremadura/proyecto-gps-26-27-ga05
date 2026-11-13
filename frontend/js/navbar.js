@@ -45,6 +45,13 @@ function updateNavbarLinks() {
             { text: 'ARTISTAS', href: '#manager-artists' },
             { text: 'TIENDA', href: '#manager-tienda' }
         ];
+    } else if (user.role === 'admin') {
+        // Administrador
+        links = [
+            { text: 'PANEL', href: '#admin-panel' },
+            { text: 'FESTIVALES', href: '#manager-events' },
+            { text: 'TIENDA', href: '#manager-tienda' }
+        ];
     } else {
         // Cliente (autenticado )
         links = [
@@ -95,6 +102,8 @@ function updateNavbarUser() {
                 profilePage = 'provider-profile';
             } else if (user.role === 'gestor') {
                 profilePage = 'manager-profile';
+            } else if (user.role === 'admin') {
+                profilePage = 'admin-panel';
             }
             avatarLink.setAttribute('href', `#${profilePage}`);
             avatarLink.setAttribute('data-page', profilePage);
