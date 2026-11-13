@@ -16,6 +16,7 @@ from controller.routers.profile_routes import router as profile_router
 from controller.routers.stock_routes import router as stock_router
 from controller.routers.metrics_routes import router as metrics_router
 from controller.routers.password_reset_routes import router as password_reset_router
+from controller.routers.analytics_routes import router as analytics_router
 
 
 def include_extra_routes(app: FastAPI) -> None:
@@ -34,3 +35,4 @@ def include_extra_routes(app: FastAPI) -> None:
     app.include_router(stock_router)
     app.include_router(metrics_router)
     app.include_router(password_reset_router)
+    app.include_router(analytics_router)
