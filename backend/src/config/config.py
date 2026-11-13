@@ -14,7 +14,10 @@ RELOAD = os.getenv("RELOAD", "True") == "True"
 # origen unico permitido para el frontend en produccion
 ALLOWED_ORIGINS = [
     "http://subsonic-frontend-pi.dch9dvhue7chf8e0.polandcentral.azurecontainer.io:3000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
+ALLOWED_ORIGINS += [origin for origin in os.getenv("EXTRA_ALLOWED_ORIGINS", "").split(",") if origin.strip()]
 
 #  Rutas de archivos y credenciales
 # ruta del archivo de credenciales que usa firebase admin para autenticar el backend
@@ -30,7 +33,8 @@ SESSION_COOKIE_SECURE = False  # Cambiar a True en producción con HTTPS
 
 # Roles de usuario
 # roles validos dentro de la aplicacion para control de permisos
-AVAILABLE_ROLES = ["cliente", "proveedor", "gestor", "visitante"]
+AVAILABLE_ROLES = ["cliente", "proveedor", "gestor", "organizador", "admin", "visitante"]
+DEFAULT_ROLE = "cliente"
 
 # Validaciones de entrada
 # longitud minima y maxima de contrasena permitida en validaciones de entrada
