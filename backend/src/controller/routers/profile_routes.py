@@ -77,7 +77,6 @@ async def update_profile(data: dict = Body(...), user: dict = Depends(get_curren
     # Los datos de contacto se cifran en reposo (US-017-AC-03).
     update_data["address"] = encrypt_field(update_data["address"])
     update_data["phone"] = encrypt_field(update_data["phone"])
-
     email_changed = new_email and new_email != str(current.get("email", "")).lower()
     if email_changed:
         if not password:
