@@ -329,18 +329,24 @@ function setupAvatarControls() {
 
             const avatarUrl = value.trim();
             if (!avatarUrl) return;
+            if (!isSafeAvatarUrl(avatarUrl)) {
+                showSaveMessage('La URL debe usar http o https.', true);
+                return;
+            }
 
             const avatarImage = document.getElementById('client-avatar');
             if (avatarImage) {
-                avatarImage.src = avatarUrl;
-                avatarImage.onerror = () => {
+                try {
+                    await setAvatarPreviewFromUrl(avatarImage, avatarUrl);
+                } catch (_error) {
                     showSaveMessage('La URL no parece una imagen válida.', true);
                     const name = document.getElementById('client-fullname')?.value || 'Cliente';
                     avatarImage.src = buildAvatarFallback(name);
-                };
+                    return;
+                }
             }
 
-            saveAvatarImmediately(avatarUrl);
+            await saveAvatarImmediately(avatarUrl);
         });
     }
 
@@ -657,6 +663,35 @@ function showSaveMessage(message, isError) {
     messageNode.textContent = message;
     messageNode.classList.toggle('error', isError);
     messageNode.classList.toggle('success', !isError);
+}
+
+function isSafeAvatarUrl(url) {
+    try {
+        const parsed = new URL(url, globalThis.location.origin);
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch (_error) {
+        return false;
+    }
+}
+
+async function setAvatarPreviewFromUrl(avatarImage, avatarUrl) {
+    const response = await fetch(avatarUrl, { method: 'GET', mode: 'cors' });
+    if (!response.ok) {
+        throw new Error('invalid-image-response');
+    }
+
+    const contentType = String(response.headers.get('content-type') || '').toLowerCase();
+    if (!contentType.startsWith('image/')) {
+        throw new Error('invalid-image-type');
+    }
+
+    const objectUrl = URL.createObjectURL(await response.blob());
+    const previousObjectUrl = avatarImage.dataset.objectUrl;
+    if (previousObjectUrl) {
+        URL.revokeObjectURL(previousObjectUrl);
+    }
+    avatarImage.dataset.objectUrl = objectUrl;
+    avatarImage.src = objectUrl;
 }
 
 function buildAvatarFallback(name) {
