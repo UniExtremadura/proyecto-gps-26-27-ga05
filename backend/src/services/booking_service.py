@@ -137,11 +137,6 @@ def cancel_booking(booking_id: str, provider_uid: str) -> bool:
 
 def list_bookings(provider_uid: str) -> List[Dict[str, Any]]:
     return [booking for booking in BOOKINGS if booking.get("provider_uid") == provider_uid]
-
-
-# ---------------------------------------------------------------------------
-# Historial de reservas (TK-012-1)
-# ---------------------------------------------------------------------------
 def booking_history(provider_uid: str, status: str = "", limit: int = 50) -> List[Dict[str, Any]]:
     """Devuelve las reservas del proveedor ordenadas de más reciente a más antigua."""
     items = [booking for booking in BOOKINGS if booking.get("provider_uid") == provider_uid]
