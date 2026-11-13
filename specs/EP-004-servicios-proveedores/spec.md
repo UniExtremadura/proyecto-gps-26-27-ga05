@@ -11,13 +11,16 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-002
 - **Plan inicial:** IT-003 (Sprint 3)
-- **Responsable:** Equipo (Justo Cilleros 8 h / Álvaro Martín 8 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 480,00 €
+- **Coste Total Estimado:** 560,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-003):**
+  - `TK-009-1`: Booking System API — Lógica de validación de reservas de recintos (8 h-p | Predecesor: MGT IT 3. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 280,00 €).
+  - `TK-009-2`: Supplier Booking UI — Interfaz de selección de espacios para proveedores (8 h-p | Predecesor: MGT IT 3. Sprint planning | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 280,00 €).
 
 ### Criterios de aceptación
 - **US-009-AC-01:** El proveedor autenticado visualiza el listado de festivales activos con sus espacios/zonas para proveedores indicando estado (`Disponible`, `Reservado`), dimensiones y tarifa simulada.
 - **US-009-AC-02:** El proveedor puede seleccionar un espacio `Disponible` y confirmar su reserva ficticia, cambiando inmediatamente el estado del espacio a `Reservado` y asociándolo a su cuenta.
 - **US-009-AC-03:** Si dos proveedores intentan reservar el mismo espacio simultáneamente, el sistema procesa únicamente la primera transacción y devuelve HTTP `409 Conflict` al segundo indicando "El espacio seleccionado ya no está disponible".
+- **US-009-AC-04:** El proveedor titular de una reserva puede cancelarla mientras falten más de 7 días para el inicio del festival: el espacio vuelve a `Disponible`, se desvincula de su cuenta y la participación queda registrada como `Cancelado` en su historial (`US-012`). Si faltan 7 días o menos, el sistema rechaza la cancelación con HTTP `400 Bad Request` y el mensaje "No es posible cancelar la reserva a menos de 7 días del inicio del festival".
 
 ### Verificación y restricciones
 - **Reglas de Negocio:** Solo usuarios con rol `Proveedor` o `Admin` pueden realizar o gestionar reservas de espacios B2B. Un proveedor puede cancelar su reserva mientras falten más de 7 días para el inicio del festival.
@@ -25,8 +28,9 @@
 - **Requisitos No Funcionales (RNF):** Bloqueo pesimista u optimista en base de datos para impedir dobles reservas del mismo espacio.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Proveedor reserva el "Stand Zona Gastro A-01" para el festival "Subsonic 2026": recibe confirmación en pantalla y el espacio pasa a `Reservado`.
-  * *Caso Límite:* Intento de reservar un espacio en un festival ya finalizado o pausado: devuelve HTTP `400 Bad Request`.
-- **Supuestos:** Los festivales disponen de zonas/espacios de proveedor predefinidos en los datos semilla del sistema.
+  * *Caso Límite:* Intento de reservar un espacio en un festival `Pausado`, `Cancelado` o ya `Finalizado` (estados definidos en `US-008-AC-03`): devuelve HTTP `400 Bad Request`.
+  * *Caso Límite:* El proveedor intenta cancelar su reserva cuando faltan 5 días para el inicio del festival: el sistema rechaza la operación (`400 Bad Request`) y el espacio permanece `Reservado`.
+- **Supuestos:** Los festivales disponen de zonas/espacios de proveedor predefinidos en los datos semilla del sistema. Los festivales sobre los que se reservan espacios son los creados y publicados mediante `US-008`; las cancelaciones alimentan el historial de `US-012`.
 
 ---
 
@@ -41,22 +45,25 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** US-002
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Responsable:** Equipo (Justo Cilleros 7 h / Manuel Carvajal 7 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 420,00 €
+- **Coste Total Estimado:** 385,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-010-1`: Merch CRUD API — Gestión de base de datos de artículos y stock (7 h-p | Predecesor: `TK-011-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 175,00 €).
+  - `TK-010-2`: Merch Catalog UI — Vista pública de tienda e integración (7 h-p | Predecesor: MGT IT 4. Sprint planning | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 210,00 €).
 
 ### Criterios de aceptación
 - **US-010-AC-01:** El proveedor dispone de un panel para dar de alta, editar y dar de baja artículos de merchandising indicando nombre, descripción, precio simulado (€), festival asociado y stock disponible.
-- **US-010-AC-02:** Los artículos publicados con stock mayor a 0 se muestran en la vista pública del festival para que los clientes puedan añadirlos a su reserva simulada, descontando automáticamente las unidades del inventario.
+- **US-010-AC-02:** Los artículos publicados con stock mayor a 0 se muestran en la vista pública del festival para que los usuarios autenticados con rol `Cliente` puedan añadirlos a su reserva simulada, descontando automáticamente las unidades del inventario.
 - **US-010-AC-03:** El sistema impide guardar artículos con precio negativo o stock menor que cero, devolviendo HTTP `400 Bad Request` con mensajes de validación claros.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** Cada proveedor solo puede editar o eliminar los artículos de merchandising que pertenecen a su propio catálogo. Cuando el stock llega a 0, el artículo se muestra como "Agotado" y no permite nuevas reservas.
+- **Reglas de Negocio:** Cada proveedor solo puede editar o eliminar los artículos de merchandising que pertenecen a su propio catálogo. Cuando el stock llega a 0, el artículo se muestra como "Agotado" y no permite nuevas reservas. Aunque el catálogo de productos del festival es visible públicamente, confirmar una reserva simulada de artículos requiere sesión iniciada con rol `Cliente` (redirigiendo a `/login` si es `Guest` o devolviendo HTTP `403 Forbidden` para otros roles).
 - **Restricciones:** Todas las transacciones de compra de merchandising son simuladas con datos sintéticos.
 - **Requisitos No Funcionales (RNF):** Actualización atómica del contador de inventario en cada reserva simulada.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Alta de "Camiseta Oficial Subsonic" a 20 € con 50 unidades de stock: aparece publicada en la ficha del festival.
   * *Caso Límite:* Un cliente intenta reservar 5 unidades cuando solo quedan 2 en stock: el sistema bloquea la operación e informa "Solo quedan 2 unidades disponibles".
-- **Supuestos:** Las imágenes de productos utilizan recursos locales o URLs ficticias de prueba.
+  * *Caso Límite:* Un usuario sin sesión (`Guest`) pulsa en reservar un artículo de merchandising desde la vista del festival: el sistema lo redirige a `/login` antes de procesar la reserva.
+- **Supuestos:** Las imágenes de productos utilizan recursos locales o URLs ficticias de prueba. Los festivales a los que se asocian los artículos son los gestionados mediante `US-008`.
 
 ---
 
@@ -67,12 +74,14 @@
 - **Historia de Usuario:** Como Proveedor, quiero recibir avisos automáticos cuando las unidades de un producto sean escasas, para reponer inventario a tiempo.
 - **Tipo:** Técnico
 - **Prioridad:** Must (Evita roturas de stock y pérdidas de ventas durante los picos de demanda en los festivales).
-- **Estimación:** 12 h-p
+- **Estimación:** 11 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-010
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Responsable:** Equipo (Justo Cilleros 6 h / Álvaro Martín 6 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 360,00 €
+- **Coste Total Estimado:** 335,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-011-1`: Stock Logic — Disparador y umbral mínimo de unidades (5 h-p | Predecesor: MGT IT 4. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
+  - `TK-011-2`: Email Notifications — Plantillas de correo y worker SMTP (6 h-p | Predecesor: `TK-011-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 210,00 €).
 
 ### Criterios de aceptación
 - **US-011-AC-01 (Configuración de umbral):** Campo editable "Umbral de Stock Mínimo" en la ficha de gestión de cada producto del proveedor, permitiendo asignar únicamente valores enteros mayores o iguales a cero (ej. umbral = 10 unidades).
@@ -91,6 +100,38 @@
 
 ---
 
+## US-012 — Panel e historial de participación en festivales
+
+- **Necesidad:** Permitir a los proveedores consultar el registro histórico de los festivales y recintos en los que han participado o reservado espacios.
+- **Objetivo:** Implementar una vista de historial de participaciones y reservas de recintos para el rol Proveedor.
+- **Historia de Usuario:** Como Proveedor, quiero consultar el historial de festivales en los que he participado con mis recintos, para llevar un control de mi actividad histórica.
+- **Tipo:** Funcional
+- **Prioridad:** Could (Funcionalidad de consulta complementaria que no bloquea las operaciones de venta activa).
+- **Estimación:** 9 h-p
+- **Incertidumbre:** Baja
+- **Predecesores:** US-009
+- **Plan inicial:** IT-006 (Sprint 6)
+- **Coste Total Estimado:** 250,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-006):**
+  - `TK-012-1`: Booking Hist API — Endpoint de registro histórico por proveedor (4 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
+  - `TK-012-2`: History Panel UI — Tabla de reservas pasadas en el panel (5 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 150,00 €).
+
+### Criterios de aceptación
+- **US-012-AC-01:** El proveedor dispone de una sección "Mis Participaciones" que lista todos los festivales (pasados y activos) donde tiene o ha tenido espacios reservados, indicando fechas, recinto, ubicación del espacio y estado de la participación (`Finalizado`, `Activo`, `Cancelado`; este último corresponde a reservas canceladas conforme a `US-009-AC-04` o a festivales `Cancelado` según `US-008-AC-03`).
+- **US-012-AC-02:** Permite filtrar el historial por año y por estado de la participación.
+- **US-012-AC-03:** Al seleccionar una participación, muestra el detalle del espacio asignado y el resumen de actividad vinculada a ese festival.
+
+### Verificación y restricciones
+- **Reglas de Negocio:** Las participaciones en festivales cuya fecha de finalización ya ha vencido se marcan automáticamente como `Finalizado` en modo de solo lectura, salvo las que ya figuren como `Cancelado`, que conservan ese estado.
+- **Restricciones:** Acceso restringido exclusivamente al proveedor titular de las reservas o a un usuario `Admin`.
+- **Requisitos No Funcionales (RNF):** Paginación de resultados de 20 elementos por página.
+- **Ejemplos y Casos Límite:**
+  * *Ejemplo:* Consulta de participaciones del año 2026: lista los 3 festivales donde el proveedor reservó stand mediante `US-009`.
+  * *Caso Límite:* Proveedor sin reservas históricas ni activas: muestra el mensaje "Todavía no tienes participaciones registradas en festivales" y un enlace al buscador de recintos (`US-009`).
+- **Supuestos:** Se apoya en el modelo de datos de reservas de espacios creado en `US-009`.
+
+---
+
 ## US-013 — Historial y reporte de ventas de mercancía
 
 - **Necesidad:** Facilitar a los proveedores el seguimiento de las reservas y ventas simuladas de sus productos para evaluar su rendimiento comercial.
@@ -102,8 +143,10 @@
 - **Incertidumbre:** Baja
 - **Predecesores:** US-010
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Responsable:** Equipo (Justo Cilleros 5 h / Manuel Carvajal 5 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 300,00 €
+- **Coste Total Estimado:** 325,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-004):**
+  - `TK-013-1`: Sales Metrics API — Agregación de pedidos e ingresos (5 h-p | Predecesor: MGT IT 4. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 175,00 €).
+  - `TK-013-2`: Sales Reporting UI — Gráficos y tablas de ventas en el panel (5 h-p | Predecesor: `TK-013-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 150,00 €).
 
 ### Criterios de aceptación
 - **US-013-AC-01:** El panel del proveedor muestra el listado cronológico de operaciones de venta simuladas de sus artículos con fecha, producto, unidades, importe total (€) y festival asociado.
@@ -118,33 +161,3 @@
   * *Ejemplo:* El proveedor filtra por "Subsonic RockFest": visualiza 45 camisetas vendidas y un total acumulado de 900,00 € simulados.
   * *Caso Límite:* Proveedor recién registrado sin ventas realizadas: los contadores muestran `0` y el mensaje "Aún no se registran ventas para tus artículos".
 - **Supuestos:** Los datos de ventas provienen de las reservas simuladas generadas sobre el catálogo de `US-010`.
-
----
-
-## US-012 — Panel e historial de participación en festivales
-
-- **Necesidad:** Permitir a los proveedores consultar el registro histórico de los festivales y recintos en los que han participado o reservado espacios.
-- **Objetivo:** Implementar una vista de historial de participaciones y reservas de recintos para el rol Proveedor.
-- **Historia de Usuario:** Como Proveedor, quiero consultar el historial de festivales en los que he participado con mis recintos, para llevar un control de mi actividad histórica.
-- **Tipo:** Funcional
-- **Prioridad:** Could (Funcionalidad de consulta complementaria que no bloquea las operaciones de venta activa).
-- **Estimación:** 8 h-p
-- **Incertidumbre:** Baja
-- **Predecesores:** US-009
-- **Plan inicial:** IT-006 (Sprint 6)
-- **Responsable:** Equipo (Justo Cilleros 4 h / Álvaro Martín 4 h)
-- **Tarifa Media / Coste Total:** 30 €/h | 240,00 €
-
-### Criterios de aceptación
-- **US-012-AC-01:** El proveedor dispone de una sección "Mis Participaciones" que lista todos los festivales (pasados y activos) donde tiene o ha tenido espacios reservados, indicando fechas, recinto, ubicación del espacio y estado (`Finalizado`, `Activo`, `Cancelado`).
-- **US-012-AC-02:** Permite filtrar el historial por año y por estado de la participación.
-- **US-012-AC-03:** Al seleccionar una participación, muestra el detalle del espacio asignado y el resumen de actividad vinculada a ese festival.
-
-### Verificación y restricciones
-- **Reglas de Negocio:** Las participaciones en festivales cuya fecha de finalización ya ha vencido se marcan automáticamente como `Finalizado` en modo de solo lectura.
-- **Restricciones:** Acceso restringido exclusivamente al proveedor titular de las reservas o a un usuario `Admin`.
-- **Requisitos No Funcionales (RNF):** Paginación de resultados de 20 elementos por página.
-- **Ejemplos y Casos Límite:**
-  * *Ejemplo:* Consulta de participaciones del año 2026: lista los 3 festivales donde el proveedor reservó stand mediante `US-009`.
-  * *Caso Límite:* Proveedor sin reservas históricas ni activas: muestra el mensaje "Todavía no tienes participaciones registradas en festivales" y un enlace al buscador de recintos (`US-009`).
-- **Supuestos:** Se apoya en el modelo de datos de reservas de espacios creado en `US-009`.
