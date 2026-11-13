@@ -1,0 +1,48 @@
+<!-- TK-009-2: reserva de espacios para proveedores -->
+<div class="provider-bookings-page">
+    <header class="bookings-header">
+        <h1>RESERVA DE RECINTOS</h1>
+        <p>Selecciona un recinto, una fecha y el espacio que necesitas para tu actividad.</p>
+    </header>
+
+    <section class="booking-form-card">
+        <div class="booking-form-grid">
+            <label>Recinto
+                <select id="bookingVenue"></select>
+            </label>
+            <label>Fecha
+                <input id="bookingDate" type="date" />
+            </label>
+            <label>Espacio
+                <select id="bookingSpace"></select>
+            </label>
+            <label>Inicio
+                <input id="bookingStart" type="time" value="10:00" />
+            </label>
+            <label>Fin
+                <input id="bookingEnd" type="time" value="22:00" />
+            </label>
+        </div>
+        <button id="bookingSubmit" type="button">SOLICITAR RESERVA</button>
+        <p id="bookingStatus" class="booking-status"></p>
+    </section>
+
+    <section class="booking-list-card">
+        <h2>Mis reservas</h2>
+        <div id="bookingList"></div>
+    </section>
+
+    <!-- TK-012-2: historial de reservas pasadas -->
+    <section class="booking-list-card booking-history-card">
+        <div class="booking-history-head">
+            <h2>Historial de reservas</h2>
+            <select id="bookingHistoryFilter">
+                <option value="">Todas</option>
+                <option value="confirmada">Confirmadas</option>
+                <option value="cancelada">Canceladas</option>
+            </select>
+        </div>
+        <div class="booking-history-summary" id="bookingHistorySummary"></div>
+        <div id="bookingHistoryList"></div>
+    </section>
+</div>
