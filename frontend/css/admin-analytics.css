@@ -1,0 +1,26 @@
+/* TK-015-2: estadísticas globales */
+.analytics-page { padding: 2rem 2.5rem 4rem; color: #fff; }
+.analytics-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+.analytics-eyebrow { color: #00d4ff; letter-spacing: .15em; font-size: .72rem; font-weight: 800; margin: 0 0 .4rem; }
+.analytics-header h1 { margin: 0; font-size: 1.9rem; }
+.analytics-header p { color: #9aa4b2; margin: .4rem 0 0; }
+.analytics-actions { display: flex; gap: .6rem; align-items: center; }
+.analytics-actions select, .analytics-actions button {
+    padding: .6rem .9rem; border-radius: 9px; border: 1px solid rgba(255,255,255,.15);
+    background: #0f0f12; color: #fff; cursor: pointer;
+}
+.analytics-actions button { background: #00d4ff; color: #001018; font-weight: 800; border: none; }
+.analytics-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.analytics-kpis article { background: #141419; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 1rem; }
+.analytics-kpis span { display: block; color: #9aa4b2; font-size: .78rem; }
+.analytics-kpis strong { font-size: 1.5rem; color: #00d4ff; }
+.analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+.analytics-card { background: #141419; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 1rem; }
+.analytics-card h2 { margin: 0 0 .8rem; font-size: 1.05rem; }
+.analytics-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.analytics-table th, .analytics-table td { text-align: left; padding: .55rem .4rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+.analytics-table th { color: #9aa4b2; font-weight: 600; }
+.analytics-role-row { display: flex; justify-content: space-between; padding: .55rem .2rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+.analytics-role-row span { color: #9aa4b2; text-transform: capitalize; }
+.analytics-role-row strong { color: #00d4ff; }
+.analytics-empty { color: #9aa4b2; }

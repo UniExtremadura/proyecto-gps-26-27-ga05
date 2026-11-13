@@ -1,0 +1,37 @@
+<!-- TK-015-2: métricas globales de administración -->
+<div class="analytics-page">
+    <header class="analytics-header">
+        <div>
+            <p class="analytics-eyebrow">ADMINISTRACIÓN GLOBAL</p>
+            <h1>Estadísticas de la plataforma</h1>
+            <p>KPIs de festivales, usuarios, pedidos e ingresos simulados.</p>
+        </div>
+        <div class="analytics-actions">
+            <select id="analyticsPeriod">
+                <option value="7">Últimos 7 días</option>
+                <option value="30" selected>Últimos 30 días</option>
+                <option value="90">Últimos 90 días</option>
+            </select>
+            <button id="analyticsExport" type="button">EXPORTAR CSV</button>
+        </div>
+    </header>
+
+    <section class="analytics-kpis" id="analyticsKpis">
+        <article><span>Festivales activos</span><strong id="kpiFestivals">-</strong></article>
+        <article><span>Usuarios</span><strong id="kpiUsers">-</strong></article>
+        <article><span>Pedidos</span><strong id="kpiOrders">-</strong></article>
+        <article><span>Ingresos totales</span><strong id="kpiRevenue">-</strong></article>
+        <article><span>Ocupación media</span><strong id="kpiOccupancy">-</strong></article>
+    </section>
+
+    <section class="analytics-grid">
+        <article class="analytics-card">
+            <h2>Comparativa por festival</h2>
+            <div id="analyticsFestivals"></div>
+        </article>
+        <article class="analytics-card">
+            <h2>Usuarios por rol</h2>
+            <div id="analyticsRoles"></div>
+        </article>
+    </section>
+</div>

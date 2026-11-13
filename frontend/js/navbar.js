@@ -49,6 +49,7 @@ function updateNavbarLinks() {
         // Administrador
         links = [
             { text: 'PANEL', href: '#admin-panel' },
+            { text: 'ANALÍTICA', href: '#admin-analytics' },
             { text: 'FESTIVALES', href: '#manager-events' },
             { text: 'TIENDA', href: '#manager-tienda' }
         ];

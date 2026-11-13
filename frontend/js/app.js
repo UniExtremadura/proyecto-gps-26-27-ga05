@@ -336,7 +336,7 @@ const App = {
         cliente: new Set(['index', 'eventos', 'tienda', 'carrito', 'client-profile', 'historial', 'producto', 'artistas', 'artista']),
         proveedor: new Set(['index', 'eventosProveedor', 'tiendaProveedor', 'carrito', 'historial', 'provider-profile', 'productoProveedor', 'ventas', 'provider-bookings', 'provider-history', 'artistas', 'artista']),
         gestor: new Set(['index', 'manager-profile', 'manager-events', 'manager-artists', 'manager-tienda', 'manager-event-detail', 'manager-artist-detail', 'manager-producto-detalle', 'gestor-eventos', 'artista']),
-        admin: new Set(['index', 'admin-panel', 'manager-profile', 'manager-events', 'manager-artists', 'manager-tienda', 'manager-event-detail', 'manager-artist-detail', 'manager-producto-detalle', 'artista'])
+        admin: new Set(['index', 'admin-panel', 'admin-analytics', 'manager-profile', 'manager-events', 'manager-artists', 'manager-tienda', 'manager-event-detail', 'manager-artist-detail', 'manager-producto-detalle', 'artista'])
     },
 
     /**
@@ -726,6 +726,7 @@ const App = {
             ventas: './js/ventas.js',
             'provider-bookings': './js/provider-bookings.js',
             'admin-panel': './js/admin-panel.js',
+            'admin-analytics': './js/admin-analytics.js',
             artista: './js/artista.js'
         };
 
