@@ -322,9 +322,11 @@ globalThis.SubsonicCart = {
     }
 };
 
+const DEFAULT_API_URL = globalThis.API_BASE_URL || `${globalThis.location.origin}/api`;
+
 const App = {
-    BASE_URL: 'http://subsonic-backend-pi.asatfyfmapbdgdfk.polandcentral.azurecontainer.io:8000',
-    API_URL: 'http://subsonic-backend-pi.asatfyfmapbdgdfk.polandcentral.azurecontainer.io:8000/api',
+    BASE_URL: DEFAULT_API_URL.replace(/\/api\/?$/, ''),
+    API_URL: DEFAULT_API_URL,
     APP_CONTAINER: null, // Se inicializa en init()
     CURRENT_PAGE: null,
     DYNAMIC_SCRIPT_TAG: null,
@@ -522,8 +524,29 @@ const App = {
         if (page === 'index') return;
 
         const cssMap = {
+            login: './css/auth-local.css',
+            register: './css/register.css',
+            'oauth-callback': './css/auth-local.css',
+            eventos: './css/eventos.css',
+            eventosProveedor: './css/eventos.css',
+            tienda: './css/tienda.css',
+            tiendaProveedor: './css/tienda.css',
+            carrito: './css/carrito.css',
+            producto: './css/producto.css',
+            productoProveedor: './css/manager-forms.css',
+            artistas: './css/artistas.css',
             artista: './css/artist.css',
-            'manager-producto-detalle': './css/productoProveedor.css'
+            historial: './css/historial.css',
+            'provider-profile': './css/profile-page.css',
+            'manager-profile': './css/profile-page.css',
+            'manager-artists': './css/manager-artists.css',
+            'manager-tienda': './css/manager-tienda.css',
+            'manager-event-detail': './css/manager-forms.css',
+            'manager-artist-detail': './css/manager-forms.css',
+            'manager-producto-detalle': './css/manager-forms.css',
+            'gestor-eventos': './css/manager-events.css',
+            ventas: './css/ventas.css',
+            'provider-history': './css/ventas.css'
         };
 
         let cssPath = cssMap[page] || `./css/${page}.css`;
@@ -705,16 +728,18 @@ const App = {
             login: './js/login.js',
             register: './js/register.js',
             'reset-password': './js/reset-password.js',
+            'oauth-callback': './js/oauth-callback.js',
+            artistas: './js/artistas.js',
             eventos: './js/eventos.js',
-            eventosProveedor: './js/eventosProveedor.js',
+            eventosProveedor: './js/eventos.js',
             tienda: './js/tienda.js',
-            tiendaProveedor: './js/tiendaProveedor.js',
+            tiendaProveedor: './js/tienda.js',
             carrito: './js/carrito.js',
             'client-profile': './js/client-profile.js',
-            'provider-profile': './js/provider-profile.js',
-            'manager-profile': './js/manager-profile.js',
+            'provider-profile': './js/profile-page.js',
+            'manager-profile': './js/profile-page.js',
             historial: './js/historial.js',
-            'gestor-eventos': './js/gestor-eventos.js',
+            'gestor-eventos': './js/manager-events.js',
             'manager-events': './js/manager-events.js',
             'manager-artists': './js/manager-artists.js',
             'manager-event-detail': './js/manager-event-detail.js',
@@ -722,8 +747,9 @@ const App = {
             'manager-tienda': './js/manager-tienda.js',
             'manager-producto-detalle': './js/manager-producto-detalle.js',
             producto: './js/producto.js',
-            productoProveedor: './js/productoProveedor.js',
+            productoProveedor: './js/manager-producto-detalle.js',
             ventas: './js/ventas.js',
+            'provider-history': './js/ventas.js',
             'provider-bookings': './js/provider-bookings.js',
             'admin-panel': './js/admin-panel.js',
             'admin-analytics': './js/admin-analytics.js',

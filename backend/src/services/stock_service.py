@@ -84,6 +84,7 @@ def update_stock(product_id: str, stock: int, min_stock: int = DEFAULT_MIN_STOCK
 
 
 def decrement_stock(product_id: str, quantity: int = 1) -> Dict[str, Any]:
+    """Descuenta unidades comprobando que haya existencias suficientes."""
     current = get_stock(product_id)
     if not current:
         raise ValueError("Producto no encontrado")

@@ -68,8 +68,12 @@ async def update_profile(data: dict = Body(...), user: dict = Depends(get_curren
         "city": (data.get("city") or current.get("city") or "").strip(),
         "postal_code": (data.get("postal_code") or current.get("postal_code") or "").strip(),
         "country": (data.get("country") or current.get("country") or "").strip(),
+        "profile_image_url": (data.get("profile_image_url") or current.get("profile_image_url") or "").strip(),
         "updated_at": datetime.now().isoformat(),
     }
+    if current.get("company_name") or data.get("company_name"):
+        update_data["company_name"] = (data.get("company_name") or current.get("company_name") or "").strip()
+        update_data["business_area"] = (data.get("business_area") or current.get("business_area") or "").strip()
 
     if not update_data["name"]:
         raise HTTPException(status_code=400, detail="El nombre es obligatorio")
@@ -81,6 +85,16 @@ async def update_profile(data: dict = Body(...), user: dict = Depends(get_curren
     if email_changed:
         if not password:
             raise HTTPException(status_code=400, detail="Debes introducir tu contraseña actual")
+        from services import user_service
+        from security.password import verify_password
+
+        stored = user_service.get_user(uid) or {}
+        if not verify_password(password, stored.get("password_hash", "")):
+            raise HTTPException(status_code=400, detail="La contraseña actual no es correcta")
+        from services.user_service import find_user_by_email
+
+        if find_user_by_email(new_email):
+            raise HTTPException(status_code=409, detail="El correo electrónico ya está registrado")
         token = secrets.token_urlsafe(32)
         PENDING_EMAIL_CHANGES[uid] = {
             "new_email": new_email,

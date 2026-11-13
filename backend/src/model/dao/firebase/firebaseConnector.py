@@ -1,443 +1,546 @@
-from firebase_admin import credentials, firestore, initialize_app, auth
+"""Conector de base de datos local (MongoDB).
+
+El proyecto se diseñó originalmente sobre Firebase/Firestore. Para poder
+ejecutarlo completamente en local se mantiene la misma interfaz que usaba
+``FirebaseConnector`` pero la persistencia se realiza en un contenedor de
+MongoDB levantado con ``docker compose``.
+
+La clase ``LocalDB`` implementa el pequeño subconjunto de la API de Firestore
+que consumen los servicios y DAOs (``collection``, ``document``, ``stream``,
+``where``, ``limit``, ``add``...). De esta forma el resto del código no necesita
+saber qué motor hay debajo.
+"""
+from __future__ import annotations
+
 import os
-from pathlib import Path
-from typing import Optional, List, Dict, Any
+import threading
+import uuid
+from datetime import datetime
+from typing import Any, Dict, Iterable, List, Optional
+
+from pymongo import MongoClient
+from pymongo.errors import PyMongoError
 
 DB_NOT_INITIALIZED_MSG = "Database connection is not initialized."
 
-class FirebaseConnector():
-    # evita reinicializar la app de firebase admin mas de una vez por proceso
-    firebase_app_initializated = False
-    
-    def __init__(self) -> None:
-        # referencia al cliente firestore; puede quedar en none si falla inicializacion
-        self.db: Optional[Any] = None
-        try:
-            if not FirebaseConnector.firebase_app_initializated:
-                # busca credentials.json en rutas comunes del proyecto
-                possible_paths = [
-                    os.path.join(os.path.dirname(__file__), "credentials.json"),  # Same directory
-                    os.path.join(os.path.dirname(__file__), "..", "..", "..", "credentials.json"),  # Backend root
-                    os.path.join(os.path.dirname(__file__), "..", "..", "config", "credentials.json"),  # Config folder
-                ]
-                
-                credentials_path = None
-                for path in possible_paths:
-                    # toma la primera ruta valida encontrada
-                    if os.path.exists(path):
-                        credentials_path = path
-                        break
-                
-                if not credentials_path:
-                    raise FileNotFoundError(
-                        f"credentials.json not found in any location:\n" + 
-                        "\n".join(f"  - {p}" for p in possible_paths) +
-                        "\n\nPlease download your Firebase credentials JSON from Firebase Console " +
-                        "and place it in: backend/credentials.json"
-                    )
-                
-                self.credentials = credentials.Certificate(credentials_path)
-                initialize_app(self.credentials)
-                FirebaseConnector.firebase_app_initializated = True
-                print("Connection to Firebase Firestore initialized successfully.")
-            
-            # crea el cliente firestore que usan los daos
-            self.db = firestore.client()
-        except Exception as e:
-            print(f"Error connecting to Firebase: {e}")
-            raise
+_CLIENT_LOCK = threading.Lock()
+_CLIENT: Optional[MongoClient] = None
 
-    def get_db(self) -> Optional[Any]:
-        # devuelve el cliente bruto de firestore para usos avanzados
+
+def _new_id() -> str:
+    return uuid.uuid4().hex
+
+
+class LocalDocumentSnapshot:
+    """Documento leído de MongoDB con la forma de un snapshot de Firestore."""
+
+    def __init__(self, db: "LocalDB", collection: str, raw: Optional[Dict[str, Any]]) -> None:
+        self._db = db
+        self._collection = collection
+        self._raw = raw
+        self.exists = raw is not None
+        self.id = str(raw.get("_id")) if raw else ""
+        self.reference = LocalDocumentReference(db, collection, self.id)
+
+    def to_dict(self) -> Dict[str, Any]:
+        if not self._raw:
+            return {}
+        return {key: value for key, value in self._raw.items() if key != "_id"}
+
+
+class LocalDocumentReference:
+    def __init__(self, db: "LocalDB", collection: str, document_id: str) -> None:
+        self._db = db
+        self._collection = collection
+        self.id = str(document_id)
+
+    def get(self) -> LocalDocumentSnapshot:
+        raw = self._db.raw_collection(self._collection).find_one({"_id": self.id})
+        return LocalDocumentSnapshot(self._db, self._collection, raw)
+
+    def set(self, data: Dict[str, Any], merge: bool = False) -> "LocalDocumentReference":
+        payload = dict(data or {})
+        payload.pop("_id", None)
+        if merge:
+            self._db.raw_collection(self._collection).update_one(
+                {"_id": self.id}, {"$set": payload}, upsert=True
+            )
+        else:
+            self._db.raw_collection(self._collection).replace_one(
+                {"_id": self.id}, {"_id": self.id, **payload}, upsert=True
+            )
+        return self
+
+    def update(self, data: Dict[str, Any]) -> None:
+        payload = dict(data or {})
+        payload.pop("_id", None)
+        result = self._db.raw_collection(self._collection).update_one(
+            {"_id": self.id}, {"$set": payload}
+        )
+        if result.matched_count == 0:
+            raise LookupError(f"Documento no encontrado: {self._collection}/{self.id}")
+
+    def delete(self) -> None:
+        self._db.raw_collection(self._collection).delete_one({"_id": self.id})
+
+
+class LocalQuery:
+    def __init__(
+        self,
+        db: "LocalDB",
+        collection: str,
+        filters: Optional[List[tuple]] = None,
+        limit: Optional[int] = None,
+    ) -> None:
+        self._db = db
+        self._collection = collection
+        self._filters = list(filters or [])
+        self._limit = limit
+
+    def where(self, field: str, operator: str, value: Any) -> "LocalQuery":
+        return LocalQuery(self._db, self._collection, self._filters + [(field, operator, value)], self._limit)
+
+    def limit(self, value: int) -> "LocalQuery":
+        return LocalQuery(self._db, self._collection, self._filters, int(value))
+
+    def _mongo_filter(self) -> Dict[str, Any]:
+        ops = {
+            "==": "$eq",
+            "!=": "$ne",
+            "<": "$lt",
+            "<=": "$lte",
+            ">": "$gt",
+            ">=": "$gte",
+            "in": "$in",
+            "not-in": "$nin",
+        }
+        query: Dict[str, Any] = {}
+        for field, operator, value in self._filters:
+            mongo_op = ops.get(operator)
+            if mongo_op is None:
+                raise ValueError(f"Operador no soportado: {operator}")
+            if mongo_op == "$eq":
+                query[field] = value
+            else:
+                query.setdefault(field, {})[mongo_op] = value
+        return query
+
+    def stream(self) -> Iterable[LocalDocumentSnapshot]:
+        cursor = self._db.raw_collection(self._collection).find(self._mongo_filter())
+        if self._limit:
+            cursor = cursor.limit(self._limit)
+        for raw in cursor:
+            yield LocalDocumentSnapshot(self._db, self._collection, raw)
+
+
+class LocalCollection:
+    def __init__(self, db: "LocalDB", name: str) -> None:
+        self._db = db
+        self.name = name
+
+    def document(self, document_id: str) -> LocalDocumentReference:
+        return LocalDocumentReference(self._db, self.name, str(document_id))
+
+    def add(self, data: Dict[str, Any]) -> LocalDocumentReference:
+        document_id = _new_id()
+        self.document(document_id).set(data or {})
+        return self.document(document_id)
+
+    def where(self, field: str, operator: str, value: Any) -> LocalQuery:
+        return LocalQuery(self._db, self.name).where(field, operator, value)
+
+    def limit(self, value: int) -> LocalQuery:
+        return LocalQuery(self._db, self.name).limit(value)
+
+    def count(self) -> int:
+        return int(self._db.raw_collection(self.name).count_documents({}))
+
+    def delete_many(self, query: Optional[Dict[str, Any]] = None) -> int:
+        return int(self._db.raw_collection(self.name).delete_many(query or {}).deleted_count)
+
+
+# ``LocalCollection.stream`` se define fuera de la clase para devolver
+# generadores reales (y que el IDE no confunda ``find()`` con una lista).
+def _collection_stream(self: LocalCollection):
+    for raw in self._db.raw_collection(self.name).find():
+        yield LocalDocumentSnapshot(self._db, self.name, raw)
+
+
+LocalCollection.stream = _collection_stream  # type: ignore[assignment]
+
+
+class LocalBatch:
+    def __init__(self, db: "LocalDB") -> None:
+        self._db = db
+        self._deletions: List[LocalDocumentReference] = []
+
+    def delete(self, reference: LocalDocumentReference) -> None:
+        self._deletions.append(reference)
+
+    def commit(self) -> None:
+        for reference in self._deletions:
+            reference.delete()
+        self._deletions.clear()
+
+
+class LocalDB:
+    """Adaptador mínimo con apariencia de cliente Firestore."""
+
+    def __init__(self, client: MongoClient, db_name: str) -> None:
+        self.client = client
+        self.name = db_name
+
+    def raw_collection(self, name: str):
+        return self.client[self.name][name]
+
+    def collection(self, name: str) -> LocalCollection:
+        return LocalCollection(self, name)
+
+    def batch(self) -> LocalBatch:
+        return LocalBatch(self)
+
+
+def _get_client(uri: str, timeout_ms: int) -> MongoClient:
+    global _CLIENT
+    with _CLIENT_LOCK:
+        if _CLIENT is None:
+            _CLIENT = MongoClient(uri, serverSelectionTimeoutMS=timeout_ms)
+        return _CLIENT
+
+
+class FirebaseConnector:
+    """Conector compatible con la API histórica, respaldado por MongoDB."""
+
+    firebase_app_initializated = False
+
+    def __init__(self) -> None:
+        uri = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+        db_name = os.getenv("MONGO_DB_NAME", "subsonic")
+        timeout_ms = int(os.getenv("MONGO_TIMEOUT_MS", 5000))
+        try:
+            client = _get_client(uri, timeout_ms)
+            client.admin.command("ping")
+            self.client = client
+            self.db: Optional[LocalDB] = LocalDB(client, db_name)
+            FirebaseConnector.firebase_app_initializated = True
+        except PyMongoError as exc:
+            self.db = None
+            raise ConnectionError(
+                f"No se pudo conectar con MongoDB en {uri}. "
+                "Ejecuta 'docker compose up -d mongodb' antes de arrancar el backend."
+            ) from exc
+
+    # ------------------------------------------------------------------
+    # Acceso genérico
+    # ------------------------------------------------------------------
+    def get_db(self) -> Optional[LocalDB]:
         if self.db is None:
             print(DB_NOT_INITIALIZED_MSG)
         return self.db
 
-    # Colecciones de usuarios
-    def get_usuarios_collection(self) -> Optional[Any]:
-        # acceso centralizado a la coleccion de usuarios
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return None
-        return self.db.collection("usuarios")
-    
-    def get_usuario_by_uid(self, uid: str) -> Optional[Any]:
-        # obtiene el documento de usuario por uid exacto
-        if self.db is None:
+    # ------------------------------------------------------------------
+    # Usuarios
+    # ------------------------------------------------------------------
+    def get_usuarios_collection(self) -> Optional[LocalCollection]:
+        return self.db.collection("usuarios") if self.db else None
+
+    def get_usuario_by_uid(self, uid: str) -> Optional[LocalDocumentSnapshot]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return None
         try:
-            print(f"Fetching user with UID: {uid}")
-            user_doc = self.db.collection("usuarios").document(uid).get()
-            if user_doc.exists:
-                print(f"User found: {user_doc.to_dict()}")
-                return user_doc
-            else:
-                print(f"No user found with UID: {uid}")
-                return None
-        except Exception as e:
-            print(f"Error fetching user with UID: {uid}: {e}")
+            return self.db.collection("usuarios").document(uid).get()
+        except Exception as exc:
+            print(f"Error fetching user with UID {uid}: {exc}")
             return None
 
+    def get_usuario_by_email(self, email: str) -> Optional[Dict[str, Any]]:
+        if not self.db:
+            print(DB_NOT_INITIALIZED_MSG)
+            return None
+        normalized = str(email or "").strip().lower()
+        try:
+            docs = list(self.db.collection("usuarios").where("email", "==", normalized).limit(1).stream())
+            if docs:
+                data = docs[0].to_dict()
+                data["uid"] = data.get("uid") or docs[0].id
+                return data
+        except Exception as exc:
+            print(f"Error fetching user by email: {exc}")
+        return None
+
     def create_usuario(self, uid: str, user_data: Dict[str, Any]) -> bool:
-        # crea o reemplaza completamente el documento de usuario
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
-            self.db.collection("usuarios").document(uid).set(user_data)
-            print(f"User created successfully: {uid}")
+            payload = dict(user_data)
+            payload.setdefault("uid", uid)
+            self.db.collection("usuarios").document(uid).set(payload)
             return True
-        except Exception as e:
-            print(f"Error creating user: {e}")
+        except Exception as exc:
+            print(f"Error creating user: {exc}")
             return False
 
     def update_usuario(self, uid: str, user_data: Dict[str, Any]) -> bool:
-        # actualiza solo los campos enviados en el documento existente
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("usuarios").document(uid).update(user_data)
-            print(f"User updated successfully: {uid}")
             return True
-        except Exception as e:
-            print(f"Error updating user: {e}")
+        except LookupError:
+            # Permite crear el perfil si el documento no existía todavía.
+            payload = dict(user_data)
+            payload.setdefault("uid", uid)
+            self.db.collection("usuarios").document(uid).set(payload)
+            return True
+        except Exception as exc:
+            print(f"Error updating user: {exc}")
             return False
 
-    # Colecciones de productos
-    def get_productos_collection(self) -> Optional[Any]:
-        # acceso centralizado a la coleccion de productos
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return None
-        return self.db.collection("productos")
+    # ------------------------------------------------------------------
+    # Productos
+    # ------------------------------------------------------------------
+    def get_productos_collection(self) -> Optional[LocalCollection]:
+        return self.db.collection("productos") if self.db else None
 
-    def get_all_productos(self) -> List[Any]:
-        # recorre todos los documentos y anade id al payload
-        if self.db is None:
+    def get_all_productos(self) -> List[Dict[str, Any]]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return []
-        try:
-            docs = self.db.collection("productos").stream()
-            products = []
-            for doc in docs:
-                product_data = doc.to_dict()
-                product_data['id'] = doc.id
-                products.append(product_data)
-            return products
-        except Exception as e:
-            print(f"Error fetching products: {e}")
+        return self._all_docs("productos")
+
+    def get_productos_by_provider(self, provider_id: str) -> List[Dict[str, Any]]:
+        if not self.db:
             return []
+        result = []
+        for doc in self.db.collection("productos").stream():
+            data = doc.to_dict()
+            data["id"] = data.get("id") or doc.id
+            if str(data.get("provider_uid") or data.get("owner_uid") or "") == str(provider_id):
+                result.append(data)
+        return result
 
-    def get_producto_by_id(self, product_id: str) -> Optional[Any]:
-        # devuelve el documento firestore del producto solicitado
-        if self.db is None:
+    def get_producto_by_id(self, product_id: str) -> Optional[LocalDocumentSnapshot]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return None
         try:
-            doc = self.db.collection("productos").document(product_id).get()
-            if doc.exists:
-                return doc
-            else:
-                print(f"No product found with ID: {product_id}")
-                return None
-        except Exception as e:
-            print(f"Error fetching product: {e}")
+            return self.db.collection("productos").document(product_id).get()
+        except Exception as exc:
+            print(f"Error fetching product: {exc}")
             return None
 
-    def create_producto(self, product_data: Dict[str, Any]) -> Optional[Any]:
-        # crea un documento de producto con id generado por firestore
-        if self.db is None:
+    def create_producto(self, product_data: Dict[str, Any]) -> Optional[LocalDocumentReference]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return None
         try:
-            ref = self.db.collection("productos").add(product_data)
-            print("Product created successfully")
-            return ref
-        except Exception as e:
-            print(f"Error creating product: {e}")
+            payload = dict(product_data)
+            explicit_id = payload.pop("id", None)
+            if explicit_id:
+                ref = self.db.collection("productos").document(str(explicit_id))
+                ref.set(payload)
+                return ref
+            return self.db.collection("productos").add(payload)
+        except Exception as exc:
+            print(f"Error creating product: {exc}")
             return None
 
     def update_producto(self, product_id: str, product_data: Dict[str, Any]) -> bool:
-        # actualiza campos de un producto existente
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("productos").document(product_id).update(product_data)
-            print(f"Product updated successfully: {product_id}")
             return True
-        except Exception as e:
-            print(f"Error updating product: {e}")
+        except Exception as exc:
+            print(f"Error updating product: {exc}")
             return False
 
     def delete_producto(self, product_id: str) -> bool:
-        # elimina un producto por id
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("productos").document(product_id).delete()
-            print(f"Product deleted successfully: {product_id}")
             return True
-        except Exception as e:
-            print(f"Error deleting product: {e}")
+        except Exception as exc:
+            print(f"Error deleting product: {exc}")
             return False
 
-    # Colecciones de pedidos
-    def get_pedidos_collection(self) -> Optional[Any]:
-        # acceso centralizado a la coleccion de pedidos
-        if self.db is None:
+    # ------------------------------------------------------------------
+    # Pedidos
+    # ------------------------------------------------------------------
+    def get_pedidos_collection(self) -> Optional[LocalCollection]:
+        return self.db.collection("pedidos") if self.db else None
+
+    def get_all_pedidos(self) -> List[Dict[str, Any]]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
+            return []
+        return self._all_docs("pedidos")
+
+    def get_pedidos_by_uid(self, uid: str) -> List[Dict[str, Any]]:
+        if not self.db:
+            return []
+        result = []
+        for doc in self.db.collection("pedidos").where("uid", "==", uid).stream():
+            data = doc.to_dict()
+            data["id"] = data.get("id") or doc.id
+            result.append(data)
+        result.sort(key=lambda item: str(item.get("created_at", "")), reverse=True)
+        return result
+
+    def get_pedido_by_id(self, order_id: str) -> Optional[LocalDocumentSnapshot]:
+        if not self.db:
             return None
-        return self.db.collection("pedidos")
-
-    def get_all_pedidos(self) -> List[Any]:
-        # obtiene pedidos completos e incluye id del documento
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return []
         try:
-            docs = self.db.collection("pedidos").stream()
-            orders = []
-            for doc in docs:
-                order_data = doc.to_dict()
-                order_data['id'] = doc.id
-                orders.append(order_data)
-            return orders
-        except Exception as e:
-            print(f"Error fetching orders: {e}")
-            return []
+            return self.db.collection("pedidos").document(order_id).get()
+        except Exception as exc:
+            print(f"Error fetching order: {exc}")
+            return None
 
-    def get_pedidos_by_uid(self, uid: str) -> List[Any]:
-        # filtra pedidos por uid para historial de un usuario concreto
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return []
-        try:
-            docs = self.db.collection("pedidos").where("uid", "==", uid).stream()
-            orders = []
-            for doc in docs:
-                order_data = doc.to_dict()
-                order_data['id'] = doc.id
-                orders.append(order_data)
-            return orders
-        except Exception as e:
-            print(f"Error fetching orders for user: {e}")
-            return []
-
-    def get_pedido_by_id(self, order_id: str) -> Optional[Any]:
-        # devuelve documento de pedido por id
-        if self.db is None:
+    def create_pedido(self, order_data: Dict[str, Any]) -> Optional[LocalDocumentReference]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return None
         try:
-            doc = self.db.collection("pedidos").document(order_id).get()
-            if doc.exists:
-                return doc
-            else:
-                print(f"No order found with ID: {order_id}")
-                return None
-        except Exception as e:
-            print(f"Error fetching order: {e}")
-            return None
-
-    def create_pedido(self, order_data: Dict[str, Any]) -> Optional[Any]:
-        # inserta pedido nuevo en la coleccion de pedidos
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return None
-        try:
-            ref = self.db.collection("pedidos").add(order_data)
-            print("Order created successfully")
-            return ref
-        except Exception as e:
-            print(f"Error creating order: {e}")
+            payload = dict(order_data)
+            explicit_id = payload.pop("id", None)
+            if explicit_id:
+                ref = self.db.collection("pedidos").document(str(explicit_id))
+                ref.set(payload)
+                return ref
+            return self.db.collection("pedidos").add(payload)
+        except Exception as exc:
+            print(f"Error creating order: {exc}")
             return None
 
     def update_pedido(self, order_id: str, order_data: Dict[str, Any]) -> bool:
-        # actualiza campos de un pedido existente
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("pedidos").document(order_id).update(order_data)
-            print(f"Order updated successfully: {order_id}")
             return True
-        except Exception as e:
-            print(f"Error updating order: {e}")
+        except Exception as exc:
+            print(f"Error updating order: {exc}")
             return False
 
     def clear_all_pedidos(self) -> int:
-        """Elimina todos los pedidos de Firestore y devuelve el total eliminado."""
-        # se usa como limpieza para entorno de demo y pruebas
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return 0
-
         try:
-            collection = self.db.collection("pedidos")
-            docs = list(collection.stream())
-            if not docs:
-                return 0
-
-            deleted_count = 0
-            batch = self.db.batch()
-            ops_in_batch = 0
-
-            for doc in docs:
-                batch.delete(doc.reference)
-                ops_in_batch += 1
-
-                # Firestore permite hasta 500 operaciones por batch.
-                if ops_in_batch == 450:
-                    batch.commit()
-                    deleted_count += ops_in_batch
-                    batch = self.db.batch()
-                    ops_in_batch = 0
-
-            if ops_in_batch > 0:
-                batch.commit()
-                deleted_count += ops_in_batch
-
-            print(f"Pedidos eliminados al cerrar backend: {deleted_count}")
-            return deleted_count
-        except Exception as e:
-            print(f"Error clearing orders collection: {e}")
+            deleted = self.db.collection("pedidos").delete_many()
+            print(f"Pedidos eliminados: {deleted}")
+            return deleted
+        except Exception as exc:
+            print(f"Error clearing orders collection: {exc}")
             return 0
 
-    # Colecciones de eventos
-    def get_eventos_collection(self) -> Optional[Any]:
-        # acceso centralizado a la coleccion de eventos
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return None
-        return self.db.collection("eventos")
+    # ------------------------------------------------------------------
+    # Eventos
+    # ------------------------------------------------------------------
+    def get_eventos_collection(self) -> Optional[LocalCollection]:
+        return self.db.collection("eventos") if self.db else None
 
-    def get_all_eventos(self) -> List[Any]:
-        # obtiene todos los eventos con su id de documento
-        if self.db is None:
+    def get_all_eventos(self) -> List[Dict[str, Any]]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return []
-        try:
-            docs = self.db.collection("eventos").stream()
-            events = []
-            for doc in docs:
-                event_data = doc.to_dict()
-                event_data['id'] = doc.id
-                events.append(event_data)
-            return events
-        except Exception as e:
-            print(f"Error fetching events: {e}")
-            return []
+        return self._all_docs("eventos")
 
-    def get_evento_by_id(self, event_id: str) -> Optional[Any]:
-        # devuelve documento de evento por id
-        if self.db is None:
+    def get_evento_by_id(self, event_id: str) -> Optional[LocalDocumentSnapshot]:
+        if not self.db:
+            return None
+        try:
+            return self.db.collection("eventos").document(event_id).get()
+        except Exception as exc:
+            print(f"Error fetching event: {exc}")
+            return None
+
+    def create_evento(self, event_data: Dict[str, Any]) -> Optional[LocalDocumentReference]:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return None
         try:
-            doc = self.db.collection("eventos").document(event_id).get()
-            if doc.exists:
-                return doc
-            else:
-                print(f"No event found with ID: {event_id}")
-                return None
-        except Exception as e:
-            print(f"Error fetching event: {e}")
-            return None
-
-    def create_evento(self, event_data: Dict[str, Any]) -> Optional[Any]:
-        # inserta un evento nuevo con id automatico
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return None
-        try:
-            ref = self.db.collection("eventos").add(event_data)
-            print("Event created successfully")
-            return ref
-        except Exception as e:
-            print(f"Error creating event: {e}")
+            payload = dict(event_data)
+            explicit_id = payload.pop("id", None)
+            if explicit_id:
+                ref = self.db.collection("eventos").document(str(explicit_id))
+                ref.set(payload)
+                return ref
+            return self.db.collection("eventos").add(payload)
+        except Exception as exc:
+            print(f"Error creating event: {exc}")
             return None
 
     def update_evento(self, event_id: str, event_data: Dict[str, Any]) -> bool:
-        # aplica cambios sobre un evento existente
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("eventos").document(event_id).update(event_data)
-            print(f"Event updated successfully: {event_id}")
             return True
-        except Exception as e:
-            print(f"Error updating event: {e}")
+        except Exception as exc:
+            print(f"Error updating event: {exc}")
             return False
 
     def delete_evento(self, event_id: str) -> bool:
-        # elimina un evento por id de documento
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("eventos").document(event_id).delete()
-            print(f"Event deleted successfully: {event_id}")
             return True
-        except Exception as e:
-            print(f"Error deleting event: {e}")
+        except Exception as exc:
+            print(f"Error deleting event: {exc}")
             return False
 
-    # Colecciones de artistas
-    def get_artistas_collection(self) -> Optional[Any]:
-        # acceso centralizado a la coleccion de artistas
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
-            return None
-        return self.db.collection("artistas")
+    # ------------------------------------------------------------------
+    # Artistas
+    # ------------------------------------------------------------------
+    def get_artistas_collection(self) -> Optional[LocalCollection]:
+        return self.db.collection("artistas") if self.db else None
 
     def get_all_artistas(self) -> List[Dict[str, Any]]:
-        # devuelve artistas en formato diccionario, garantizando campo slug
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return []
-        try:
-            docs = self.db.collection("artistas").stream()
-            artistas = []
-            for doc in docs:
-                data = doc.to_dict() or {}
-                data["slug"] = data.get("slug") or doc.id
-                artistas.append(data)
-            return artistas
-        except Exception as e:
-            print(f"Error fetching artists: {e}")
-            return []
+        result = []
+        for doc in self.db.collection("artistas").stream():
+            data = doc.to_dict()
+            data["id"] = data.get("id") or doc.id
+            data["slug"] = data.get("slug") or doc.id
+            result.append(data)
+        return result
 
     def get_artista_by_slug(self, slug: str) -> Optional[Dict[str, Any]]:
-        # busca primero por id documento y luego por campo slug
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return None
         try:
             doc = self.db.collection("artistas").document(slug).get()
             if doc.exists:
-                data = doc.to_dict() or {}
+                data = doc.to_dict()
+                data["id"] = data.get("id") or doc.id
                 data["slug"] = data.get("slug") or slug
                 return data
-
-            docs = self.db.collection("artistas").where("slug", "==", slug).limit(1).stream()
-            for match in docs:
-                data = match.to_dict() or {}
-                data["slug"] = data.get("slug") or match.id
+            docs = list(self.db.collection("artistas").where("slug", "==", slug).limit(1).stream())
+            if docs:
+                data = docs[0].to_dict()
+                data["id"] = data.get("id") or docs[0].id
+                data["slug"] = data.get("slug") or docs[0].id
                 return data
-
-            return None
-        except Exception as e:
-            print(f"Error fetching artist by slug ({slug}): {e}")
-            return None
+        except Exception as exc:
+            print(f"Error fetching artist by slug ({slug}): {exc}")
+        return None
 
     def upsert_artista(self, slug: str, artist_data: Dict[str, Any]) -> bool:
-        # crea o reemplaza el artista usando slug como clave estable
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
@@ -445,108 +548,98 @@ class FirebaseConnector():
             payload["slug"] = slug
             self.db.collection("artistas").document(slug).set(payload)
             return True
-        except Exception as e:
-            print(f"Error upserting artist ({slug}): {e}")
+        except Exception as exc:
+            print(f"Error upserting artist ({slug}): {exc}")
             return False
 
     def create_artista(self, artist_data: Dict[str, Any]) -> Optional[str]:
-        # crea artista por slug si existe, o con id autogenerado si no existe
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return None
         try:
-            # Usar slug como ID de documento si está disponible
-            slug = artist_data.get("slug", None)
+            payload = dict(artist_data)
+            slug = payload.pop("slug", None) or payload.pop("id", None)
             if slug:
-                self.db.collection("artistas").document(slug).set(artist_data)
-                return slug
-            else:
-                # Si no hay slug, generar automáticamente un ID
-                ref = self.db.collection("artistas").add(artist_data)
-                return ref[1].id
-        except Exception as e:
-            print(f"Error creating artist: {e}")
+                payload["slug"] = str(slug)
+                self.db.collection("artistas").document(str(slug)).set(payload)
+                return str(slug)
+            ref = self.db.collection("artistas").add(payload)
+            return ref.id
+        except Exception as exc:
+            print(f"Error creating artist: {exc}")
             return None
 
-    def get_artista_by_id(self, artist_id: str) -> Optional[Any]:
-        # devuelve documento de artista por id exacto
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
+    def get_artista_by_id(self, artist_id: str) -> Optional[LocalDocumentSnapshot]:
+        if not self.db:
             return None
         try:
-            doc = self.db.collection("artistas").document(artist_id).get()
-            if doc.exists:
-                return doc
-            return None
-        except Exception as e:
-            print(f"Error fetching artist by id ({artist_id}): {e}")
+            return self.db.collection("artistas").document(artist_id).get()
+        except Exception as exc:
+            print(f"Error fetching artist by id ({artist_id}): {exc}")
             return None
 
     def update_artista(self, artist_id: str, artist_data: Dict[str, Any]) -> bool:
-        # actualiza campos del artista indicado
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("artistas").document(artist_id).update(artist_data)
             return True
-        except Exception as e:
-            print(f"Error updating artist ({artist_id}): {e}")
+        except Exception as exc:
+            print(f"Error updating artist ({artist_id}): {exc}")
             return False
 
     def delete_artista(self, artist_id: str) -> bool:
-        # elimina el artista indicado
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("artistas").document(artist_id).delete()
             return True
-        except Exception as e:
-            print(f"Error deleting artist ({artist_id}): {e}")
+        except Exception as exc:
+            print(f"Error deleting artist ({artist_id}): {exc}")
             return False
 
     def get_artista_by_name(self, name: str) -> Optional[Dict[str, Any]]:
-        """Buscar artista por nombre en Firestore"""
-        # intenta igualdad exacta y luego comparacion normalizada
-        if self.db is None:
-            print(DB_NOT_INITIALIZED_MSG)
+        if not self.db:
             return None
+        normalized = str(name or "").strip().lower()
         try:
-            # Normalizar nombre para búsqueda case-insensitive
-            name_lower = name.lower().strip()
-            
-            # Buscar en campo 'name'
-            docs = self.db.collection("artistas").where("name", "==", name).limit(1).stream()
-            for doc in docs:
-                data = doc.to_dict() or {}
-                data["slug"] = data.get("slug") or doc.id
-                return data
-            
-            # Si no encuentra exacto, buscar con búsqueda parcial (startswith)
-            docs = self.db.collection("artistas").stream()
-            for doc in docs:
-                data = doc.to_dict() or {}
-                artist_name = data.get("name", "").lower().strip()
-                if artist_name == name_lower:
+            for doc in self.db.collection("artistas").stream():
+                data = doc.to_dict()
+                if str(data.get("name", "")).strip().lower() == normalized:
+                    data["id"] = data.get("id") or doc.id
                     data["slug"] = data.get("slug") or doc.id
                     return data
-            
-            return None
-        except Exception as e:
-            print(f"Error fetching artist by name ({name}): {e}")
-            return None
+        except Exception as exc:
+            print(f"Error fetching artist by name ({name}): {exc}")
+        return None
 
+    # ------------------------------------------------------------------
+    # Utilidades
+    # ------------------------------------------------------------------
     def update_producto_stock(self, product_id: str, stock: int, min_stock: int = 5) -> bool:
         """Actualiza stock y umbral de un producto (TK-010-1)."""
-        if self.db is None:
+        if not self.db:
             print(DB_NOT_INITIALIZED_MSG)
             return False
         try:
             self.db.collection("productos").document(product_id).update(
-                {"stock": int(stock), "min_stock": int(min_stock)}
+                {
+                    "stock": int(stock),
+                    "min_stock": int(min_stock),
+                    "updated_at": datetime.now().isoformat(),
+                }
             )
             return True
-        except Exception as e:
-            print(f"Error updating product stock ({product_id}): {e}")
+        except Exception as exc:
+            print(f"Error updating product stock ({product_id}): {exc}")
             return False
+
+    def _all_docs(self, collection: str) -> List[Dict[str, Any]]:
+        result: List[Dict[str, Any]] = []
+        for doc in self.db.collection(collection).stream():  # type: ignore[union-attr]
+            data = doc.to_dict()
+            data["id"] = data.get("id") or doc.id
+            result.append(data)
+        return result

@@ -190,6 +190,7 @@ function initMerch() {
 globalThis.load_tienda = function () {
     initMerch();
 };
+globalThis.load_tiendaProveedor = globalThis.load_tienda;
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', globalThis.load_tienda);
@@ -214,6 +215,8 @@ bootTiendaWhenReady();
 async function decorateProductStock() {
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
+    const role = globalThis.AUTH?.getRole?.();
+    if (!['proveedor', 'gestor', 'admin'].includes(role)) return;
     try {
         const response = await SubsonicAPI.request('/stock');
         const stockItems = response?.data || [];

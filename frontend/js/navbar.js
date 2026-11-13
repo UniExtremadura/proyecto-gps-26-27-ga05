@@ -144,7 +144,11 @@ function setupSearch() {
     // Función para obtener todos los eventos
     async function loadAllEvents() {
         try {
-            const response = await fetch('http://subsonic-backend-pi.asatfyfmapbdgdfk.polandcentral.azurecontainer.io:8000/api/events');
+            if (globalThis.SubsonicAPI?.getAllEvents) {
+                const result = await globalThis.SubsonicAPI.getAllEvents();
+                return result?.data || [];
+            }
+            const response = await fetch(`${globalThis.API_BASE_URL || './api'}/events`);
             if (!response.ok) return [];
             const result = await response.json();
             return result.data || [];

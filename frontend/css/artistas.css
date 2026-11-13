@@ -1,0 +1,80 @@
+/* Listado de artistas */
+
+.artists-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3.5rem 2.5rem 1.5rem;
+}
+
+.artists-controls {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2.5rem 2rem;
+}
+
+.artists-controls input {
+    max-width: 440px;
+}
+
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2.5rem 4rem;
+}
+
+.artist-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #121216;
+    transition: transform 0.22s ease, border-color 0.22s ease;
+}
+
+.artist-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(157, 0, 255, 0.4);
+}
+
+.artist-image {
+    height: 190px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(140deg, #1b1b22, #0b0b0e);
+    font-size: 2.4rem;
+    overflow: hidden;
+}
+
+.artist-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artist-body {
+    padding: 1rem 1.1rem 1.2rem;
+}
+
+.artist-body h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+}
+
+.artist-body p {
+    margin: 0;
+    color: #9aa4b2;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 640px) {
+    .artists-header,
+    .artists-controls,
+    .artists-grid {
+        padding-left: 1.1rem;
+        padding-right: 1.1rem;
+    }
+}

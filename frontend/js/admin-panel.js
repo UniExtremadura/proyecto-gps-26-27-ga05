@@ -87,12 +87,55 @@ function bindAdminActions() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function loadAdminKpis() {
+    try {
+        const response = await SubsonicAPI.request('/admin/analytics?days=30');
+        const summary = response?.data?.summary || {};
+        const setText = (id, value) => {
+            const node = document.getElementById(id);
+            if (node) node.textContent = value;
+        };
+        setText('kpiUsers', summary.registered_users ?? 0);
+        setText('kpiEvents', summary.active_festivals ?? 0);
+        setText('kpiOrders', summary.orders ?? 0);
+        setText('kpiRevenue', `${Number(summary.total_revenue || 0).toFixed(2)} €`);
+    } catch (error) {
+        console.warn('No se pudieron cargar los KPIs de administración:', error);
+    }
+}
+
+function bindAdminExport() {
+    document.getElementById('adminExportCsv')?.addEventListener('click', async () => {
+        try {
+            const token = localStorage.getItem('sessionToken');
+            const response = await fetch(`${API_BASE_URL}/admin/analytics/export?days=30`, {
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+            });
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'metricas-globales.csv';
+            link.click();
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            alert(error.message || 'No se pudo exportar el CSV');
+        }
+    });
+}
+
+async function initAdminPanel() {
     bindAdminActions();
+    bindAdminExport();
+    await loadAdminKpis();
     await loadAdminUsers();
     await loadAdminEvents();
     document.getElementById('adminRefresh')?.addEventListener('click', async () => {
+        await loadAdminKpis();
         await loadAdminUsers();
         await loadAdminEvents();
     });
-});
+}
+
+document.addEventListener('DOMContentLoaded', initAdminPanel);
+globalThis.load_admin_panel = initAdminPanel;

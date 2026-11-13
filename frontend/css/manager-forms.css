@@ -1,0 +1,59 @@
+/* Formularios de detalle para gestores y proveedores */
+
+.detail-page {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem 4rem;
+}
+
+.detail-header {
+    margin-bottom: 1.2rem;
+}
+
+.detail-header h1 {
+    margin: 0;
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    font-weight: 900;
+}
+
+.detail-card {
+    padding: 1.6rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #121216;
+}
+
+.detail-card .manager-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0 1rem;
+}
+
+.detail-card .form-group {
+    margin-bottom: 1rem;
+}
+
+.detail-card textarea {
+    resize: vertical;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+
+.detail-page .form-actions {
+    justify-content: space-between;
+}
+
+@media (max-width: 640px) {
+    .detail-page {
+        padding-left: 1.1rem;
+        padding-right: 1.1rem;
+    }
+
+    .detail-card {
+        padding: 1.1rem;
+    }
+}

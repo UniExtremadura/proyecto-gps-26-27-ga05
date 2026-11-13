@@ -307,9 +307,9 @@ function setupFilters() {
     renderSelectedCities();
 }
 
-document.addEventListener('DOMContentLoaded', async function () {
+async function initManagerEvents() {
     const user = AUTH.getUser();
-    if (user?.role !== 'gestor') {
+    if (!user || !['gestor', 'admin'].includes(user.role)) {
         globalThis.location.hash = 'login';
         return;
     }
@@ -331,7 +331,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         newEventBtn.dataset.bound = '1';
         newEventBtn.addEventListener('click', createNewEvent);
     }
-});
+}
+
+document.addEventListener('DOMContentLoaded', initManagerEvents);
+globalThis.load_manager_events = initManagerEvents;
+globalThis.load_gestor_eventos = initManagerEvents;
 
 function populateEvents() {
     const grid = document.getElementById('eventsGrid');

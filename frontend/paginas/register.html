@@ -1,0 +1,59 @@
+<!-- NEURAL GLOW EFFECT -->
+<canvas id="neural-glow-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
+
+<!-- REGISTER FORM -->
+<div class="login-page register-page">
+    <div class="login-card register-card">
+        <h2>Crear cuenta</h2>
+        <p class="subtitle">Regístrate para comprar entradas y merchandising oficial.</p>
+
+        <form id="register-form" class="register-form" novalidate>
+            <div class="form-group">
+                <label for="register-name">Nombre completo</label>
+                <input type="text" id="register-name" placeholder="Tu nombre..." autocomplete="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="register-email">Correo electrónico</label>
+                <input type="email" id="register-email" placeholder="tu@email.com" autocomplete="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="register-role">Tipo de cuenta</label>
+                <select id="register-role">
+                    <option value="cliente">Cliente</option>
+                    <option value="proveedor">Proveedor</option>
+                </select>
+            </div>
+
+            <div class="form-group provider-only hidden">
+                <label for="register-company-name">Nombre de la empresa</label>
+                <input type="text" id="register-company-name" placeholder="Subsonic Merch SL">
+            </div>
+
+            <div class="form-group provider-only hidden">
+                <label for="register-business-area">Área de negocio</label>
+                <input type="text" id="register-business-area" placeholder="Merchandising, hostelería...">
+            </div>
+
+            <div class="form-group">
+                <label for="register-password">Contraseña</label>
+                <input type="password" id="register-password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="register-password-confirm">Repetir contraseña</label>
+                <input type="password" id="register-password-confirm" placeholder="Repite la contraseña" autocomplete="new-password" required>
+            </div>
+
+            <p id="register-status" class="form-message"></p>
+
+            <button class="login-btn" id="register-submit" type="submit">CREAR CUENTA</button>
+        </form>
+
+        <div class="signup-section">
+            <p class="signup-text">¿Ya tienes una cuenta?</p>
+            <a href="#login" data-page="login" class="signup-btn">Inicia sesión</a>
+        </div>
+    </div>
+</div>

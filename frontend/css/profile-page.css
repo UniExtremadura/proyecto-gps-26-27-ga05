@@ -1,0 +1,128 @@
+/* Perfil compartido para proveedor, gestor y administrador */
+
+.profile-extended {
+    min-height: calc(100vh - 72px);
+    padding: 2.5rem 0 4rem;
+}
+
+.profile-extended .profile-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+}
+
+.profile-extended .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+        radial-gradient(circle at 0% 0%, rgba(157, 0, 255, 0.16), transparent 45%),
+        #121216;
+    margin-bottom: 1.5rem;
+}
+
+.profile-extended .profile-avatar-large {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 3px;
+    background: linear-gradient(135deg, #9d00ff, #00d4ff);
+    box-shadow: 0 0 24px rgba(0, 212, 255, 0.2);
+}
+
+.profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #0b0b0e;
+}
+
+.profile-eyebrow {
+    margin: 0 0 0.3rem;
+    color: #00d4ff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.profile-extended .profile-info h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 900;
+}
+
+.profile-email {
+    margin: 0.25rem 0;
+    color: #9aa4b2;
+    font-size: 0.88rem;
+}
+
+.profile-role {
+    display: inline-block;
+    margin: 0.35rem 0;
+    padding: 0.22rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(157, 0, 255, 0.45);
+    background: rgba(157, 0, 255, 0.12);
+    color: #d8b4fe;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.profile-member-date {
+    margin: 0.3rem 0 0;
+    color: #6b7280;
+    font-size: 0.78rem;
+}
+
+.profile-extended .profile-card {
+    padding: 1.5rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #121216;
+    margin-bottom: 1.2rem;
+}
+
+.profile-extended .profile-card h2 {
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+}
+
+.save-btn {
+    padding: 0.75rem 1.4rem;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #00d4ff, #0090ff);
+    color: #001018;
+    font-weight: 900;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+}
+
+.profile-shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+@media (max-width: 640px) {
+    .profile-extended .profile-container {
+        padding: 0 1.1rem;
+    }
+
+    .profile-extended .profile-header {
+        padding: 1.1rem;
+    }
+}

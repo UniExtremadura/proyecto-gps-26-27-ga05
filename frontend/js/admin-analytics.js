@@ -57,7 +57,7 @@ async function loadGlobalAnalytics() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initAdminAnalytics() {
     if (!document.getElementById('analyticsKpis')) return;
     loadGlobalAnalytics();
     document.getElementById('analyticsPeriod')?.addEventListener('change', loadGlobalAnalytics);
@@ -79,4 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('No se pudo exportar el CSV:', error);
         }
     });
-});
+}
+
+document.addEventListener('DOMContentLoaded', initAdminAnalytics);
+globalThis.load_admin_analytics = initAdminAnalytics;
