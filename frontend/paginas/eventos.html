@@ -1,0 +1,76 @@
+<!-- ============================== -->
+    <!-- NAVBAR (idéntico a index.html)  -->
+    <!-- ============================== -->
+    
+
+    <!-- ====================================== -->
+    <!-- VISTA 1: LISTADO DE EVENTOS            -->
+    <!-- (filtros + grid de tarjetas)           -->
+    <!-- ====================================== -->
+    <div id="listingView">
+        <!-- TITULO -->
+        <div style="padding: 1.5rem 2.5rem; background-color: #0f0f12; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <h1 style="color: #fff; font-size: 1.75rem; font-weight: 900; margin: 0;">Festivales Subsonic</h1>
+            <p style="color: #999; font-size: 0.85rem; margin: 0.5rem 0 0 0;">Descubre los mejores eventos y festivales</p>
+        </div>
+
+        <!-- FILTROS AVANZADOS -->
+        <section class="filters-advanced">
+            <h2 style="color: #fff; font-size: 1.4rem; font-weight: 700; padding: 1rem 2.5rem 0.5rem 2.5rem; margin: 0;">Filtros</h2>
+            <div class="filters-container-advanced">
+            <!-- Intervalo de Fechas -->
+            <div class="filter-section filter-dates">
+                <label>📅 Fechas</label>
+                <div class="date-range-inputs">
+                    <input type="date" id="dateStart" class="date-input" />
+                    <span class="date-separator">→</span>
+                    <input type="date" id="dateEnd" class="date-input" />
+                </div>
+            </div>
+
+            <!-- Filtro de Ciudades -->
+            <div class="filter-section filter-cities">
+                <label>🏙️ Ciudades</label>
+                <div class="city-search-container">
+                    <input type="text" id="citySearch" class="city-search-input" placeholder="Buscar ciudad..." />
+                    <div id="citySuggestions" class="city-suggestions" style="display:none;"></div>
+                </div>
+                <div id="selectedCities" class="selected-cities"></div>
+            </div>
+
+            <!-- Filtros Seleccionados -->
+            <div class="filter-section filter-active">
+                <label>Filtros Seleccionados</label>
+                <div id="activeFiltersDisplay" class="active-filters-display"></div>
+            </div>
+
+            <!-- Limpiar Filtros -->
+            <div class="filter-section filter-clear">
+                <button id="clearAllFilters" class="clear-all-btn">Limpiar</button>
+            </div>
+            </div>
+        </section>
+
+        <!-- TK-006-2: buscador de catálogo conectado a /api/catalog/events -->
+    <section class="catalog-search-section">
+        <div class="catalog-search-box">
+            <input id="catalogSearchInput" type="search" placeholder="Buscar por nombre, género o ciudad..." />
+            <select id="catalogGenreSelect">
+                <option value="">Todos los géneros</option>
+            </select>
+            <button id="catalogSearchButton" type="button">BUSCAR</button>
+        </div>
+        <p id="catalogSearchStatus" class="catalog-search-status"></p>
+    </section>
+
+    <!-- GRID DE EVENTOS (se genera con JS) -->
+        <main id="eventsGrid" class="events-grid"></main>
+    </div>
+
+    <!-- ====================================== -->
+    <!-- VISTA 2: DETALLE DE UN EVENTO          -->
+    <!-- (info + configurador de compra)        -->
+    <!-- ====================================== -->
+    <div id="detailView" class="hidden">
+        <main id="eventDetailContainer" class="detail-layout"></main>
+    </div>

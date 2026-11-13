@@ -189,3 +189,15 @@ if (document.readyState === 'loading') {
 } else {
     window.load_login();
 }
+
+
+// TK-004-3: botón de acceso con Apple
+document.addEventListener('DOMContentLoaded', () => {
+    const appleBtn = document.getElementById('apple-btn');
+    if (appleBtn && globalThis.SubsonicOAuth) {
+        appleBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            globalThis.SubsonicOAuth.startApple();
+        });
+    }
+});
