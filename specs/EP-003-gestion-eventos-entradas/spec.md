@@ -7,14 +7,14 @@
 - **Historia de Usuario:** Como Organizador, quiero dar de alta, editar y publicar festivales con sus diferentes tipos de entradas, para ponerlos a la venta en la plataforma.
 - **Tipo:** Funcional
 - **Prioridad:** Must (Funcionalidad primaria de generación de oferta de eventos. Bloquea la comercialización).
-- **Estimación:** 18 h-p
+- **Estimación:** 8 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-002
 - **Plan inicial:** IT-002 (Sprint 2)
-- **Coste Total Estimado:** 495,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 240,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-002):**
-  - `TK-008-1`: Event Management API — CRUD de eventos y tipos de entradas (9 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 225,00 €).
-  - `TK-008-2`: Event Dashboard UI — Panel de gestión para el organizador (9 h-p | Predecesor: `TK-008-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 270,00 €).
+  - `TK-008-1`: Event Mgmt API — CRUD de eventos y tipos de entradas (4 h-p | Predecesor: MGT IT 2. Sprint planning, `TK-004-2` | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 120,00 €).
+  - `TK-008-2`: Event Dashboard UI — Panel de gestión para el organizador (4 h-p | Predecesor: MGT IT 2. Sprint planning | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
 
 ### Criterios de aceptación
 - **US-008-AC-01:** Asistente de creación (*wizard*) y edición de eventos: Datos generales -> Cartelera -> Recinto -> Tipos de Entrada (General, VIP).

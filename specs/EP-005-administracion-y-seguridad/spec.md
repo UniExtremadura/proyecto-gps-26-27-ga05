@@ -7,14 +7,14 @@
 - **Historia de Usuario:** Como Administrador, quiero supervisar y gestionar usuarios, festivales, entradas y catálogo de productos, para garantizar el correcto funcionamiento de la plataforma.
 - **Tipo:** Funcional
 - **Prioridad:** Must (Soporte operacional indispensable para resolución de incidencias y moderación de contenidos).
-- **Estimación:** 18 h-p
+- **Estimación:** 14 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-002
 - **Plan inicial:** IT-003 (Sprint 3)
-- **Coste Total Estimado:** 495,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 420,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-003):**
-  - `TK-014-1`: Admin Moderation API — Endpoints para suspensión de cuentas y eventos (9 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 225,00 €).
-  - `TK-014-2`: Admin Global Dashboard UI — Vistas de tabla y moderación (9 h-p | Predecesor: `TK-014-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 270,00 €).
+  - `TK-014-1`: Admin Mod API — Endpoints para suspensión de cuentas y eventos (5 h-p | Predecesor: MGT IT 3. Sprint planning | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 150,00 €).
+  - `TK-014-2`: Admin Dashboard UI — Vistas de tabla y moderación (9 h-p | Predecesor: MGT IT 3. Sprint planning | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 270,00 €).
 
 ### Criterios de aceptación
 - **US-014-AC-01:** Panel `/admin` con vistas de listado y búsqueda para gestionar usuarios (activar/suspender cuentas y cambiar roles), festivales (publicar, pausar o cancelar cualquier evento), recintos y catálogo de merchandising.
@@ -43,10 +43,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-014
 - **Plan inicial:** IT-006 (Sprint 6)
-- **Coste Total Estimado:** 480,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 520,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-006):**
-  - `TK-015-1`: Global Metrics Aggregation — Consultas analíticas sobre ingresos globales (8 h-p | Predecesor: `US-014` | Responsable: Javier García | Tarifa: 35 €/h | Coste: 280,00 €).
-  - `TK-015-2`: Stats UI & Export — Vista de administrador y exportación a CSV (8 h-p | Predecesor: `TK-015-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 200,00 €).
+  - `TK-015-1`: Global Metrics API — Consultas analíticas sobre ingresos globales (8 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 280,00 €).
+  - `TK-015-2`: Stats UI & Export — Vista de administrador y exportación a CSV (8 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 240,00 €).
 
 ### Criterios de aceptación
 - **US-015-AC-01:** El dashboard `/admin/analytics` muestra tarjetas resumen con los KPIs globales: total de festivales activos, total de entradas reservadas, porcentaje de ocupación media de aforo, volumen total de ingresos simulados (€) de entradas y de merchandising, y número de usuarios registrados por rol.
@@ -71,14 +71,14 @@
 - **Historia de Usuario:** Como Administrador, quiero que el sistema incorpore limitación de peticiones (rate-limiting) y sanitización contra inyecciones SQL/XSS, para proteger la infraestructura frente a ciberataques.
 - **Tipo:** Seguridad
 - **Prioridad:** Must (Requisito no funcional crítico de ciberseguridad para evitar vulneraciones de datos y caídas de servicio).
-- **Estimación:** 20 h-p
+- **Estimación:** 15 h-p
 - **Incertidumbre:** Alta
 - **Predecesores:** US-001
 - **Plan inicial:** IT-005 (Sprint 5)
-- **Coste Total Estimado:** 650,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 525,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-005):**
-  - `TK-016-1`: Rate-limiting & WAF rules — Middleware de bloqueo de IP por tráfico (10 h-p | Predecesor: `US-001` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 300,00 €).
-  - `TK-016-2`: Input Sanitization logic — Filtro contra XSS y parametrización SQLi (10 h-p | Predecesor: `TK-016-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 350,00 €).
+  - `TK-016-1`: WAF rules — Middleware de bloqueo de IP por tráfico (5 h-p | Predecesor: MGT IT 5. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 175,00 €).
+  - `TK-016-2`: Input Sanitization — Filtro contra XSS y parametrización SQLi (10 h-p | Predecesor: MGT IT 5. Sprint planning | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 350,00 €).
 
 ### Criterios de aceptación
 - **US-016-AC-01 (Rate-limiting):** El middleware limita las peticiones por IP a un máximo de 10 intentos por minuto en los endpoints de autenticación (`/api/auth/*`) y 100 peticiones por minuto en el resto de la API, devolviendo HTTP `429 Too Many Requests` con cabecera `Retry-After` al superarse el umbral.
@@ -100,25 +100,30 @@
 
 - **Necesidad:** Proteger la privacidad de la información confidencial de los usuarios y garantizar la seguridad de la plataforma.
 - **Objetivo:** Cifrar los datos sensibles en tránsito y en reposo, y enmascarar información privada en respuestas de la API y registros de servidor.
-- **Historia de Usuario:** Como usuario, quiero que mis datos sensibles no viajen en texto plano en las peticiones HTTP, para asegurar la privacidad de mi información.
+- **Historia de Usuario:** Como usuario, quiero que mis datos sensibles (contraseñas, tokens) no viajen en texto plano en las peticiones HTTP, para asegurar la privacidad de mi información.
 - **Tipo:** Seguridad
-- **Prioridad:** Should
-- **Estimación:** 12 h-p
+- **Prioridad:** Should (Garantiza el cumplimiento normativo de protección de datos RGPD y buenas prácticas de cifrado).
+- **Estimación:** 11 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-001
 - **Plan inicial:** IT-005 (Sprint 5)
-- **Coste Total Estimado:** 390,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 305,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-005):**
-  - `TK-017-1`: DB encryption keys management — Cifrado AES de campos en BBDD (6 h-p | Predecesor: `US-001` | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 180,00 €).
-  - `TK-017-2`: TLS/HTTPS & Headers — Políticas CORS y cabeceras seguras (6 h-p | Predecesor: `US-001` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 210,00 €).
+  - `TK-017-1`: DB Keys mgmt — Cifrado AES de campos en BBDD (6 h-p | Predecesor: MGT IT 5. Sprint planning | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 180,00 €).
+  - `TK-017-2`: TLS/HTTPS — Políticas CORS y cabeceras seguras (5 h-p | Predecesor: `TK-005-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
 
 ### Criterios de aceptación
 - **US-017-AC-01:** Uso obligatorio del protocolo HTTPS / TLS 1.3 en todas las comunicaciones (redirección automática de HTTP a HTTPS mediante respuesta HTTP `301`).
 - **US-017-AC-02:** Enmascaramiento de campos sensibles en los ficheros de log del servidor (`password`, `token`, `authorization` y `secret` se registran siempre como `***`).
-- **US-017-AC-03 (Datos simulados y alcance de cifrado en reposo):** Operatividad exclusiva con datos sintéticos (excluyendo pasarelas de pago reales). Los campos ficticios de contacto sensible se almacenan cifrados en reposo con AES-256, mientras que las contraseñas utilizan hash irreversible Bcrypt.
+- **US-017-AC-03 (Datos simulados y alcance de cifrado en reposo):** Operatividad exclusiva con datos sintéticos (excluyendo pasarelas de pago reales y PCI-DSS). Los campos ficticios de contacto sensible (`telefono` y `direccion` del perfil de usuario) se almacenan cifrados en reposo con AES-256, mientras que las contraseñas utilizan hash irreversible Bcrypt (coste ≥ 10).
 - **US-017-AC-04:** Exclusión estricta de hashes de contraseñas, claves privadas y tokens internos en los objetos JSON devueltos por las respuestas de las APIs REST.
 
 ### Verificación y restricciones
 - **Reglas de Negocio:** Ningún usuario, administrador o desarrollador tendrá acceso a las contraseñas en texto plano bajo ninguna circunstancia.
 - **Restricciones:** Prohibido almacenar datos personales o bancarios reales. La clave de cifrado AES-256 se gestiona exclusivamente por variable de entorno.
 - **Requisitos No Funcionales (RNF):** Cumplimiento de las directrices de ciberseguridad del proyecto para entornos web seguros y transporte protegido de tokens de sesión.
+- **Ejemplos y Casos Límite:**
+  * *Ejemplo:* Petición `GET /api/users/me`: devuelve la información del perfil del usuario en JSON omitiendo por completo los campos `password_hash` y tokens internos.
+  * *Caso Límite:* Intento de acceso inseguro mediante `http://`: el servidor devuelve un código de estado `301 Moved Permanently` redirigiendo inmediatamente hacia la versión `https://`.
+  * *Caso Límite:* Registro de petición en logs: una solicitud con cuerpo `{"email": "a@a.com", "password": "Secret123!"}` se escribe en los registros del servidor como `{"email": "a@a.com", "password": "***"}`.
+- **Supuestos:** Se dispone de un certificado SSL/TLS autofirmado o simulado configurado en el entorno local de desarrollo.

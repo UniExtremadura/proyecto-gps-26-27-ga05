@@ -13,9 +13,9 @@
 - **Plan inicial:** IT-001 (Sprint 1)
 - **Coste Total Estimado:** 290,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-001):**
-  - `TK-001-1`: Backend API Auth — Desarrollo de endpoints de registro y login (5 h-p | Predecesor: — | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
-  - `TK-001-2`: Frontend Auth form — Maquetación y conexión de formularios (3 h-p | Predecesor: `TK-001-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 105,00 €).
-  - `TK-001-3`: Testing Auth — Pruebas unitarias y de integración (2 h-p | Predecesor: `TK-001-2` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 60,00 €).
+  - `TK-001-1`: Backend API Auth — Desarrollo de endpoints de registro y login (5 h-p | Predecesor: MGT IT 1. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
+  - `TK-001-2`: Frontend Auth form — Maquetación y conexión de formularios (3 h-p | Predecesor: MGT IT 1. Sprint planning | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 105,00 €).
+  - `TK-001-3`: Testing Auth — Pruebas unitarias y de integración (2 h-p | Predecesor: `TK-001-1`, `TK-001-2` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 60,00 €).
 
 ### Criterios de aceptación
 - **US-001-AC-01:** Registro exitoso con email único, contraseña segura (mínimo 8 caracteres, 1 mayúscula, 1 número) y confirmación de contraseña.
@@ -42,15 +42,15 @@
 - **Historia de Usuario:** Como usuario del sistema, quiero tener un rol asignado (Guest, Cliente, Organizador, Proveedor, Admin) con interfaces y permisos específicos, para interactuar de forma segura según mi perfil.
 - **Tipo:** Funcional
 - **Prioridad:** Must (Arquitectura base del sistema necesaria para restringir el acceso a funcionalidades privadas).
-- **Estimación:** 14 h-p
+- **Estimación:** 11 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-001
 - **Plan inicial:** IT-001 (Sprint 1)
-- **Coste Total Estimado:** 410,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 320,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-001):**
-  - `TK-002-1`: DB Roles Setup — Configuración de esquema de roles en BBDD (4 h-p | Predecesor: `US-001` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 140,00 €).
-  - `TK-002-2`: Middleware Auth — Lógica de validación de JWT y roles (6 h-p | Predecesor: `TK-002-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 150,00 €).
-  - `TK-002-3`: Test Roles — Verificación de accesos denegados/permitidos (4 h-p | Predecesor: `TK-002-2` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
+  - `TK-002-1`: DB Roles Setup — Configuración de esquema de roles en BBDD (3 h-p | Predecesor: MGT IT 1. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 105,00 €).
+  - `TK-002-2`: Middleware Auth — Lógica de validación de JWT y roles (5 h-p | Predecesor: `TK-001-1`, `TK-002-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
+  - `TK-002-3`: Test Roles — Verificación de accesos denegados/permitidos (3 h-p | Predecesor: `TK-002-2` | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 90,00 €).
 
 ### Criterios de aceptación
 - **US-002-AC-01:** El sistema soporta los roles `Guest`, `Cliente`, `Organizador`, `Proveedor` y `Admin` asociados al perfil de usuario y codificados en las reclamaciones (*claims*) del token JWT.
@@ -75,13 +75,13 @@
 - **Historia de Usuario:** Como Cliente, quiero consultar y actualizar mis datos personales (nombre, dirección, correo), para mantener mi información actualizada.
 - **Tipo:** Funcional
 - **Prioridad:** Should (Aporta valor al cliente para gestionar sus datos, aunque la compra básica puede operar con datos iniciales).
-- **Estimación:** 6 h-p
+- **Estimación:** 5 h-p
 - **Incertidumbre:** Baja
 - **Predecesores:** US-001
 - **Plan inicial:** IT-004 (Sprint 4)
 - **Coste Total Estimado:** 150,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-004):**
-  - `TK-003-1`: Profile Update System — Desarrollo de API e Interfaz de actualización de datos (6 h-p | Predecesor: `US-001` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 150,00 €).
+  - `TK-003-1`: Profile Update Sys — Desarrollo de API e Interfaz de actualización de datos (5 h-p | Predecesor: MGT IT 4. Sprint planning | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 150,00 €).
 
 ### Criterios de aceptación
 - **US-003-AC-01:** Visualización organizada de los datos actuales del usuario al acceder a la vista `/perfil`.
@@ -107,16 +107,16 @@
 - **Historia de Usuario:** Como usuario, quiero iniciar sesión mediante proveedores externos (Google, Apple) con OAuth 2.0, para agilizar el proceso de acceso sin crear contraseñas adicionales.
 - **Tipo:** Técnico
 - **Prioridad:** Must (Requisito técnico clave para reducir la fricción en el registro e incrementar la conversión de ventas).
-- **Estimación:** 16 h-p
+- **Estimación:** 13 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-001
-- **Plan inicial:** IT-001 (Sprint 1)
-- **Coste Total Estimado:** 470,00 € (desglosado en tareas TK)
-- **Desglose de tareas (IT-001):**
-  - `TK-004-1`: Config OAuth Providers — Alta y configuración de credenciales en Google/Apple (3 h-p | Predecesor: `US-001` | Responsable: Javier García | Tarifa: 35 €/h | Coste: 105,00 €).
-  - `TK-004-2`: Backend OAuth logic — Callbacks y validación de tokens externos (5 h-p | Predecesor: `TK-004-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
-  - `TK-004-3`: Frontend OAuth flow — Botones sociales y redirección (5 h-p | Predecesor: `TK-004-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 150,00 €).
-  - `TK-004-4`: Documentación OAuth — Documentar variables de entorno y arquitectura (3 h-p | Predecesor: `TK-004-3` | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 90,00 €).
+- **Plan inicial:** IT-002 (Sprint 2)
+- **Coste Total Estimado:** 415,00 € (desglosado en tareas TK)
+- **Desglose de tareas (IT-002):**
+  - `TK-004-1`: Config OAuth Providers — Alta y configuración de credenciales en Google/Apple (3 h-p | Predecesor: MGT IT 2. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 105,00 €).
+  - `TK-004-2`: Backend OAuth logic — Callbacks y validación de tokens externos (3 h-p | Predecesor: `TK-004-1` | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 90,00 €).
+  - `TK-004-3`: Frontend OAuth flow — Botones sociales y redirección (5 h-p | Predecesor: `TK-004-1`, `TK-008-2` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 150,00 €).
+  - `TK-004-4`: Documentación OAuth — Documentar variables de entorno y arquitectura (2 h-p | Predecesor: `TK-004-2`, `TK-004-3` | Responsable: Javier García | Tarifa: 35 €/h | Coste: 70,00 €).
 
 ### Criterios de aceptación
 - **US-004-AC-01:** La pantalla de acceso incluye botones de inicio de sesión con Google y Apple que redirigen al flujo de autorización OAuth 2.0.
@@ -140,15 +140,15 @@
 - **Objetivo:** Implementar un flujo de generación y validación de enlaces temporales de recuperación por correo electrónico.
 - **Historia de Usuario:** Como usuario registrado, quiero solicitar un enlace de restablecimiento de contraseña por email, para recuperar el acceso a mi cuenta si me olvido de las credenciales.
 - **Tipo:** Seguridad
-- **Prioridad:** Should
+- **Prioridad:** Should (Funcionalidad esencial de usabilidad y autoservicio para reducir llamadas a soporte).
 - **Estimación:** 8 h-p
 - **Incertidumbre:** Baja
 - **Predecesores:** US-001
 - **Plan inicial:** IT-005 (Sprint 5)
-- **Coste Total Estimado:** 240,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 220,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-005):**
-  - `TK-005-1`: Reset Password Token API — Generación de JWT único de recuperación (4 h-p | Predecesor: `US-001` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
-  - `TK-005-2`: Reset Password Form — Flujo web y plantilla de correo electrónico (4 h-p | Predecesor: `TK-005-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
+  - `TK-005-1`: Reset Token API — Generación de JWT único de recuperación (4 h-p | Predecesor: MGT IT 5. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
+  - `TK-005-2`: Reset Form — Flujo web y plantilla de correo electrónico (4 h-p | Predecesor: `TK-005-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
 
 ### Criterios de aceptación
 - **US-005-AC-01:** Al introducir un correo en `/recuperar-password`, el sistema devuelve siempre el mismo mensaje de confirmación ("Si el correo está registrado, recibirás un enlace de recuperación") para evitar la enumeración de usuarios.
@@ -159,3 +159,7 @@
 - **Reglas de Negocio:** Cada token de recuperación solo puede utilizarse una única vez. Solicitar un nuevo enlace invalida cualquier token previo pendiente para ese usuario.
 - **Restricciones:** La nueva contraseña debe cumplir las mismas reglas de complejidad definidas en `US-001`.
 - **Requisitos No Funcionales (RNF):** Los tokens de restablecimiento deben almacenarse hasheados en la base de datos.
+- **Ejemplos y Casos Límite:**
+  * *Ejemplo:* Usuario solicita recuperación, abre el enlace antes de 15 minutos, introduce su nueva clave y accede con éxito en `/login`.
+  * *Caso Límite:* Intento de usar un enlace transcurridos más de 15 minutos o ya utilizado: devuelve HTTP `400 Bad Request` con el mensaje "El enlace de recuperación ha expirado o no es válido".
+- **Supuestos:** En el entorno de desarrollo se utiliza un buzón SMTP local simulado (ej. Mailpit/Mailtrap) para inspeccionar los correos enviados.

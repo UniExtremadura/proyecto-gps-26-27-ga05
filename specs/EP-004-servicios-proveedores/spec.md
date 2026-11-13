@@ -11,10 +11,10 @@
 - **Incertidumbre:** Media
 - **Predecesores:** US-002
 - **Plan inicial:** IT-003 (Sprint 3)
-- **Coste Total Estimado:** 480,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 560,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-003):**
-  - `TK-009-1`: Booking System API — Lógica de validación de reservas de recintos (8 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 200,00 €).
-  - `TK-009-2`: Supplier Booking UI — Interfaz de selección de espacios para proveedores (8 h-p | Predecesor: `TK-009-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 280,00 €).
+  - `TK-009-1`: Booking System API — Lógica de validación de reservas de recintos (8 h-p | Predecesor: MGT IT 3. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 280,00 €).
+  - `TK-009-2`: Supplier Booking UI — Interfaz de selección de espacios para proveedores (8 h-p | Predecesor: MGT IT 3. Sprint planning | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 280,00 €).
 
 ### Criterios de aceptación
 - **US-009-AC-01:** El proveedor autenticado visualiza el listado de festivales activos con sus espacios/zonas para proveedores indicando estado (`Disponible`, `Reservado`), dimensiones y tarifa simulada.
@@ -45,8 +45,8 @@
 - **Plan inicial:** IT-004 (Sprint 4)
 - **Coste Total Estimado:** 385,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-004):**
-  - `TK-010-1`: Merchandising CRUD API — Gestión de base de datos de artículos y stock (7 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 175,00 €).
-  - `TK-010-2`: Merchandising Catalog UI — Vista pública de tienda e integración (7 h-p | Predecesor: `TK-010-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 210,00 €).
+  - `TK-010-1`: Merch CRUD API — Gestión de base de datos de artículos y stock (7 h-p | Predecesor: `TK-011-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 175,00 €).
+  - `TK-010-2`: Merch Catalog UI — Vista pública de tienda e integración (7 h-p | Predecesor: MGT IT 4. Sprint planning | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 210,00 €).
 
 ### Criterios de aceptación
 - **US-010-AC-01:** El proveedor dispone de un panel para dar de alta, editar y dar de baja artículos de merchandising indicando nombre, descripción, precio simulado (€), festival asociado y stock disponible.
@@ -71,14 +71,14 @@
 - **Historia de Usuario:** Como Proveedor, quiero recibir avisos automáticos cuando las unidades de un producto sean escasas, para reponer inventario a tiempo.
 - **Tipo:** Técnico
 - **Prioridad:** Must (Evita roturas de stock y pérdidas de ventas durante los picos de demanda en los festivales).
-- **Estimación:** 12 h-p
+- **Estimación:** 11 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-010
 - **Plan inicial:** IT-004 (Sprint 4)
-- **Coste Total Estimado:** 360,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 335,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-004):**
-  - `TK-011-1`: Stock Tracking Logic — Disparador y umbral mínimo de unidades (6 h-p | Predecesor: `US-010` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 150,00 €).
-  - `TK-011-2`: Email Notifications Setup — Plantillas de correo y worker SMTP (6 h-p | Predecesor: `TK-011-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 210,00 €).
+  - `TK-011-1`: Stock Logic — Disparador y umbral mínimo de unidades (5 h-p | Predecesor: MGT IT 4. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
+  - `TK-011-2`: Email Notifications — Plantillas de correo y worker SMTP (6 h-p | Predecesor: `TK-011-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 210,00 €).
 
 ### Criterios de aceptación
 - **US-011-AC-01 (Configuración de umbral):** Campo editable "Umbral de Stock Mínimo" en la ficha de gestión de cada producto del proveedor, permitiendo asignar únicamente valores enteros mayores o iguales a cero (ej. umbral = 10 unidades).
@@ -104,14 +104,14 @@
 - **Historia de Usuario:** Como Proveedor, quiero consultar el historial de festivales en los que he participado con mis recintos, para llevar un control de mi actividad histórica.
 - **Tipo:** Funcional
 - **Prioridad:** Could (Funcionalidad de consulta complementaria que no bloquea las operaciones de venta activa).
-- **Estimación:** 8 h-p
+- **Estimación:** 9 h-p
 - **Incertidumbre:** Baja
 - **Predecesores:** US-009
 - **Plan inicial:** IT-006 (Sprint 6)
-- **Coste Total Estimado:** 240,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 250,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-006):**
-  - `TK-012-1`: Booking History API — Endpoint de registro histórico por proveedor (4 h-p | Predecesor: `US-009` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
-  - `TK-012-2`: History Panel UI — Tabla de reservas pasadas en el panel (4 h-p | Predecesor: `TK-012-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 140,00 €).
+  - `TK-012-1`: Booking Hist API — Endpoint de registro histórico por proveedor (4 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
+  - `TK-012-2`: History Panel UI — Tabla de reservas pasadas en el panel (5 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 150,00 €).
 
 ### Criterios de aceptación
 - **US-012-AC-01:** El proveedor dispone de una sección "Mis Participaciones" que lista todos los festivales (pasados y activos) donde tiene o ha tenido espacios reservados, indicando fechas, recinto, ubicación del espacio y estado (`Finalizado`, `Activo`, `Cancelado`).
@@ -135,14 +135,14 @@
 - **Objetivo:** Proporcionar un listado filtrable y métricas agregadas de las ventas de merchandising de cada proveedor.
 - **Historia de Usuario:** Como Proveedor, quiero ver el listado y métricas de mis ventas de artículos recientes, para analizar el rendimiento de mis productos.
 - **Tipo:** Funcional
-- **Prioridad:** Must
+- **Prioridad:** Must (Indispensable para el cuadre contable y liquidación financiera simulada de los comerciantes).
 - **Estimación:** 10 h-p
 - **Incertidumbre:** Baja
 - **Predecesores:** US-010
 - **Plan inicial:** IT-004 (Sprint 4)
 - **Coste Total Estimado:** 325,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-004):**
-  - `TK-013-1`: Sales Metrics API — Agregación de pedidos e ingresos (5 h-p | Predecesor: `US-010` | Responsable: Javier García | Tarifa: 35 €/h | Coste: 175,00 €).
+  - `TK-013-1`: Sales Metrics API — Agregación de pedidos e ingresos (5 h-p | Predecesor: MGT IT 4. Sprint planning | Responsable: Javier García | Tarifa: 35 €/h | Coste: 175,00 €).
   - `TK-013-2`: Sales Reporting UI — Gráficos y tablas de ventas en el panel (5 h-p | Predecesor: `TK-013-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 150,00 €).
 
 ### Criterios de aceptación
@@ -152,5 +152,9 @@
 
 ### Verificación y restricciones
 - **Reglas de Negocio:** Un proveedor únicamente puede visualizar las métricas y operaciones correspondientes a sus propios artículos.
-- **Restricciones:** Los importes mostrados tienen carácter informativo y simulado, sin validez tributaria.
+- **Restricciones:** Los importes mostrados tienen carácter informativo y simulado, sin validez tributaria (exclusión `EX-02`).
 - **Requisitos No Funcionales (RNF):** Tiempo de generación de la consulta del reporte < 500 ms para historiales de hasta 5.000 registros.
+- **Ejemplos y Casos Límite:**
+  * *Ejemplo:* El proveedor filtra por "Subsonic RockFest": visualiza 45 camisetas vendidas y un total acumulado de 900,00 € simulados.
+  * *Caso Límite:* Proveedor recién registrado sin ventas realizadas: los contadores muestran `0` y el mensaje "Aún no se registran ventas para tus artículos".
+- **Supuestos:** Los datos de ventas provienen de las reservas simuladas generadas sobre el catálogo de `US-010`.
