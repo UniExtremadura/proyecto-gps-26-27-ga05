@@ -1,0 +1,52 @@
+/* TK-009-2: reserva de recintos */
+.provider-bookings-page { padding: 2rem 2.5rem 4rem; color: #fff; }
+.bookings-header h1 { font-size: 1.8rem; margin: 0; }
+.bookings-header p { color: #9aa4b2; margin: .4rem 0 1.5rem; }
+.booking-form-card, .booking-list-card {
+    background: #141419;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.booking-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: .9rem;
+}
+.booking-form-grid label { display: flex; flex-direction: column; gap: .35rem; color: #cbd5e1; font-size: .8rem; }
+.booking-form-grid input, .booking-form-grid select {
+    padding: .65rem .8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: #0f0f12;
+    color: #fff;
+}
+#bookingSubmit {
+    margin-top: 1rem;
+    padding: .75rem 1.4rem;
+    border: none;
+    border-radius: 9px;
+    background: #00d4ff;
+    color: #001018;
+    font-weight: 800;
+    cursor: pointer;
+}
+.booking-status { color: #9aa4b2; font-size: .85rem; margin-top: .7rem; }
+.booking-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: .8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.booking-status-pill {
+    padding: .25rem .7rem;
+    border-radius: 999px;
+    background: rgba(0,212,255,.15);
+    color: #00d4ff;
+    font-size: .75rem;
+}
+.empty-bookings { color: #9aa4b2; }
