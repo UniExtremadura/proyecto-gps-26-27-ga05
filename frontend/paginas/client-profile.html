@@ -1,0 +1,160 @@
+<!-- NAVBAR -->
+    
+
+    <!-- PROFILE PAGE -->
+    <div class="profile-page">
+        <div class="profile-container">
+            <!-- HEADER -->
+            <header class="profile-header">
+                <div class="profile-avatar-container">
+                    <button id="client-avatar-trigger" type="button" class="profile-avatar-large editable" aria-label="Cambiar foto de perfil">
+                        <img id="client-avatar" src="./assets/img/User.png" alt="Avatar">
+                        <span class="avatar-edit-hint">Cambiar foto</span>
+                    </button>
+                    <input type="file" id="client-avatar-file" accept="image/*" hidden>
+                    <div id="client-avatar-actions" class="avatar-actions hidden">
+                        <button id="avatar-upload-option" type="button" class="avatar-action-btn">Subir imagen</button>
+                        <button id="avatar-url-option" type="button" class="avatar-action-btn">Usar URL</button>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h1 id="client-name">Cliente</h1>
+                    <p id="client-email" class="profile-email">correo@ejemplo.com</p>
+                    <p id="client-member-date" class="profile-member-date">Miembro desde: -</p>
+                </div>
+            </header>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <section class="profile-content">
+                <div class="profile-grid">
+                    
+                    <!-- MENU LATERAL -->
+                    <div class="profile-menu">
+                        <button class="menu-btn active" data-section="personal">Datos Personales</button>
+                        <button class="menu-btn" data-section="entradas">Mis Entradas y Compras</button>
+                        <button class="menu-btn" data-section="pagos">Métodos de Pago</button>
+                        <button class="menu-btn logout-menu" id="logout-btn">Cerrar Sesión</button>
+                    </div>
+
+                    <!-- CONTENIDO -->
+                    <div class="profile-main">
+                        <!-- DATOS PERSONALES -->
+                        <div class="profile-section-content active" data-section="personal">
+                            <div class="profile-card">
+                                <h2>Información Personal</h2>
+                                <form id="client-profile-form" class="form-grid">
+                                    <div class="form-group">
+                                        <label for="client-fullname">Nombre Completo</label>
+                                        <input type="text" id="client-fullname" placeholder="Tu nombre...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-email-input">Correo Electrónico</label>
+                                        <input type="email" id="client-email-input" placeholder="tu@email.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-current-password">Contraseña Actual</label>
+                                        <input type="password" id="client-current-password" placeholder="Necesaria para cambiar a una nueva contraseña">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-password">Nueva Contraseña</label>
+                                        <input type="password" id="client-password" placeholder="Mínimo 6 caracteres">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-password-confirm">Confirmar nueva contraseña</label>
+                                        <input type="password" id="client-password-confirm" placeholder="Repite la nueva contraseña">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="client-address">Dirección de Envío (Merchandising)</label>
+                                        <input type="text" id="client-address" placeholder="Añade tu dirección completa...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-postal-code">Código Postal</label>
+                                        <input type="text" id="client-postal-code" placeholder="08001">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-city">Ciudad</label>
+                                        <input type="text" id="client-city" placeholder="Barcelona">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-country">País</label>
+                                        <input type="text" id="client-country" placeholder="España">
+                                    </div>
+                                    <div class="form-actions">
+                                        <span id="profile-save-message" class="form-message"></span>
+                                        <button type="submit" class="save-btn">GUARDAR CAMBIOS</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- MIS ENTRADAS Y COMPRAS -->
+                        <div class="profile-section-content" data-section="entradas">
+                            <!-- ENTRADAS RECIENTES -->
+                            <div class="profile-card">
+                                <div class="card-header">
+                                    <h2>Mis Entradas Recientes</h2>
+                                    <a href="#historial"  class="view-all">Ver Historial Completo →</a>
+                                </div>
+                                <div id="tickets-list" class="tickets-list">
+                                    <p class="empty-state">Aún no tienes entradas registradas.</p>
+                                </div>
+                            </div>
+
+                            <!-- MERCHANDISING RECIENTE -->
+                            <div class="profile-card">
+                                <div class="card-header">
+                                    <h2>Mi Merchandising Reciente</h2>
+                                    <a href="#historial"  class="view-all">Ver Historial Completo →</a>
+                                </div>
+                                <div id="merch-list" class="tickets-list">
+                                    <p class="empty-state">Aún no tienes compras de merchandising registradas.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- METODOS DE PAGO -->
+                        <div class="profile-section-content" data-section="pagos">
+                            <div class="profile-card">
+                                <h2>Métodos de Pago</h2>
+                                <p style="color: #999; margin-top: 16px;">Los métodos de pago se configurarán próximamente.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- TK-003-1: cambio de email con verificación -->
+    <section class="profile-email-change">
+        <h2>Cambiar correo electrónico</h2>
+        <p>Introduce el nuevo correo y tu contraseña actual. Recibirás un enlace de verificación.</p>
+        <input id="profile-new-email" type="email" placeholder="nuevo@email.com" />
+        <input id="profile-current-password" type="password" placeholder="Contraseña actual" />
+        <button id="profile-email-submit" type="button">SOLICITAR CAMBIO</button>
+        <p id="profile-email-status" class="profile-email-status"></p>
+    </section>
+
+    <div id="avatar-crop-modal" class="avatar-crop-modal hidden" role="dialog" aria-modal="true" aria-labelledby="avatar-crop-title">
+        <div class="avatar-crop-dialog">
+            <h3 id="avatar-crop-title">Recortar foto de perfil</h3>
+            <p class="avatar-crop-subtitle">Ajusta el encuadre cuadrado antes de guardar.</p>
+            <canvas id="avatar-crop-canvas" width="320" height="320" aria-label="Editor de recorte de avatar"></canvas>
+
+            <div class="avatar-crop-controls">
+                <label for="avatar-crop-zoom">Zoom</label>
+                <input id="avatar-crop-zoom" type="range" min="1" max="2.5" step="0.01" value="1">
+
+                <label for="avatar-crop-offset-x">Horizontal</label>
+                <input id="avatar-crop-offset-x" type="range" min="-180" max="180" step="1" value="0">
+
+                <label for="avatar-crop-offset-y">Vertical</label>
+                <input id="avatar-crop-offset-y" type="range" min="-180" max="180" step="1" value="0">
+            </div>
+
+            <div class="avatar-crop-actions">
+                <button id="avatar-crop-cancel" type="button" class="save-btn secondary">Cancelar</button>
+                <button id="avatar-crop-save" type="button" class="save-btn">Usar esta foto</button>
+            </div>
+        </div>
+    </div>
