@@ -1,0 +1,370 @@
+/* ventas.css
+   Estilos específicos para la página de ventas.
+   Usamos la misma base que historial.css; sólo se añaden 
+   detalles puntuales (botón de cancelar, colores).
+*/
+
+/* los selectores .historial-* en historial.css seguirán aplicando
+aunque la página tenga la clase adicional .ventas-page, así que
+solo complementamos donde sea necesario */
+
+/* operations header */
+.operations-header {
+    padding: 40px 0;
+    border-bottom: 1px solid #333;
+    background: linear-gradient(to bottom, #111, #0a0a0c);
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+}
+
+.header-left .header-label {
+    color: #00d4ff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+}
+
+.header-left h1 {
+    font-size: 36px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: -0.02em;
+}
+
+.header-right {
+    text-align: right;
+}
+
+.balance-label {
+    color: #888;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+
+.balance-amount {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.summary-card {
+    background: #16161a;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #222;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-label {
+    color: #888;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+}
+
+.card-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.card-value.positive {
+    color: #00d4ff;
+}
+
+.card-value.event {
+    color: #9d00ff;
+}
+
+/* operations section */
+.operations-section {
+    padding: 48px 0;
+}
+
+.table-container {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+.table-header {
+    padding: 24px;
+    border-bottom: 1px solid #222;
+    background: #0d0d0f;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+}
+
+.new-reserva-btn {
+    padding: 8px 20px;
+    background: #9d00ff;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.new-reserva-btn:hover {
+    box-shadow: 0 0 15px #9d00ff;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.operations-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.operations-table thead tr {
+    background: #0a0a0c;
+}
+
+.operations-table th {
+    padding: 16px 32px;
+    font-size: 10px;
+    color: #888;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.operations-table td {
+    padding: 20px 32px;
+    border-bottom: 1px solid #1a1a1e;
+    font-size: 14px;
+}
+
+.operations-table tbody tr:hover {
+    background: #16161a;
+    transition: background 0.3s;
+}
+
+.operations-table .op-id {
+    font-family: monospace;
+    color: #888;
+    font-size: 12px;
+}
+
+.operations-table .op-concept {
+    font-weight: bold;
+}
+
+.operations-table .op-type {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    border: 1px solid;
+}
+
+.op-type.reserva {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-color: rgba(255,255,255,0.2);
+    white-space: nowrap;
+    padding: 4px 8px;
+    text-align: center;
+}
+
+.op-type.venta {
+    background: rgba(0,212,255,0.1);
+    color: #00d4ff;
+    border-color: rgba(0,212,255,0.2);
+}
+
+.operations-table .op-date {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.operations-table .op-amount {
+    text-align: right;
+    font-weight: 900;
+}
+
+.op-amount.negative {
+    color: #ff4d4d;
+}
+
+.op-amount.positive {
+    color: #4ade80;
+}
+
+.operations-table .op-status {
+    text-align: center;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.status-dot.active {
+    background: #ff8c00;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.completed {
+    background: #4ade80;
+}
+
+.status-dot.cancelled {
+    background: #ff4d4d;
+}
+
+.status-text {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.operations-table .op-gestion {
+    text-align: center;
+}
+
+.cancel-btn {
+    font-size: 9px;
+    font-weight: 900;
+    color: #fff;
+    background: rgba(255,77,77,0.2);
+    border: 1px solid rgba(255,77,77,0.4);
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cancel-btn:hover {
+    background: #ff4d4d;
+}
+
+.finalized {
+    color: #666;
+    font-size: 12px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* botón de cancelar dentro de las ventas en curso */
+.return-button.cancel-btn {
+    background-color: #ff4d4d;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.return-button.cancel-btn:hover {
+    background-color: #ff2222;
+}
+
+/* estado específico para ventas en curso */
+.item-status.en-curso {
+    background-color: #00d4ff;
+    color: #000;
+}
+
+/* mensaje de cancelación */
+.return-message.canceled {
+    color: #ff4d4d;
+}
+
+
+/* TK-013-2: métricas de ventas */
+.metrics-actions { display: flex; gap: .6rem; align-items: center; }
+.metrics-actions select, .metrics-actions button {
+    padding: .5rem .8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: #0f0f12;
+    color: #fff;
+    cursor: pointer;
+}
+.metrics-actions button { background: #00d4ff; color: #001018; font-weight: 800; border: none; }
+.metrics-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+.metrics-summary article {
+    background: #141419;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: .9rem 1rem;
+}
+.metrics-summary span { display: block; color: #94a3b8; font-size: .75rem; }
+.metrics-summary strong { font-size: 1.35rem; color: #00d4ff; }
+.metrics-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: .45rem;
+    min-height: 180px;
+    padding: 1rem;
+    background: #141419;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+.metrics-bar { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 150px; gap: .35rem; }
+.metrics-bar-fill { width: 100%; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #00d4ff, #0066ff); min-height: 4px; }
+.metrics-bar span { color: #94a3b8; font-size: .65rem; white-space: nowrap; }
+.metrics-empty { color: #94a3b8; margin: auto; }
