@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 
 from security.waf import RateLimitMiddleware
+from security.input_guard import InputSanitizationMiddleware
 
 from controller.routers.auth_routes import router as auth_router
 from controller.routers.rbac_routes import router as rbac_router
@@ -18,6 +19,7 @@ from controller.routers.password_reset_routes import router as password_reset_ro
 
 def include_extra_routes(app: FastAPI) -> None:
     app.add_middleware(RateLimitMiddleware)
+    app.add_middleware(InputSanitizationMiddleware)
     app.include_router(auth_router)
     app.include_router(rbac_router)
     app.include_router(oauth_router)
