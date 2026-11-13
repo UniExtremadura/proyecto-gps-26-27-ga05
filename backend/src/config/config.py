@@ -30,7 +30,8 @@ SESSION_COOKIE_SECURE = False  # Cambiar a True en producción con HTTPS
 
 # Roles de usuario
 # roles validos dentro de la aplicacion para control de permisos
-AVAILABLE_ROLES = ["cliente", "proveedor", "gestor", "visitante"]
+AVAILABLE_ROLES = ["cliente", "proveedor", "gestor", "organizador", "admin", "visitante"]
+DEFAULT_ROLE = "cliente"
 
 # Validaciones de entrada
 # longitud minima y maxima de contrasena permitida en validaciones de entrada
