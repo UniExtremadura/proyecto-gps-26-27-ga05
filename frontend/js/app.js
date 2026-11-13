@@ -504,11 +504,13 @@ const App = {
                     this.APP_CONTAINER.innerHTML = `
                         <div class="error-page" style="padding: 40px; text-align: center;">
                             <h1>Página no encontrada</h1>
-                            <p>${error.message}</p>
+                            <p id="page-load-error-message"></p>
                             <p><small>Intenta navegar a: eventos, tienda, carrito, login, etc.</small></p>
                             <a href="#index" style="color: #00d4ff; text-decoration: underline; font-weight: bold;">← Volver al inicio</a>
                         </div>
                     `;
+                    const errorMessage = this.APP_CONTAINER.querySelector('#page-load-error-message');
+                    if (errorMessage) errorMessage.textContent = error?.message || 'Error cargando la página.';
                 }
             });
     },
@@ -737,7 +739,7 @@ const App = {
                 globalThis[functionName]();
                 return true;
             } catch (error) {
-                console.error(`Error ejecutando ${functionName}:`, error);
+                console.error('Error ejecutando loader:', functionName, error);
             }
         }
         return false;

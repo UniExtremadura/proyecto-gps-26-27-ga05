@@ -75,6 +75,12 @@ function parseDate(dateStr) {
     return new Date(year, month - 1, day);
 }
 
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function getEventDate(event) {
     if (event.date) {
         const parts = event.date.split('-');
@@ -133,11 +139,11 @@ function updateActiveFiltersDisplay() {
         });
     }
     
-    selectedCities.forEach(city => {
+    selectedCities.forEach((city, index) => {
         filters.push({
             text: `🏙️ ${city}`,
             type: 'city',
-            value: city
+            index
         });
     });
 
@@ -154,11 +160,11 @@ function updateActiveFiltersDisplay() {
     } else {
         container.innerHTML = filters.map(f => {
             if (f.type === 'date') {
-                return `<div class="filter-tag">${f.text} <span class="filter-tag-remove" onclick="clearDateFilter()">×</span></div>`;
+                return `<div class="filter-tag">${escapeHtml(f.text)} <span class="filter-tag-remove" onclick="clearDateFilter()">×</span></div>`;
             } else if (f.type === 'name') {
-                return `<div class="filter-tag">${f.text} <span class="filter-tag-remove" onclick="clearNameFilter()">×</span></div>`;
+                return `<div class="filter-tag">${escapeHtml(f.text)} <span class="filter-tag-remove" onclick="clearNameFilter()">×</span></div>`;
             } else {
-                return `<div class="filter-tag">${f.text} <span class="filter-tag-remove" onclick="removeCityFilter('${f.value}')">×</span></div>`;
+                return `<div class="filter-tag">${escapeHtml(f.text)} <span class="filter-tag-remove" onclick="removeCityFilterByIndex(${f.index})">×</span></div>`;
             }
         }).join('');
     }
@@ -175,6 +181,14 @@ function clearDateFilter() {
 
 function removeCityFilter(city) {
     selectedCities = selectedCities.filter(c => c !== city);
+    renderSelectedCities();
+    updateActiveFiltersDisplay();
+    populateEvents();
+}
+
+function removeCityFilterByIndex(index) {
+    if (index < 0 || index >= selectedCities.length) return;
+    selectedCities.splice(index, 1);
     renderSelectedCities();
     updateActiveFiltersDisplay();
     populateEvents();
