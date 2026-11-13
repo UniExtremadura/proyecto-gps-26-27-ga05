@@ -9,6 +9,7 @@ from controller.routers.event_admin_routes import router as event_admin_router
 from controller.routers.booking_routes import router as booking_router
 from controller.routers.admin_moderation_routes import router as admin_moderation_router
 from controller.routers.profile_routes import router as profile_router
+from controller.routers.stock_routes import router as stock_router
 
 
 def include_extra_routes(app: FastAPI) -> None:
@@ -20,3 +21,4 @@ def include_extra_routes(app: FastAPI) -> None:
     app.include_router(booking_router)
     app.include_router(admin_moderation_router)
     app.include_router(profile_router)
+    app.include_router(stock_router)
