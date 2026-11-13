@@ -1,0 +1,37 @@
+<!-- TK-014-2: panel global de administración -->
+<div class="admin-panel-page">
+    <header class="admin-header">
+        <div>
+            <p class="admin-eyebrow">ADMINISTRACIÓN GLOBAL</p>
+            <h1>Panel de control</h1>
+            <p>Modera cuentas, revisa eventos y consulta las métricas de la plataforma.</p>
+        </div>
+        <button id="adminRefresh" type="button">ACTUALIZAR</button>
+    </header>
+
+    <section class="admin-kpis" id="adminKpis">
+        <article><span>Usuarios</span><strong id="kpiUsers">-</strong></article>
+        <article><span>Festivales</span><strong id="kpiEvents">-</strong></article>
+        <article><span>Pedidos</span><strong id="kpiOrders">-</strong></article>
+        <article><span>Ingresos</span><strong id="kpiRevenue">-</strong></article>
+    </section>
+
+    <section class="admin-grid">
+        <article class="admin-card">
+            <h2>Cuentas</h2>
+            <div id="adminUsersTable" class="admin-table-wrap"></div>
+        </article>
+        <article class="admin-card">
+            <h2>Eventos pendientes</h2>
+            <div id="adminEventsTable" class="admin-table-wrap"></div>
+        </article>
+    </section>
+
+    <section class="admin-card admin-metrics-card">
+        <div class="admin-card-head">
+            <h2>Estadísticas y exportación</h2>
+            <button id="adminExportCsv" type="button">EXPORTAR CSV</button>
+        </div>
+        <div id="adminMetricsChart" class="admin-chart"></div>
+    </section>
+</div>
