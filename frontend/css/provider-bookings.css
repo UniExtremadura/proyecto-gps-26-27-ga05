@@ -50,3 +50,19 @@
     font-size: .75rem;
 }
 .empty-bookings { color: #9aa4b2; }
+
+
+/* TK-012-2: historial de reservas */
+.booking-history-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.booking-history-head select {
+    padding: .45rem .7rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: #0f0f12;
+    color: #fff;
+}
+.booking-history-summary { display: flex; flex-wrap: wrap; gap: 1rem; color: #9aa4b2; font-size: .82rem; margin: .6rem 0 1rem; }
+.booking-history-summary strong { color: #00d4ff; }
+.booking-history-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.booking-history-table th, .booking-history-table td { text-align: left; padding: .55rem .4rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+.booking-history-table th { color: #9aa4b2; font-weight: 600; }

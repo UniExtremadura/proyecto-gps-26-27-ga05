@@ -79,3 +79,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('bookingVenue')?.addEventListener('change', refreshBookingSpaces);
     document.getElementById('bookingSubmit')?.addEventListener('click', submitBooking);
 });
+
+
+/* TK-012-2: historial de reservas pasadas */
+async function loadBookingHistory() {
+    const container = document.getElementById('bookingHistoryList');
+    const summary = document.getElementById('bookingHistorySummary');
+    if (!container) return;
+    const status = document.getElementById('bookingHistoryFilter')?.value || '';
+    try {
+        const response = await SubsonicAPI.request(`/bookings/history?status=${encodeURIComponent(status)}`);
+        const bookings = response?.data || [];
+        const totals = response?.summary || {};
+        if (summary) {
+            summary.innerHTML = `
+                <span>Total: <strong>${totals.total ?? 0}</strong></span>
+                <span>Activas: <strong>${totals.active ?? 0}</strong></span>
+                <span>Canceladas: <strong>${totals.cancelled ?? 0}</strong></span>
+                <span>Gasto: <strong>${Number(totals.total_spent || 0).toFixed(2)} €</strong></span>
+            `;
+        }
+        container.innerHTML = bookings.length
+            ? `
+                <table class="booking-history-table">
+                    <thead><tr><th>Recinto</th><th>Espacio</th><th>Fecha</th><th>Horario</th><th>Importe</th><th>Estado</th></tr></thead>
+                    <tbody>
+                        ${bookings.map((booking) => `
+                            <tr>
+                                <td>${booking.venue_id}</td>
+                                <td>${booking.space_id}</td>
+                                <td>${booking.date}</td>
+                                <td>${booking.start_time}-${booking.end_time}</td>
+                                <td>${Number(booking.price || 0).toFixed(2)} €</td>
+                                <td><span class="booking-status-pill">${booking.status}</span></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `
+            : '<p class="empty-bookings">No hay reservas en el historial.</p>';
+    } catch (error) {
+        container.innerHTML = '<p class="empty-bookings">No se pudo cargar el historial.</p>';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (!document.getElementById('bookingHistoryList')) return;
+    loadBookingHistory();
+    document.getElementById('bookingHistoryFilter')?.addEventListener('change', loadBookingHistory);
+});

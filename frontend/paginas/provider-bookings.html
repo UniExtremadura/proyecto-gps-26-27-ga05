@@ -31,4 +31,18 @@
         <h2>Mis reservas</h2>
         <div id="bookingList"></div>
     </section>
+
+    <!-- TK-012-2: historial de reservas pasadas -->
+    <section class="booking-list-card booking-history-card">
+        <div class="booking-history-head">
+            <h2>Historial de reservas</h2>
+            <select id="bookingHistoryFilter">
+                <option value="">Todas</option>
+                <option value="confirmada">Confirmadas</option>
+                <option value="cancelada">Canceladas</option>
+            </select>
+        </div>
+        <div class="booking-history-summary" id="bookingHistorySummary"></div>
+        <div id="bookingHistoryList"></div>
+    </section>
 </div>
