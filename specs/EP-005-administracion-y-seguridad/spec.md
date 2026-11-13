@@ -17,7 +17,7 @@
   - `TK-014-2`: Admin Dashboard UI — Vistas de tabla y moderación (9 h-p | Predecesor: MGT IT 3. Sprint planning | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 270,00 €).
 
 ### Criterios de aceptación
-- **US-014-AC-01:** Panel `/admin` con vistas de listado y búsqueda para gestionar usuarios (activar/suspender cuentas y cambiar roles), festivales (publicar, pausar o cancelar cualquier evento), recintos y catálogo de merchandising.
+- **US-014-AC-01:** Panel `/admin` con vistas de listado y búsqueda para gestionar usuarios (activar/suspender cuentas y cambiar roles), festivales (publicar, pausar o cancelar cualquier evento), recintos y catálogo de merchandising (este último a partir de la disponibilidad del módulo de `US-010`, ver Supuestos). Los estados de festival son los definidos en `US-008-AC-03`.
 - **US-014-AC-02:** Cuando un Administrador suspende una cuenta o pausa un festival por moderación, el cambio se aplica de inmediato e invalida las sesiones activas del usuario suspendido.
 - **US-014-AC-03:** Toda acción administrativa de modificación de rol, suspensión de usuario o alteración de estado de un evento queda registrada en una tabla de auditoría (`audit_log`) con fecha, ID del administrador y motivo.
 
@@ -28,7 +28,7 @@
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* El Admin asigna el rol `Organizador` a un usuario registrado y aprueba un nuevo recinto: la acción queda grabada en `audit_log`.
   * *Caso Límite:* Intento de un Administrador de desactivar su propia cuenta: el sistema rechaza la operación con HTTP `400 Bad Request` ("No puedes suspender tu propia cuenta de administrador").
-- **Supuestos:** Existe al menos una cuenta `Admin` preconfigurada mediante el *seeder* inicial de la base de datos.
+- **Supuestos:** Existe al menos una cuenta `Admin` preconfigurada mediante el *seeder* inicial de la base de datos. Al planificarse en IT-003 (anterior a `US-010`, en IT-004), la entrega inicial de esta historia cubre usuarios, festivales y recintos; la moderación del catálogo de merchandising se incorpora al panel cuando el módulo de `US-010` esté disponible.
 
 ---
 
@@ -92,7 +92,7 @@
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Un script automatizado lanza 15 peticiones de login seguidas en 10 segundos: las primeras 10 reciben respuesta normal y de la 11 a la 15 reciben HTTP `429 Too Many Requests`.
   * *Caso Límite:* Intento de crear un festival con título `<script>alert(1)</script>`: el sistema sanitiza o rechaza la entrada impidiendo la ejecución de código en el navegador.
-- **Supuestos:** El control de *rate-limiting* opera en memoria del servidor o sobre la instancia local de Redis.
+- **Supuestos:** El control de *rate-limiting* opera en memoria del servidor o sobre la instancia local de Redis. Las cabeceras de seguridad de `US-016-AC-03` se configuran junto con la política CORS en `TK-017-2` (`US-017`), dentro de la misma iteración IT-005.
 
 ---
 
@@ -126,4 +126,4 @@
   * *Ejemplo:* Petición `GET /api/users/me`: devuelve la información del perfil del usuario en JSON omitiendo por completo los campos `password_hash` y tokens internos.
   * *Caso Límite:* Intento de acceso inseguro mediante `http://`: el servidor devuelve un código de estado `301 Moved Permanently` redirigiendo inmediatamente hacia la versión `https://`.
   * *Caso Límite:* Registro de petición en logs: una solicitud con cuerpo `{"email": "a@a.com", "password": "Secret123!"}` se escribe en los registros del servidor como `{"email": "a@a.com", "password": "***"}`.
-- **Supuestos:** Se dispone de un certificado SSL/TLS autofirmado o simulado configurado en el entorno local de desarrollo.
+- **Supuestos:** Se dispone de un certificado SSL/TLS autofirmado o simulado configurado en el entorno local de desarrollo. Los campos `telefono` y `direccion` cifrados en reposo son los del perfil gestionado en `US-003`. Las cabeceras de seguridad HTTP de `US-016-AC-03` se configuran en `TK-017-2`.

@@ -20,6 +20,7 @@
 - **US-009-AC-01:** El proveedor autenticado visualiza el listado de festivales activos con sus espacios/zonas para proveedores indicando estado (`Disponible`, `Reservado`), dimensiones y tarifa simulada.
 - **US-009-AC-02:** El proveedor puede seleccionar un espacio `Disponible` y confirmar su reserva ficticia, cambiando inmediatamente el estado del espacio a `Reservado` y asociándolo a su cuenta.
 - **US-009-AC-03:** Si dos proveedores intentan reservar el mismo espacio simultáneamente, el sistema procesa únicamente la primera transacción y devuelve HTTP `409 Conflict` al segundo indicando "El espacio seleccionado ya no está disponible".
+- **US-009-AC-04:** El proveedor titular de una reserva puede cancelarla mientras falten más de 7 días para el inicio del festival: el espacio vuelve a `Disponible`, se desvincula de su cuenta y la participación queda registrada como `Cancelado` en su historial (`US-012`). Si faltan 7 días o menos, el sistema rechaza la cancelación con HTTP `400 Bad Request` y el mensaje "No es posible cancelar la reserva a menos de 7 días del inicio del festival".
 
 ### Verificación y restricciones
 - **Reglas de Negocio:** Solo usuarios con rol `Proveedor` o `Admin` pueden realizar o gestionar reservas de espacios B2B. Un proveedor puede cancelar su reserva mientras falten más de 7 días para el inicio del festival.
@@ -27,8 +28,9 @@
 - **Requisitos No Funcionales (RNF):** Bloqueo pesimista u optimista en base de datos para impedir dobles reservas del mismo espacio.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Proveedor reserva el "Stand Zona Gastro A-01" para el festival "Subsonic 2026": recibe confirmación en pantalla y el espacio pasa a `Reservado`.
-  * *Caso Límite:* Intento de reservar un espacio en un festival ya finalizado o pausado: devuelve HTTP `400 Bad Request`.
-- **Supuestos:** Los festivales disponen de zonas/espacios de proveedor predefinidos en los datos semilla del sistema.
+  * *Caso Límite:* Intento de reservar un espacio en un festival `Pausado`, `Cancelado` o ya `Finalizado` (estados definidos en `US-008-AC-03`): devuelve HTTP `400 Bad Request`.
+  * *Caso Límite:* El proveedor intenta cancelar su reserva cuando faltan 5 días para el inicio del festival: el sistema rechaza la operación (`400 Bad Request`) y el espacio permanece `Reservado`.
+- **Supuestos:** Los festivales disponen de zonas/espacios de proveedor predefinidos en los datos semilla del sistema. Los festivales sobre los que se reservan espacios son los creados y publicados mediante `US-008`; las cancelaciones alimentan el historial de `US-012`.
 
 ---
 
@@ -60,7 +62,7 @@
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Alta de "Camiseta Oficial Subsonic" a 20 € con 50 unidades de stock: aparece publicada en la ficha del festival.
   * *Caso Límite:* Un cliente intenta reservar 5 unidades cuando solo quedan 2 en stock: el sistema bloquea la operación e informa "Solo quedan 2 unidades disponibles".
-- **Supuestos:** Las imágenes de productos utilizan recursos locales o URLs ficticias de prueba.
+- **Supuestos:** Las imágenes de productos utilizan recursos locales o URLs ficticias de prueba. Los festivales a los que se asocian los artículos son los gestionados mediante `US-008`.
 
 ---
 
@@ -114,12 +116,12 @@
   - `TK-012-2`: History Panel UI — Tabla de reservas pasadas en el panel (5 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 150,00 €).
 
 ### Criterios de aceptación
-- **US-012-AC-01:** El proveedor dispone de una sección "Mis Participaciones" que lista todos los festivales (pasados y activos) donde tiene o ha tenido espacios reservados, indicando fechas, recinto, ubicación del espacio y estado (`Finalizado`, `Activo`, `Cancelado`).
+- **US-012-AC-01:** El proveedor dispone de una sección "Mis Participaciones" que lista todos los festivales (pasados y activos) donde tiene o ha tenido espacios reservados, indicando fechas, recinto, ubicación del espacio y estado de la participación (`Finalizado`, `Activo`, `Cancelado`; este último corresponde a reservas canceladas conforme a `US-009-AC-04` o a festivales `Cancelado` según `US-008-AC-03`).
 - **US-012-AC-02:** Permite filtrar el historial por año y por estado de la participación.
 - **US-012-AC-03:** Al seleccionar una participación, muestra el detalle del espacio asignado y el resumen de actividad vinculada a ese festival.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** Las participaciones en festivales cuya fecha de finalización ya ha vencido se marcan automáticamente como `Finalizado` en modo de solo lectura.
+- **Reglas de Negocio:** Las participaciones en festivales cuya fecha de finalización ya ha vencido se marcan automáticamente como `Finalizado` en modo de solo lectura, salvo las que ya figuren como `Cancelado`, que conservan ese estado.
 - **Restricciones:** Acceso restringido exclusivamente al proveedor titular de las reservas o a un usuario `Admin`.
 - **Requisitos No Funcionales (RNF):** Paginación de resultados de 20 elementos por página.
 - **Ejemplos y Casos Límite:**

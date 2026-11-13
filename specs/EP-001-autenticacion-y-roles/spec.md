@@ -18,18 +18,18 @@
   - `TK-001-3`: Testing Auth — Pruebas unitarias y de integración (2 h-p | Predecesor: `TK-001-1`, `TK-001-2` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 60,00 €).
 
 ### Criterios de aceptación
-- **US-001-AC-01:** Registro exitoso con email único, contraseña segura (mínimo 8 caracteres, 1 mayúscula, 1 número) y confirmación de contraseña.
+- **US-001-AC-01:** Registro exitoso con nombre, email único, contraseña segura (mínimo 8 caracteres, 1 mayúscula, 1 número) y confirmación de contraseña.
 - **US-001-AC-02:** Inicio de sesión que emite un token JWT con tiempo de expiración de 24 horas tras validar credenciales.
 - **US-001-AC-03:** Mensaje de error genérico "Credenciales incorrectas" al fallar la autenticación, evitando revelar si el fallo es del correo o de la clave.
 - **US-001-AC-04:** Cierre de sesión (*logout*) que destruye el token en el cliente y envía una petición a la API (`POST /api/auth/logout`) que añade el token a la lista de revocación (*blacklist*) en el servidor.
 - **US-001-AC-05:** Cualquier petición posterior utilizando un token revocado o expirado debe ser rechazada con un código HTTP `401 Unauthorized`.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** El correo electrónico se normalizará a minúsculas. No pueden coexistir dos cuentas activas con el mismo correo electrónico.
+- **Reglas de Negocio:** El correo electrónico se normalizará a minúsculas. No pueden coexistir dos cuentas activas con el mismo correo electrónico. El nombre es obligatorio y no puede estar vacío ni contener solo espacios en blanco (mismo criterio que `US-003`). El mecanismo de revocación debe permitir invalidar un token concreto (*logout*) y también todas las sesiones de un usuario (p. ej. mediante una marca temporal de invalidación por usuario), ya que lo requieren `US-005-AC-03` y `US-014-AC-02`. La respuesta `409` del registro revela que un correo ya existe: se acepta como compromiso de usabilidad y se mitiga con el *rate-limiting* de `US-016-AC-01`; el flujo de recuperación de `US-005` sí evita la enumeración de usuarios.
 - **Restricciones:** Las contraseñas deben cifrarse obligatoriamente mediante Bcrypt (factor de coste ≥ 10). Uso exclusivo de datos ficticios.
 - **Requisitos No Funcionales (RNF):** Tiempo de procesamiento del inicio de sesión < 500 ms.
 - **Ejemplos y Casos Límite:**
-  * *Ejemplo:* Registro con `usuario@ejemplo.com` y clave `Festival2026!`: crea la cuenta e inicia sesión automáticamente.
+  * *Ejemplo:* Registro con nombre `Ana Prueba`, `usuario@ejemplo.com` y clave `Festival2026!`: crea la cuenta e inicia sesión automáticamente.
   * *Caso Límite:* Intento de registro con un correo ya existente: devuelve error `409 Conflict` e indica "El correo electrónico ya está registrado".
 - **Supuestos:** Se asume el uso de cuentas de correo simuladas para las pruebas del entorno local.
 
@@ -53,7 +53,7 @@
   - `TK-002-3`: Test Roles — Verificación de accesos denegados/permitidos (3 h-p | Predecesor: `TK-002-2` | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 90,00 €).
 
 ### Criterios de aceptación
-- **US-002-AC-01:** El sistema soporta los roles `Guest`, `Cliente`, `Organizador`, `Proveedor` y `Admin` asociados al perfil de usuario y codificados en las reclamaciones (*claims*) del token JWT.
+- **US-002-AC-01:** El sistema soporta los roles `Cliente`, `Organizador`, `Proveedor` y `Admin`, asociados al perfil de usuario y codificados en las reclamaciones (*claims*) del token JWT. `Guest` es el estado implícito del visitante sin sesión: no tiene perfil ni token y solo accede a las rutas públicas.
 - **US-002-AC-02:** El middleware de autorización verifica el rol del usuario antes de ejecutar cualquier endpoint protegido, devolviendo `403 Forbidden` si el rol no tiene permisos suficientes.
 - **US-002-AC-03:** La interfaz de usuario oculta las rutas y menús de administración, organización o proveedor a los usuarios que no posean dicho rol activo.
 
@@ -63,8 +63,8 @@
 - **Requisitos No Funcionales (RNF):** Sobrecarga de validación del middleware < 20 ms por petición.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Un usuario con rol `Cliente` intenta acceder a `POST /api/events`: recibe HTTP `403 Forbidden`.
-  * *Caso Límite:* Un usuario sin sesión (`Guest`) intenta acceder a `/perfil`: es redirigido automáticamente a `/login` con estado `401 Unauthorized`.
-- **Supuestos:** Se dispone de semillas de datos (*seeders*) con usuarios ficticios preconfigurados para cada uno de los 5 roles.
+  * *Caso Límite:* Un usuario sin sesión (`Guest`) intenta acceder a `/perfil`: la API responde `401 Unauthorized` y el frontend lo redirige automáticamente a `/login`.
+- **Supuestos:** Se dispone de semillas de datos (*seeders*) con usuarios ficticios preconfigurados para cada uno de los roles con sesión (`Cliente`, `Organizador`, `Proveedor` y `Admin`).
 
 ---
 
@@ -96,7 +96,7 @@
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Cambio de teléfono de `600000000` a `611111111`: se guarda en la BD y muestra la notificación "Perfil actualizado correctamente".
   * *Caso Límite:* Intento de cambiar el correo a uno que ya pertenece a otro usuario registrado: el sistema deniega el cambio y notifica el conflicto (`409 Conflict`).
-- **Supuestos:** Se asume que la modificación de los datos de contacto no altera las reservas emitidas con anterioridad.
+- **Supuestos:** Se asume que la modificación de los datos de contacto no altera las reservas emitidas con anterioridad. El email de verificación de `US-003-AC-03` se envía mediante el servicio SMTP simulado local (Mailpit/Mailtrap) del entorno de desarrollo, el mismo que emplean `US-005` y `US-011`.
 
 ---
 
@@ -147,12 +147,12 @@
 - **Plan inicial:** IT-005 (Sprint 5)
 - **Coste Total Estimado:** 220,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-005):**
-  - `TK-005-1`: Reset Token API — Generación de JWT único de recuperación (4 h-p | Predecesor: MGT IT 5. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
+  - `TK-005-1`: Reset Token API — Generación de token único de recuperación (4 h-p | Predecesor: MGT IT 5. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 100,00 €).
   - `TK-005-2`: Reset Form — Flujo web y plantilla de correo electrónico (4 h-p | Predecesor: `TK-005-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
 
 ### Criterios de aceptación
 - **US-005-AC-01:** Al introducir un correo en `/recuperar-password`, el sistema devuelve siempre el mismo mensaje de confirmación ("Si el correo está registrado, recibirás un enlace de recuperación") para evitar la enumeración de usuarios.
-- **US-005-AC-02:** Si el correo existe, se genera un token criptográfico de un solo uso con caducidad de 15 minutos y se envía el enlace de restablecimiento mediante el servicio SMTP simulado.
+- **US-005-AC-02:** Si el correo existe, se genera un token criptográfico aleatorio y opaco (no un JWT) de un solo uso con caducidad de 15 minutos y se envía el enlace de restablecimiento mediante el servicio SMTP simulado.
 - **US-005-AC-03:** Al enviar la nueva contraseña válida junto con el token vigente, el sistema actualiza el hash Bcrypt de la clave, invalida el token de recuperación y revoca las sesiones anteriores.
 
 ### Verificación y restricciones
@@ -162,4 +162,4 @@
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Usuario solicita recuperación, abre el enlace antes de 15 minutos, introduce su nueva clave y accede con éxito en `/login`.
   * *Caso Límite:* Intento de usar un enlace transcurridos más de 15 minutos o ya utilizado: devuelve HTTP `400 Bad Request` con el mensaje "El enlace de recuperación ha expirado o no es válido".
-- **Supuestos:** En el entorno de desarrollo se utiliza un buzón SMTP local simulado (ej. Mailpit/Mailtrap) para inspeccionar los correos enviados.
+- **Supuestos:** En el entorno de desarrollo se utiliza un buzón SMTP local simulado (ej. Mailpit/Mailtrap) para inspeccionar los correos enviados, compartido con `US-003` y `US-011`.

@@ -55,10 +55,10 @@
 - **US-007-AC-03:** Implementación de caché en memoria (Redis o caché en servidor) para el listado de festivales destacados con un TTL de 5 minutos e invalidación automática ante modificaciones en el catálogo.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** La caché debe invalidarse inmediatamente cuando un organizador o administrador publique, edite o pause un festival.
+- **Reglas de Negocio:** La caché debe invalidarse inmediatamente cuando un organizador o administrador publique, edite, pause o cancele un festival.
 - **Restricciones:** El peso total transferido en la primera carga de la página principal no debe exceder los 1,5 MB (comprimido).
 - **Requisitos No Funcionales (RNF):** Puntuación de rendimiento (*Performance*) superior a 85/100 en Google Lighthouse sobre el entorno local/staging.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Peticiones repetidas al listado principal: se sirven desde caché en menos de 300 ms sin realizar consultas redundantes a la base de datos.
   * *Caso Límite:* Caída o indisponibilidad del servicio de caché: el sistema realiza *fallback* transparente consultando la base de datos sin interrumpir el servicio.
-- **Supuestos:** El servidor web soporta compresión HTTP (Gzip/Brotli).
+- **Supuestos:** El servidor web soporta compresión HTTP (Gzip/Brotli). La invalidación de la caché se engancha a los cambios de catálogo realizados desde la gestión de eventos del Organizador (`US-008`) y desde el panel de administración (`US-014`).
