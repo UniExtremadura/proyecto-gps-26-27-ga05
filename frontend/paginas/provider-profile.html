@@ -1,0 +1,69 @@
+<!-- PERFIL PROVEEDOR -->
+<div class="profile-page profile-extended" id="profilePage">
+    <div class="profile-container">
+        <header class="profile-header">
+            <div class="profile-avatar-container">
+                <div class="profile-avatar-large">
+                    <img id="profilePageAvatar" src="./assets/img/User.png" alt="Avatar">
+                </div>
+            </div>
+            <div class="profile-info">
+                <p class="profile-eyebrow">PERFIL DE PROVEEDOR</p>
+                <h1 id="profilePageName">Proveedor</h1>
+                <p id="profilePageEmail" class="profile-email">proveedor@ejemplo.com</p>
+                <p class="profile-role" id="profilePageRole">PROVEEDOR</p>
+                <p id="profilePageCreated" class="profile-member-date"></p>
+            </div>
+        </header>
+
+        <section class="profile-content">
+            <div class="profile-card">
+                <h2>Datos de la empresa</h2>
+                <form id="profilePageForm" class="form-grid">
+                    <div class="form-group">
+                        <label for="profileNameInput">Nombre completo</label>
+                        <input id="profileNameInput" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileEmailInput">Correo electrónico</label>
+                        <input id="profileEmailInput" type="email">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="profileAddressInput">Dirección</label>
+                        <input id="profileAddressInput" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileCityInput">Ciudad</label>
+                        <input id="profileCityInput" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="profilePostalInput">Código postal</label>
+                        <input id="profilePostalInput" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileCountryInput">País</label>
+                        <input id="profileCountryInput" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileCompanyInput">Empresa</label>
+                        <input id="profileCompanyInput" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileBusinessInput">Área de negocio</label>
+                        <input id="profileBusinessInput" type="text">
+                    </div>
+                    <div class="form-actions full-width">
+                        <span id="profilePageStatus" class="form-message"></span>
+                        <button type="submit" class="save-btn">GUARDAR CAMBIOS</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="profile-shortcuts">
+                <a class="btn btn-primary" href="#ventas" data-page="ventas">VER MIS VENTAS</a>
+                <a class="btn btn-outline" href="#provider-bookings" data-page="provider-bookings">RESERVAR RECINTO</a>
+                <button id="profileLogout" class="btn btn-outline danger" type="button">CERRAR SESIÓN</button>
+            </div>
+        </section>
+    </div>
+</div>

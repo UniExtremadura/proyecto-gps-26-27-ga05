@@ -1,0 +1,49 @@
+<!-- GESTIÓN DE ARTISTAS -->
+<header class="manager-header">
+    <div>
+        <p class="manager-eyebrow">LINE-UP</p>
+        <h1>ARTISTAS</h1>
+        <p>Administra los artistas que forman parte del cartel.</p>
+    </div>
+    <a class="btn btn-outline" href="#manager-profile" data-page="manager-profile">MI PERFIL</a>
+</header>
+
+<section class="manager-panel">
+    <div class="manager-form-card">
+        <h2>Artista</h2>
+        <form id="artistManagerForm" class="manager-form-grid">
+            <input id="artistId" type="hidden">
+            <div class="form-group">
+                <label for="artistName">Nombre</label>
+                <input id="artistName" type="text" placeholder="Nombre del artista" required>
+            </div>
+            <div class="form-group">
+                <label for="artistGenre">Género</label>
+                <input id="artistGenre" type="text" placeholder="Indie, electrónica...">
+            </div>
+            <div class="form-group">
+                <label for="artistCountry">País</label>
+                <input id="artistCountry" type="text" placeholder="España">
+            </div>
+            <div class="form-group full-width">
+                <label for="artistImage">Imagen (URL o ruta)</label>
+                <input id="artistImage" type="text" placeholder="./assets/img/artist.svg">
+            </div>
+            <div class="form-group full-width">
+                <label for="artistBio">Biografía</label>
+                <textarea id="artistBio" rows="4" placeholder="Biografía del artista..."></textarea>
+            </div>
+            <div class="form-actions full-width">
+                <span id="artistManagerStatus" class="form-message"></span>
+                <button type="submit" class="btn btn-primary">GUARDAR ARTISTA</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="manager-list-card">
+        <h2>Cartel</h2>
+        <div id="managerArtistsGrid" class="manager-grid">
+            <p class="loading-state">Cargando artistas...</p>
+        </div>
+    </div>
+</section>

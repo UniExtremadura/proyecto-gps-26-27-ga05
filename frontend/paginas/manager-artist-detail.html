@@ -1,0 +1,44 @@
+<!-- DETALLE / EDICIÓN DE ARTISTA -->
+<section class="detail-page">
+    <a class="back-link" href="#manager-artists" data-page="manager-artists">← Volver a artistas</a>
+
+    <header class="detail-header">
+        <p class="manager-eyebrow">GESTIÓN DE ARTISTAS</p>
+        <h1 id="artistDetailTitle">Artista</h1>
+    </header>
+
+    <div class="detail-card">
+        <form id="artistDetailForm" class="manager-form-grid">
+            <input id="artistDetailId" type="hidden">
+
+            <div class="form-group full-width">
+                <label for="artistDetailName">Nombre</label>
+                <input id="artistDetailName" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="artistDetailGenre">Género</label>
+                <input id="artistDetailGenre" type="text">
+            </div>
+            <div class="form-group">
+                <label for="artistDetailCountry">País</label>
+                <input id="artistDetailCountry" type="text">
+            </div>
+            <div class="form-group full-width">
+                <label for="artistDetailImage">Imagen (URL o ruta)</label>
+                <input id="artistDetailImage" type="text">
+            </div>
+            <div class="form-group full-width">
+                <label for="artistDetailBio">Biografía</label>
+                <textarea id="artistDetailBio" rows="5"></textarea>
+            </div>
+
+            <div class="form-actions full-width">
+                <span id="artistDetailStatus" class="form-message"></span>
+                <div class="detail-actions">
+                    <button id="artistDetailDelete" class="btn btn-outline danger" type="button">ELIMINAR</button>
+                    <button id="artistDetailSubmit" class="btn btn-primary" type="submit">GUARDAR CAMBIOS</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

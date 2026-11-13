@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUBSONIC FESTIVAL</title>
+    <link rel="icon" type="image/png" href="./assets/img/logoPrincipal.png">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/auth-local.css">
+    <link rel="stylesheet" href="./css/manager-artists.css">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav id="navbar" class="navbar">
+        <div class="navbar-logo">
+            <a href="#index" data-page="index" class="navbar-logo-link">
+                <img
+                    src="./assets/img/logoPrincipal.png"
+                    alt="Subsonic Logo"
+                    class="logo-img"
+                >
+                <span class="logo-text">SUBSONIC</span>
+            </a>
+        </div>
+
+        <div class="navbar-search">
+            <input type="text" placeholder="Buscar festivales..." id="searchInput" class="navbar-search-input">
+            <div id="searchResults" class="search-results-dropdown" style="display:none;"></div>
+        </div>
+
+        <div class="navbar-links">
+            <a href="#eventos" data-page="eventos">EVENTOS</a>
+            <a href="#tienda" data-page="tienda">TIENDA</a>
+            <a href="#carrito" data-page="carrito">CARRITO</a>
+        </div>
+
+        <div class="navbar-user">
+            <span id="user-greeting" class="user-greeting">Hola, Visitante</span>
+            <a href="#login" data-page="login" id="user-avatar-link">
+                <div class="user-avatar">
+                    <img src="./assets/img/User.png" alt="User">
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Contenedor principal para contenido dinámico -->
+    <main id="main-content">
+        <!-- Principal sección (contenido inicial antes de que cargue app.js) -->
+        <section class="principal">
+            <div class="principal-overlay"></div>
+            <img 
+                src="./assets/img/fondoPrincipal.svg" 
+                class="principal-bg" 
+                alt="Festival background"
+            >
+            <div class="principal-content">
+                <!-- Imagen real del logo -->
+                <div class="principal-logo">
+                    <img
+                        src="./assets/img/logoPrincipal.png"
+                        alt="Subsonic Logo"
+                        class="principal-logo-img"
+                    >
+                </div>
+
+                <h1 class="principal-title">SUBSONIC FESTIVAL 2026</h1>
+                <p class="principal-description">
+                    La mayor convergencia de sonido subatómico y ritmos electrónicos. 
+                    Una experiencia sensorial única en el corazón de la dehesa.
+                </p>
+                <div class="principal-buttons">
+                    <a href="#eventos" data-page="eventos" class="btn btn-primary">COMPRAR ENTRADAS</a>
+                    <button class="btn btn-outline">EXPLORAR LINE-UP</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secciones de contenido -->
+        <section class="lineup-section">
+            <h2 class="section-title">LINE-UP 2026</h2>
+            <div class="lineup-grid" id="lineup-grid">
+                <!-- Se genera con JS -->
+            </div>
+        </section>
+
+        <section class="experiences-section festivals-section">
+            <div class="experiences-container festivals-container">
+                <h2 class="section-title section-title-left">FESTIVALES SUBSONIC</h2>
+                <div class="festivals-globe-wrap">
+                    <div id="festivals-globe" class="festivals-globe" aria-label="Mapa global de festivales"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 Subsonic Festival. Todos los derechos reservados.</p>
+        </footer>
+    </main>
+
+    <!-- Scripts en orden correcto -->
+    <link rel="stylesheet" href="./css/lazy-load.css">
+
+    <!-- 1. Configuración local (stub de Firebase para compatibilidad) -->
+    <script src="./js/firebase-config.js"></script>
+
+    <!-- 2. API Client (para hacer fetch) -->
+    <script src="./js/api-client.js"></script>
+
+    <!-- 3. Autenticación (usa SubsonicAPI) -->
+    <script src="./js/auth.js"></script>
+
+    <!-- 4. Router/App principal (usa AUTH) -->
+    <script src="./js/auth-local.js"></script>
+    <script src="./js/oauth.js"></script>
+    <script src="./js/app.js"></script>
+
+    <!-- 5. Scripts globales -->
+    <script src="./js/navbar.js"></script>
+    <script src="./js/neural-glow.js"></script>
+    <script src="./js/lazy-load.js"></script>
+</body>
+</html>

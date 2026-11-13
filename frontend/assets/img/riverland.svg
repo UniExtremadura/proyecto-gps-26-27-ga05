@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1a2a"/>
+      <stop offset="0.55" stop-color="#123c4d"/>
+      <stop offset="1" stop-color="#06121a"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00d4ff" stop-opacity="0.2"/>
+      <stop offset="0.5" stop-color="#7dd3fc" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#00d4ff" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="620" cy="120" r="70" fill="#a5f3fc" opacity="0.18"/>
+  <circle cx="620" cy="120" r="46" fill="#e0f2fe" opacity="0.28"/>
+  <path d="M0 300 L120 220 L220 285 L340 190 L470 280 L590 205 L720 275 L800 225 L800 500 L0 500Z" fill="#071018"/>
+  <path d="M0 360 Q200 320 400 365 T 800 355 L800 500 L0 500Z" fill="#030a10"/>
+  <path d="M0 405 Q 200 380 400 410 T 800 400" stroke="url(#river)" stroke-width="26" fill="none" opacity="0.8"/>
+  <g fill="#e0f2fe">
+    <text x="52" y="92" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="6" opacity="0.8">SUBSONIC PRESENTS</text>
+    <text x="50" y="152" font-family="Segoe UI, Arial, sans-serif" font-size="54" font-weight="900" letter-spacing="1">RIVERLAND</text>
+    <text x="50" y="198" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="600" letter-spacing="8" opacity="0.75">FEST 2026</text>
+    <text x="52" y="242" font-family="Segoe UI, Arial, sans-serif" font-size="16" opacity="0.7">PRAVIA · ASTURIAS · 20 JUNIO</text>
+  </g>
+</svg>

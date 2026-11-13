@@ -1,0 +1,103 @@
+<!-- PAGE DE VENTAS -->
+    <div class="ventas-page historial-page">
+        <div class="historial-container">
+            <!-- BOTÓN VOLVER -->
+            <a href="#" id="back-button" class="back-button">← Volver al Perfil</a>
+
+            <!-- HEADER: RESUMEN FINANCIERO -->
+            <header class="operations-header">
+                <div class="header-top">
+                    <div class="header-left">
+                        <p class="header-label">Panel de Control Profesional</p>
+                        <h1 id="company-name">Empresa</h1>
+                    </div>
+                    <div class="header-right">
+                        <p class="balance-label">Balance de Cuenta</p>
+                        <p id="current-balance" class="balance-amount">€0.00</p>
+                    </div>
+                </div>
+                
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <span class="card-label">Slots Reservados</span>
+                        <p id="slots-reservados" class="card-value">0 Espacios activos</p>
+                    </div>
+                    <div class="summary-card">
+                        <span class="card-label">Ventas de hoy</span>
+                        <p id="ventas-hoy" class="card-value">€0.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <span class="card-label">Próximo evento</span>
+                        <p id="proximo-evento" class="card-value">Ninguno</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- TABLA DE OPERACIONES -->
+            <section class="operations-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Historial de Operaciones</h2>
+                        <button class="new-reserva-btn">NUEVA RESERVA DE SLOT</button>
+                    </div>
+                    
+                    <div class="table-wrapper">
+                        <table class="operations-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Operación</th>
+                                    <th>Concepto</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha / Hora</th>
+                                    <th>Importe</th>
+                                    <th>Estado</th>
+                                    <th>Gestión</th>
+                                </tr>
+                            </thead>
+                            <tbody id="operations-tbody">
+                                <!-- filas se generan con JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <!-- TK-013-2: métricas, gráficos y exportación -->
+            <section class="operations-section metrics-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Métricas de ventas</h2>
+                        <div class="metrics-actions">
+                            <select id="metricsPeriod">
+                                <option value="7">Últimos 7 días</option>
+                                <option value="30" selected>Últimos 30 días</option>
+                                <option value="90">Últimos 90 días</option>
+                            </select>
+                            <button id="metricsExport" type="button">EXPORTAR CSV</button>
+                        </div>
+                    </div>
+
+                    <div class="metrics-summary" id="metricsSummary">
+                        <article><span>Ingresos</span><strong id="metricsRevenue">-</strong></article>
+                        <article><span>Pedidos</span><strong id="metricsOrders">-</strong></article>
+                        <article><span>Unidades</span><strong id="metricsUnits">-</strong></article>
+                        <article><span>Ticket medio</span><strong id="metricsTicket">-</strong></article>
+                    </div>
+
+                    <div class="metrics-chart" id="metricsChart"></div>
+
+                    <div class="table-wrapper">
+                        <table class="operations-table metrics-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Unidades</th>
+                                    <th>Ingresos</th>
+                                </tr>
+                            </thead>
+                            <tbody id="metrics-productos"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
