@@ -1,0 +1,27 @@
+<!-- NAVBAR -->
+    
+
+    <!-- HEADER MERCH -->
+    <header class="merch-header">
+        <h1>OFFICIAL MERCHANDISE</h1>
+        <p>Lleva la energía del festival contigo. Ropa oficial, accesorios exclusivos y coleccionables de edición limitada.</p>
+    </header>
+
+    <div class="merch-controls">
+        <input type="text" id="merchSearch" placeholder="Buscar productos...">
+        <div class="category-filters" id="categoryFilters">
+            <button data-category="Todos" class="active">Todos</button>
+            <button data-category="Ropa">Ropa</button>
+            <button data-category="Accesorios">Accesorios</button>
+            <button data-category="Coleccionables">Coleccionables</button>
+            <button data-category="Varios">Varios</button>
+        </div>
+    </div>
+
+    <!-- TK-010-2: aviso de stock y filtro de disponibilidad -->
+    <div class="merch-stock-toolbar">
+        <label><input id="merchOnlyAvailable" type="checkbox" /> Solo productos disponibles</label>
+        <span id="merchStockSummary" class="merch-stock-summary"></span>
+    </div>
+
+    <section class="products-grid" id="productsGrid"></section>
