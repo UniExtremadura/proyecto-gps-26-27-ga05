@@ -21,14 +21,16 @@
 - **US-006-AC-02:** El buscador permite filtrar la lista en tiempo real por texto (nombre de festival o artista) y por rango de fechas sin recargar la página.
 - **US-006-AC-03:** Al hacer clic en un festival, el sistema muestra su ficha de detalle con la cartelera completa, ubicación, aforo disponible y botón de selección/reserva simulada de entradas.
 - **US-006-AC-04:** Si no se encuentran resultados, el sistema muestra el mensaje "No se encontraron festivales que coincidan con la búsqueda" y un botón para limpiar filtros.
+- **US-006-AC-05:** La navegación por el catálogo y la ficha de detalle es pública (`Guest` o cualquier rol), pero confirmar una reserva simulada de entradas requiere sesión iniciada con rol `Cliente` y respeta tanto el aforo disponible como el límite máximo de entradas por usuario configurado en `US-008-AC-02`.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** Solo se muestran públicamente aquellos festivales cuyo estado sea "Publicado" y tengan fecha de finalización igual o posterior a la fecha actual.
-- **Restricciones:** Las imágenes de los carteles promocionales no deben superar los 2 MB de tamaño. Todos los eventos y artistas del catálogo son ficticios.
+- **Reglas de Negocio:** Solo se muestran públicamente aquellos festivales cuyo estado sea "Publicado" y tengan fecha de finalización igual o posterior a la fecha actual. Si un visitante sin sesión (`Guest`) intenta confirmar una reserva de entradas, es redirigido a `/login`; si lo intenta un usuario autenticado con un rol distinto de `Cliente`, el servidor responde HTTP `403 Forbidden`.
+- **Restricciones:** Las imágenes de los carteles promocionales no deben superar los 2 MB de tamaño. Todos los eventos y artistas del catálogo son ficticios y las reservas de entradas son 100% simuladas.
 - **Requisitos No Funcionales (RNF):** Tiempo de filtrado < 100 ms (percentil p95) sobre un catálogo de hasta 500 eventos activos en entorno de pruebas local.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Búsqueda "Rock" o filtro por mes de julio: muestra "Subsonic RockFest 2026" y oculta los eventos que no coinciden.
   * *Caso Límite:* Acceso directo vía URL a un festival no publicado o inexistente: muestra una página de error `404` "Evento no disponible".
+  * *Caso Límite:* Un `Cliente` intenta reservar más entradas de una modalidad que el límite por usuario definido en `US-008-AC-02` (o más de las disponibles): el sistema rechaza la operación con HTTP `400 Bad Request` indicando el máximo permitido.
 - **Supuestos:** Se asume que las imágenes están servidas desde almacenamiento local o estático simulado.
 
 ---

@@ -23,14 +23,16 @@
 - **US-001-AC-03:** Mensaje de error genérico "Credenciales incorrectas" al fallar la autenticación, evitando revelar si el fallo es del correo o de la clave.
 - **US-001-AC-04:** Cierre de sesión (*logout*) que destruye el token en el cliente y envía una petición a la API (`POST /api/auth/logout`) que añade el token a la lista de revocación (*blacklist*) en el servidor.
 - **US-001-AC-05:** Cualquier petición posterior utilizando un token revocado o expirado debe ser rechazada con un código HTTP `401 Unauthorized`.
+- **US-001-AC-06:** Si la cuenta del usuario se encuentra suspendida por un administrador (`US-014-AC-02`), el inicio de sesión se rechaza con HTTP `403 Forbidden` y el mensaje "Tu cuenta se encuentra suspendida", sin emitir token JWT.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** El correo electrónico se normalizará a minúsculas. No pueden coexistir dos cuentas activas con el mismo correo electrónico. El nombre es obligatorio y no puede estar vacío ni contener solo espacios en blanco (mismo criterio que `US-003`). El mecanismo de revocación debe permitir invalidar un token concreto (*logout*) y también todas las sesiones de un usuario (p. ej. mediante una marca temporal de invalidación por usuario), ya que lo requieren `US-005-AC-03` y `US-014-AC-02`. La respuesta `409` del registro revela que un correo ya existe: se acepta como compromiso de usabilidad y se mitiga con el *rate-limiting* de `US-016-AC-01`; el flujo de recuperación de `US-005` sí evita la enumeración de usuarios.
+- **Reglas de Negocio:** El correo electrónico se normalizará a minúsculas. No pueden coexistir dos cuentas activas con el mismo correo electrónico. El nombre es obligatorio y no puede estar vacío ni contener solo espacios en blanco (mismo criterio que `US-003`). El mecanismo de revocación debe permitir invalidar un token concreto (*logout*) y también todas las sesiones de un usuario (p. ej. mediante una marca temporal de invalidación por usuario), ya que lo requieren `US-005-AC-03` y `US-014-AC-02`. Las cuentas en estado suspendido no pueden iniciar sesión hasta ser reactivadas por un `Admin`. La respuesta `409` del registro revela que un correo ya existe: se acepta como compromiso de usabilidad y se mitiga con el *rate-limiting* de `US-016-AC-01`; el flujo de recuperación de `US-005` sí evita la enumeración de usuarios.
 - **Restricciones:** Las contraseñas deben cifrarse obligatoriamente mediante Bcrypt (factor de coste ≥ 10). Uso exclusivo de datos ficticios.
 - **Requisitos No Funcionales (RNF):** Tiempo de procesamiento del inicio de sesión < 500 ms.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Registro con nombre `Ana Prueba`, `usuario@ejemplo.com` y clave `Festival2026!`: crea la cuenta e inicia sesión automáticamente.
   * *Caso Límite:* Intento de registro con un correo ya existente: devuelve error `409 Conflict` e indica "El correo electrónico ya está registrado".
+  * *Caso Límite:* Intento de inicio de sesión con credenciales válidas sobre una cuenta suspendida: devuelve HTTP `403 Forbidden` con el aviso "Tu cuenta se encuentra suspendida".
 - **Supuestos:** Se asume el uso de cuentas de correo simuladas para las pruebas del entorno local.
 
 ---
@@ -86,16 +88,17 @@
 ### Criterios de aceptación
 - **US-003-AC-01:** Visualización organizada de los datos actuales del usuario al acceder a la vista `/perfil`.
 - **US-003-AC-02:** Formulario de edición que permite modificar nombre, teléfono y dirección con guardado inmediato y respuesta HTTP `200 OK`.
-- **US-003-AC-03:** Si se solicita cambiar la dirección de correo electrónico, el sistema requiere introducir la contraseña actual por motivos de seguridad y envía un email de verificación a la nueva dirección antes de hacer efectivo el cambio.
-- **US-003-AC-04:** Si la contraseña actual es incorrecta o los datos no cumplen el formato (email inválido o teléfono con letras), el sistema muestra un mensaje de error específico y devuelve un código HTTP `400 Bad Request`.
+- **US-003-AC-03:** Si se solicita cambiar la dirección de correo electrónico, el sistema requiere introducir la contraseña actual por motivos de seguridad y envía un enlace de verificación de un solo uso (con caducidad de 15 minutos) a la nueva dirección antes de hacer efectivo el cambio.
+- **US-003-AC-04:** Si la contraseña actual es incorrecta, los datos no cumplen el formato (email inválido o teléfono con letras) o el enlace de verificación ha expirado o ya fue utilizado, el sistema muestra un mensaje de error específico y devuelve un código HTTP `400 Bad Request`.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** Solo los usuarios autenticados pueden editar su propio perfil. Todas las modificaciones se registran con marca temporal de actualización.
+- **Reglas de Negocio:** Solo los usuarios autenticados pueden editar su propio perfil. Todas las modificaciones se registran con marca temporal de actualización. Mientras el nuevo correo no sea verificado mediante el enlace enviado, la dirección anterior permanece activa para el inicio de sesión; solicitar un nuevo cambio invalida cualquier enlace de verificación pendiente.
 - **Restricciones:** Los campos obligatorios (Nombre y Correo) no pueden quedarse vacíos ni contener solo espacios en blanco. Uso exclusivo de datos sintéticos.
 - **Requisitos No Funcionales (RNF):** Formulario accesible (cumplimiento WCAG 2.1 AA) y adaptable (*responsive*) a dispositivos móviles.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Cambio de teléfono de `600000000` a `611111111`: se guarda en la BD y muestra la notificación "Perfil actualizado correctamente".
   * *Caso Límite:* Intento de cambiar el correo a uno que ya pertenece a otro usuario registrado: el sistema deniega el cambio y notifica el conflicto (`409 Conflict`).
+  * *Caso Límite:* Apertura del enlace de confirmación de cambio de correo transcurridos más de 15 minutos: devuelve HTTP `400 Bad Request` con el mensaje "El enlace de verificación ha expirado o no es válido" y mantiene el correo anterior sin cambios.
 - **Supuestos:** Se asume que la modificación de los datos de contacto no altera las reservas emitidas con anterioridad. El email de verificación de `US-003-AC-03` se envía mediante el servicio SMTP simulado local (Mailpit/Mailtrap) del entorno de desarrollo, el mismo que emplean `US-005` y `US-011`.
 
 ---
@@ -124,12 +127,13 @@
 - **US-004-AC-03:** Si el usuario cancela la autorización en la ventana externa o el token es inválido, el sistema retorna a `/login` mostrando el aviso "Autenticación externa cancelada o no válida".
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** Si el correo devuelto por el proveedor OAuth 2.0 ya existe en la base de datos local, se vincula la identidad federada a la cuenta existente sin duplicar el usuario.
+- **Reglas de Negocio:** Si el correo devuelto por el proveedor OAuth 2.0 ya existe en la base de datos local, se vincula la identidad federada a la cuenta existente sin duplicar el usuario. Si la cuenta existente se encuentra suspendida (`US-014-AC-02`), el inicio de sesión federado se rechaza con HTTP `403 Forbidden` y el mensaje "Tu cuenta se encuentra suspendida".
 - **Restricciones:** Las claves `CLIENT_ID` y `CLIENT_SECRET` se inyectan mediante variables de entorno (`.env`) y nunca se suben al repositorio Git.
 - **Requisitos No Funcionales (RNF):** Protección obligatoria mediante parámetro `state` contra ataques CSRF durante la redirección OAuth 2.0.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Usuario pulsa "Continuar con Google", acepta permisos de prueba y accede directamente al catálogo con sesión iniciada.
   * *Caso Límite:* Respuesta OAuth con parámetro `state` alterado o caducado: el backend aborta la sesión y devuelve HTTP `400 Bad Request`.
+  * *Caso Límite:* Autenticación OAuth válida vinculada a una cuenta previamente suspendida: el backend impide el acceso devolviendo HTTP `403 Forbidden`.
 - **Supuestos:** En entorno local de evaluación se emplean credenciales de *sandbox*/desarrollo o un proveedor OAuth simulado (*mock*) para no requerir cuentas personales reales.
 
 ---

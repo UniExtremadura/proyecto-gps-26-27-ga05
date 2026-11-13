@@ -52,16 +52,17 @@
 
 ### Criterios de aceptación
 - **US-010-AC-01:** El proveedor dispone de un panel para dar de alta, editar y dar de baja artículos de merchandising indicando nombre, descripción, precio simulado (€), festival asociado y stock disponible.
-- **US-010-AC-02:** Los artículos publicados con stock mayor a 0 se muestran en la vista pública del festival para que los clientes puedan añadirlos a su reserva simulada, descontando automáticamente las unidades del inventario.
+- **US-010-AC-02:** Los artículos publicados con stock mayor a 0 se muestran en la vista pública del festival para que los usuarios autenticados con rol `Cliente` puedan añadirlos a su reserva simulada, descontando automáticamente las unidades del inventario.
 - **US-010-AC-03:** El sistema impide guardar artículos con precio negativo o stock menor que cero, devolviendo HTTP `400 Bad Request` con mensajes de validación claros.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** Cada proveedor solo puede editar o eliminar los artículos de merchandising que pertenecen a su propio catálogo. Cuando el stock llega a 0, el artículo se muestra como "Agotado" y no permite nuevas reservas.
+- **Reglas de Negocio:** Cada proveedor solo puede editar o eliminar los artículos de merchandising que pertenecen a su propio catálogo. Cuando el stock llega a 0, el artículo se muestra como "Agotado" y no permite nuevas reservas. Aunque el catálogo de productos del festival es visible públicamente, confirmar una reserva simulada de artículos requiere sesión iniciada con rol `Cliente` (redirigiendo a `/login` si es `Guest` o devolviendo HTTP `403 Forbidden` para otros roles).
 - **Restricciones:** Todas las transacciones de compra de merchandising son simuladas con datos sintéticos.
 - **Requisitos No Funcionales (RNF):** Actualización atómica del contador de inventario en cada reserva simulada.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Alta de "Camiseta Oficial Subsonic" a 20 € con 50 unidades de stock: aparece publicada en la ficha del festival.
   * *Caso Límite:* Un cliente intenta reservar 5 unidades cuando solo quedan 2 en stock: el sistema bloquea la operación e informa "Solo quedan 2 unidades disponibles".
+  * *Caso Límite:* Un usuario sin sesión (`Guest`) pulsa en reservar un artículo de merchandising desde la vista del festival: el sistema lo redirige a `/login` antes de procesar la reserva.
 - **Supuestos:** Las imágenes de productos utilizan recursos locales o URLs ficticias de prueba. Los festivales a los que se asocian los artículos son los gestionados mediante `US-008`.
 
 ---
