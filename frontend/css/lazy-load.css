@@ -1,0 +1,11 @@
+/* TK-007-2: placeholders de carga diferida */
+img[data-src] {
+    background: linear-gradient(110deg, #141419 8%, #1c1c24 18%, #141419 33%);
+    background-size: 200% 100%;
+    animation: lazy-shimmer 1.4s linear infinite;
+    min-height: 80px;
+}
+img.lazy-loaded { animation: none; }
+@keyframes lazy-shimmer {
+    to { background-position-x: -200%; }
+}
