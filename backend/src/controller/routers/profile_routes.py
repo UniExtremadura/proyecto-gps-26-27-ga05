@@ -7,6 +7,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.responses import JSONResponse
 
 from model.dao.firebase.firebaseDAOFactory import FirebaseDAOFactory
+from security.crypto import decrypt_field, encrypt_field
 from security.rbac import get_current_user
 
 router = APIRouter(prefix="/api/profile", tags=["profile"])
@@ -30,6 +31,8 @@ def _get_user(uid: str) -> Dict[str, Any]:
             if doc and doc.exists:
                 data = doc.to_dict() or {}
                 data["uid"] = data.get("uid") or uid
+                data["address"] = decrypt_field(data.get("address", ""))
+                data["phone"] = decrypt_field(data.get("phone", ""))
                 return data
         except Exception as exc:
             print(f"No se pudo leer el perfil: {exc}")
@@ -71,6 +74,9 @@ async def update_profile(data: dict = Body(...), user: dict = Depends(get_curren
     if not update_data["name"]:
         raise HTTPException(status_code=400, detail="El nombre es obligatorio")
 
+    # Los datos de contacto se cifran en reposo (US-017-AC-03).
+    update_data["address"] = encrypt_field(update_data["address"])
+    update_data["phone"] = encrypt_field(update_data["phone"])
     email_changed = new_email and new_email != str(current.get("email", "")).lower()
     if email_changed:
         if not password:
