@@ -1,0 +1,16 @@
+/* Gestión de la tienda (reutiliza estilos de paneles) */
+
+@import url('./manager-artists.css');
+
+.manager-panel {
+    grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.7fr);
+}
+
+.manager-list-card .manager-grid {
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+#productDescription {
+    min-height: 90px;
+    resize: vertical;
+}

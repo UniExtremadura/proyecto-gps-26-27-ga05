@@ -81,7 +81,7 @@ async function loadProviderSalesData() {
 }
 
 // evento principal
-document.addEventListener('DOMContentLoaded', function() {
+function initProviderSales() {
     const user = AUTH.getUser();
     if (!user || user.role !== 'proveedor') {
         globalThis.location.hash = 'login';
@@ -126,7 +126,11 @@ document.addEventListener('DOMContentLoaded', function() {
             renderOperationsTable();
             updateSummaries();
         });
-});
+}
+
+document.addEventListener('DOMContentLoaded', initProviderSales);
+globalThis.load_ventas = initProviderSales;
+globalThis.load_provider_history = initProviderSales;
 
 
 

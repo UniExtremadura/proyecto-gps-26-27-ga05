@@ -5,6 +5,7 @@ from security.waf import RateLimitMiddleware
 from security.input_guard import InputSanitizationMiddleware
 from security.transport import HTTPSRedirectMiddleware, SecurityHeadersMiddleware
 
+from controller.routers.core_routes import router as core_router
 from controller.routers.auth_routes import router as auth_router
 from controller.routers.rbac_routes import router as rbac_router
 from controller.routers.oauth_routes import router as oauth_router
@@ -26,6 +27,7 @@ def include_extra_routes(app: FastAPI) -> None:
     app.add_middleware(SecurityHeadersMiddleware)
     app.include_router(auth_router)
     app.include_router(rbac_router)
+    app.include_router(core_router)
     app.include_router(oauth_router)
     app.include_router(catalog_router)
     app.include_router(event_admin_router)

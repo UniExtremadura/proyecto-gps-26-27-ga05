@@ -1,0 +1,48 @@
+<!-- CARRITO -->
+<header class="cart-header">
+    <p class="cart-eyebrow">TU COMPRA</p>
+    <h1>CARRITO</h1>
+    <p>Revisa tus entradas y productos antes de finalizar el pedido.</p>
+</header>
+
+<section class="cart-layout">
+    <div class="cart-main">
+        <div id="cartItems" class="cart-items"></div>
+        <div id="cartEmpty" class="cart-empty hidden">
+            <span class="cart-empty-icon">🛒</span>
+            <h2>Tu carrito está vacío</h2>
+            <p>Añade entradas o merchandising para continuar.</p>
+            <div class="cart-empty-actions">
+                <a class="btn btn-primary" href="#eventos" data-page="eventos">VER EVENTOS</a>
+                <a class="btn btn-outline" href="#tienda" data-page="tienda">IR A LA TIENDA</a>
+            </div>
+        </div>
+    </div>
+
+    <aside class="cart-summary">
+        <h2>Resumen del pedido</h2>
+        <div class="cart-summary-row">
+            <span>Total</span>
+            <strong id="cartTotal">0.00 €</strong>
+        </div>
+
+        <div class="form-group">
+            <label for="checkoutPayment">Método de pago</label>
+            <select id="checkoutPayment">
+                <option value="demo">Pago demo</option>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="checkoutAddress">Dirección de envío (merchandising)</label>
+            <textarea id="checkoutAddress" rows="3" placeholder="Calle, número, ciudad..."></textarea>
+        </div>
+
+        <button id="checkoutBtn" class="btn btn-primary cart-checkout" type="button" disabled>
+            FINALIZAR COMPRA
+        </button>
+        <p id="checkoutStatus" class="form-message"></p>
+    </aside>
+</section>
