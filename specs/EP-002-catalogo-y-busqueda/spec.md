@@ -13,22 +13,24 @@
 - **Plan inicial:** IT-002 (Sprint 2)
 - **Coste Total Estimado:** 420,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-002):**
-  - `TK-006-1`: Backend Catalog Search API — Desarrollo del endpoint de búsqueda y filtros (7 h-p | Predecesor: — | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 175,00 €).
-  - `TK-006-2`: Frontend Catalog UI — Maquetación de la parrilla de festivales y buscador (7 h-p | Predecesor: `TK-006-1` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 245,00 €).
+  - `TK-006-1`: Backend Catalog API — Desarrollo del endpoint de búsqueda y filtros (7 h-p | Predecesor: MGT IT 2. Sprint planning | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 175,00 €).
+  - `TK-006-2`: Frontend Catalog UI — Maquetación de la parrilla de festivales y buscador (7 h-p | Predecesor: MGT IT 2. Sprint planning | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 245,00 €).
 
 ### Criterios de aceptación
 - **US-006-AC-01:** El catálogo muestra una parrilla interactiva con los festivales activos, indicando cartelera, fechas y recinto.
 - **US-006-AC-02:** El buscador permite filtrar la lista en tiempo real por texto (nombre de festival o artista) y por rango de fechas sin recargar la página.
 - **US-006-AC-03:** Al hacer clic en un festival, el sistema muestra su ficha de detalle con la cartelera completa, ubicación, aforo disponible y botón de selección/reserva simulada de entradas.
 - **US-006-AC-04:** Si no se encuentran resultados, el sistema muestra el mensaje "No se encontraron festivales que coincidan con la búsqueda" y un botón para limpiar filtros.
+- **US-006-AC-05:** La navegación por el catálogo y la ficha de detalle es pública (`Guest` o cualquier rol), pero confirmar una reserva simulada de entradas requiere sesión iniciada con rol `Cliente` y respeta tanto el aforo disponible como el límite máximo de entradas por usuario configurado en `US-008-AC-02`.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** Solo se muestran públicamente aquellos festivales cuyo estado sea "Publicado" y tengan fecha de finalización igual o posterior a la fecha actual.
-- **Restricciones:** Las imágenes de los carteles promocionales no deben superar los 2 MB de tamaño. Todos los eventos y artistas del catálogo son ficticios.
+- **Reglas de Negocio:** Solo se muestran públicamente aquellos festivales cuyo estado sea "Publicado" y tengan fecha de finalización igual o posterior a la fecha actual. Si un visitante sin sesión (`Guest`) intenta confirmar una reserva de entradas, es redirigido a `/login`; si lo intenta un usuario autenticado con un rol distinto de `Cliente`, el servidor responde HTTP `403 Forbidden`.
+- **Restricciones:** Las imágenes de los carteles promocionales no deben superar los 2 MB de tamaño. Todos los eventos y artistas del catálogo son ficticios y las reservas de entradas son 100% simuladas.
 - **Requisitos No Funcionales (RNF):** Tiempo de filtrado < 100 ms (percentil p95) sobre un catálogo de hasta 500 eventos activos en entorno de pruebas local.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Búsqueda "Rock" o filtro por mes de julio: muestra "Subsonic RockFest 2026" y oculta los eventos que no coinciden.
   * *Caso Límite:* Acceso directo vía URL a un festival no publicado o inexistente: muestra una página de error `404` "Evento no disponible".
+  * *Caso Límite:* Un `Cliente` intenta reservar más entradas de una modalidad que el límite por usuario definido en `US-008-AC-02` (o más de las disponibles): el sistema rechaza la operación con HTTP `400 Bad Request` indicando el máximo permitido.
 - **Supuestos:** Se asume que las imágenes están servidas desde almacenamiento local o estático simulado.
 
 ---
@@ -40,14 +42,14 @@
 - **Historia de Usuario:** Como usuario, quiero que la página principal cargue en menos de 2 segundos, para disfrutar de una navegación fluida y sin retrasos.
 - **Tipo:** Calidad
 - **Prioridad:** Should (Mejora drásticamente la tasa de retención y conversión, previniendo el abandono de la web).
-- **Estimación:** 16 h-p
+- **Estimación:** 13 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-006
 - **Plan inicial:** IT-006 (Sprint 6)
-- **Coste Total Estimado:** 520,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 405,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-006):**
-  - `TK-007-1`: Redis Cache layer — Caché de consultas de catálogo de festivales (8 h-p | Predecesor: `US-006` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 240,00 €).
-  - `TK-007-2`: Lazy Loading & Asset Opt — Minificación web y carga de imágenes (8 h-p | Predecesor: `US-006` | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 280,00 €).
+  - `TK-007-1`: Redis Cache — Caché de consultas de catálogo de festivales (5 h-p | Predecesor: `TK-012-1` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 125,00 €).
+  - `TK-007-2`: Lazy Loading — Minificación web y carga de imágenes (8 h-p | Predecesor: MGT IT 6. Sprint planning | Responsable: Álvaro Martín | Tarifa: 35 €/h | Coste: 280,00 €).
 
 ### Criterios de aceptación
 - **US-007-AC-01:** La métrica *Largest Contentful Paint* (LCP) de la página de inicio es inferior a 2,0 segundos en perfil simulado Fast 4G, verificado mediante Chrome DevTools / Lighthouse CLI.
@@ -55,10 +57,10 @@
 - **US-007-AC-03:** Implementación de caché en memoria (Redis o caché en servidor) para el listado de festivales destacados con un TTL de 5 minutos e invalidación automática ante modificaciones en el catálogo.
 
 ### Verificación y restricciones
-- **Reglas de Negocio:** La caché debe invalidarse inmediatamente cuando un organizador o administrador publique, edite o pause un festival.
+- **Reglas de Negocio:** La caché debe invalidarse inmediatamente cuando un organizador o administrador publique, edite, pause o cancele un festival.
 - **Restricciones:** El peso total transferido en la primera carga de la página principal no debe exceder los 1,5 MB (comprimido).
 - **Requisitos No Funcionales (RNF):** Puntuación de rendimiento (*Performance*) superior a 85/100 en Google Lighthouse sobre el entorno local/staging.
 - **Ejemplos y Casos Límite:**
   * *Ejemplo:* Peticiones repetidas al listado principal: se sirven desde caché en menos de 300 ms sin realizar consultas redundantes a la base de datos.
   * *Caso Límite:* Caída o indisponibilidad del servicio de caché: el sistema realiza *fallback* transparente consultando la base de datos sin interrumpir el servicio.
-- **Supuestos:** El servidor web soporta compresión HTTP (Gzip/Brotli).
+- **Supuestos:** El servidor web soporta compresión HTTP (Gzip/Brotli). La invalidación de la caché se engancha a los cambios de catálogo realizados desde la gestión de eventos del Organizador (`US-008`) y desde el panel de administración (`US-014`).

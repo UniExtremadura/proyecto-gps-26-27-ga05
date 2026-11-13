@@ -7,19 +7,19 @@
 - **Historia de Usuario:** Como Organizador, quiero dar de alta, editar y publicar festivales con sus diferentes tipos de entradas, para ponerlos a la venta en la plataforma.
 - **Tipo:** Funcional
 - **Prioridad:** Must (Funcionalidad primaria de generación de oferta de eventos. Bloquea la comercialización).
-- **Estimación:** 18 h-p
+- **Estimación:** 8 h-p
 - **Incertidumbre:** Media
 - **Predecesores:** US-002
 - **Plan inicial:** IT-002 (Sprint 2)
-- **Coste Total Estimado:** 495,00 € (desglosado en tareas TK)
+- **Coste Total Estimado:** 240,00 € (desglosado en tareas TK)
 - **Desglose de tareas (IT-002):**
-  - `TK-008-1`: Event Management API — CRUD de eventos y tipos de entradas (9 h-p | Predecesor: `US-002` | Responsable: Justo Cilleros | Tarifa: 25 €/h | Coste: 225,00 €).
-  - `TK-008-2`: Event Dashboard UI — Panel de gestión para el organizador (9 h-p | Predecesor: `TK-008-1` | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 270,00 €).
+  - `TK-008-1`: Event Mgmt API — CRUD de eventos y tipos de entradas (4 h-p | Predecesor: MGT IT 2. Sprint planning, `TK-004-2` | Responsable: Jaime Arias | Tarifa: 30 €/h | Coste: 120,00 €).
+  - `TK-008-2`: Event Dashboard UI — Panel de gestión para el organizador (4 h-p | Predecesor: MGT IT 2. Sprint planning | Responsable: Manuel Carvajal | Tarifa: 30 €/h | Coste: 120,00 €).
 
 ### Criterios de aceptación
 - **US-008-AC-01:** Asistente de creación (*wizard*) y edición de eventos: Datos generales -> Cartelera -> Recinto -> Tipos de Entrada (General, VIP).
 - **US-008-AC-02:** Configuración de modalidades de entrada especificando nombre, precio ficticio (€), aforo asignado y límite de reserva por usuario, mostrando en el panel las entradas vendidas/reservadas y disponibles.
-- **US-008-AC-03 (Máquina de estados y autorización):** Transiciones de estado del festival (`Borrador` -> `Publicado` <-> `Pausado`). Solo el usuario `Organizador` propietario del evento o un `Admin` están autorizados a modificar el estado o contenido. Un festival en estado `Publicado` o `Pausado` no puede volver a `Borrador` si ya registra reservas.
+- **US-008-AC-03 (Máquina de estados y autorización):** Transiciones de estado del festival: `Borrador` -> `Publicado` <-> `Pausado`, y desde `Publicado` o `Pausado` -> `Cancelado` (estado terminal: el festival deja de mostrarse en el catálogo y no admite nuevas reservas). Un festival `Publicado` o `Pausado` cuya fecha de fin ha vencido se considera `Finalizado` (estado derivado, de solo lectura, que tampoco admite reservas). Un festival `Publicado` o `Pausado` solo puede volver a `Borrador` si no registra reservas. Solo el usuario `Organizador` propietario del evento o un `Admin` están autorizados a modificar el estado o contenido.
 - **US-008-AC-04 (Control de aforo):** La suma del aforo asignado a las modalidades de entrada no puede superar la capacidad máxima autorizada del recinto ni ser menor o igual a cero.
 - **US-008-AC-05 (Manejo de errores de validación):** El sistema rechaza fechas inconsistentes (fecha de fin anterior a inicio, fechas pasadas) o nombres de entrada duplicados en el mismo festival, devolviendo HTTP `400 Bad Request` y detallando el error en el formulario.
 
