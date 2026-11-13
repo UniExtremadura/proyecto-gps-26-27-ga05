@@ -51,3 +51,19 @@ async def remove_booking(booking_id: str, user: dict = Depends(require_roles("pr
         return JSONResponse(status_code=200, content={"status": "success", "message": "Reserva cancelada"})
     except PermissionError as exc:
         raise HTTPException(status_code=403, detail=str(exc))
+@router.get("/api/bookings/history")
+async def booking_history_endpoint(
+    status: str = Query(""),
+    limit: int = Query(50, ge=1, le=200),
+    user: dict = Depends(require_roles("proveedor", "admin")),
+):
+    from services.booking_service import booking_history, booking_summary
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "status": "success",
+            "summary": booking_summary(user["uid"]),
+            "data": booking_history(user["uid"], status, limit),
+        },
+    )

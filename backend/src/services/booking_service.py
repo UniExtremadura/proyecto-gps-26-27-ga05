@@ -137,3 +137,24 @@ def cancel_booking(booking_id: str, provider_uid: str) -> bool:
 
 def list_bookings(provider_uid: str) -> List[Dict[str, Any]]:
     return [booking for booking in BOOKINGS if booking.get("provider_uid") == provider_uid]
+def booking_history(provider_uid: str, status: str = "", limit: int = 50) -> List[Dict[str, Any]]:
+    """Devuelve las reservas del proveedor ordenadas de más reciente a más antigua."""
+    items = [booking for booking in BOOKINGS if booking.get("provider_uid") == provider_uid]
+    if status:
+        wanted = str(status).strip().lower()
+        items = [booking for booking in items if str(booking.get("status", "")).lower() == wanted]
+    items.sort(key=lambda booking: (booking.get("date", ""), booking.get("start_time", "")), reverse=True)
+    return items[: max(1, int(limit))]
+
+
+def booking_summary(provider_uid: str) -> Dict[str, Any]:
+    items = [booking for booking in BOOKINGS if booking.get("provider_uid") == provider_uid]
+    total = len(items)
+    cancelled = len([booking for booking in items if booking.get("status") == "cancelada"])
+    spent = sum(float(booking.get("price", 0) or 0) for booking in items if booking.get("status") != "cancelada")
+    return {
+        "total": total,
+        "cancelled": cancelled,
+        "active": total - cancelled,
+        "total_spent": round(spent, 2),
+    }
