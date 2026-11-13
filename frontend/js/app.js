@@ -332,10 +332,11 @@ const App = {
     INDEX_TEMPLATE_HTML: '',
     NAVIGATION_SEQ: 0,
     ROLE_ALLOWED_PAGES: {
-        visitante: new Set(['index', 'login', 'register', 'oauth-callback', 'eventos', 'tienda', 'producto', 'artistas', 'artista']),
+        visitante: new Set(['index', 'login', 'register', 'reset-password', 'oauth-callback', 'eventos', 'tienda', 'producto', 'artistas', 'artista']),
         cliente: new Set(['index', 'eventos', 'tienda', 'carrito', 'client-profile', 'historial', 'producto', 'artistas', 'artista']),
-        proveedor: new Set(['index', 'eventosProveedor', 'tiendaProveedor', 'carrito', 'historial', 'provider-profile', 'productoProveedor', 'ventas', 'artistas', 'artista']),
-        gestor: new Set(['index', 'manager-profile', 'manager-events', 'manager-artists', 'manager-tienda', 'manager-event-detail', 'manager-artist-detail', 'manager-producto-detalle', 'gestor-eventos', 'artista'])
+        proveedor: new Set(['index', 'eventosProveedor', 'tiendaProveedor', 'carrito', 'historial', 'provider-profile', 'productoProveedor', 'ventas', 'provider-bookings', 'provider-history', 'artistas', 'artista']),
+        gestor: new Set(['index', 'manager-profile', 'manager-events', 'manager-artists', 'manager-tienda', 'manager-event-detail', 'manager-artist-detail', 'manager-producto-detalle', 'gestor-eventos', 'artista']),
+        admin: new Set(['index', 'admin-panel', 'admin-analytics', 'manager-profile', 'manager-events', 'manager-artists', 'manager-tienda', 'manager-event-detail', 'manager-artist-detail', 'manager-producto-detalle', 'artista'])
     },
 
     /**
@@ -703,6 +704,7 @@ const App = {
             index: './js/main.js',
             login: './js/login.js',
             register: './js/register.js',
+            'reset-password': './js/reset-password.js',
             eventos: './js/eventos.js',
             eventosProveedor: './js/eventosProveedor.js',
             tienda: './js/tienda.js',
@@ -721,8 +723,10 @@ const App = {
             'manager-producto-detalle': './js/manager-producto-detalle.js',
             producto: './js/producto.js',
             productoProveedor: './js/productoProveedor.js',
-            ventas: './js/ventas.js'
-            ,
+            ventas: './js/ventas.js',
+            'provider-bookings': './js/provider-bookings.js',
+            'admin-panel': './js/admin-panel.js',
+            'admin-analytics': './js/admin-analytics.js',
             artista: './js/artista.js'
         };
 
