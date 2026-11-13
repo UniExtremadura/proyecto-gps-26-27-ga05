@@ -91,5 +91,9 @@ def decrement_stock(product_id: str, quantity: int = 1) -> Dict[str, Any]:
     if current["stock"] < quantity:
         raise ValueError("Stock insuficiente")
     updated = update_stock(product_id, current["stock"] - quantity, current["min_stock"])
-    # TK-011-2 hook: notificar si se cruza el umbral.
+    if updated["low_stock"]:
+        # Importación diferida para evitar dependencia circular.
+        from services.stock_notifier import notify_if_low_stock
+
+        notify_if_low_stock(product_id)
     return updated
